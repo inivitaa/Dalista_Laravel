@@ -148,7 +148,7 @@
 
                         <!-- UPLOAD MODERN -->
                         <div id="uploadBox" class="upload-box">
-                            <input type="file" id="fileInput" name="berkas" class="hidden">
+                            <input type="file" id="fileInput" name="file_upload" class="hidden">
 
                             <div class="text-center">
                                 <div class="text-5xl text-gray-400 mb-3">📁</div>

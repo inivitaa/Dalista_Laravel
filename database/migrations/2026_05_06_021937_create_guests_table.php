@@ -32,7 +32,7 @@ return new class extends Migration
         $table->text('keterangan');
 
         // upload
-        $table->string('berkas')->nullable();
+        $table->string('file_upload')->nullable();
 
         $table->timestamps();
     });

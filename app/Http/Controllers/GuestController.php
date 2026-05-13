@@ -31,13 +31,13 @@ class GuestController extends Controller
         // upload file
         $fileName = null;
 
-        if ($request->hasFile('berkas')) {
+        if ($request->hasFile('file_upload')) {
 
-            $file = $request->file('berkas');
+            $file = $request->file('file_upload');
 
             $fileName = time().'_'.$file->getClientOriginalName();
 
-            $file->storeAs('public/berkas', $fileName);
+            $file->storeAs('public/file_upload', $fileName);
         }
 
         // simpan database
@@ -142,17 +142,17 @@ class GuestController extends Controller
             $query->where(function($q) use ($search){
 
                 $q->where('nama', 'like', "%{$search}%")
-                ->orWhere('profesi', 'like', "%{$search}%")
-                ->orWhere('instansi', 'like', "%{$search}%");
+                ->orWhere('profesi_id', 'like', "%{$search}%")
+                ->orWhere('asal_instansi', 'like', "%{$search}%");
 
             });
 
         }
 
         // FILTER STATUS
-        if($request->status){
+        if (!empty($request->status)) {
 
-            $query->where('status', $request->status);
+            $query->where('status_kunjungan', $request->status);
 
         }
 
@@ -161,13 +161,13 @@ class GuestController extends Controller
 
             if($request->waktu == 'Hari Ini'){
 
-                $query->whereDate('created_at', today());
+                $query->whereDate('waktu_dibuat', today());
 
             }
 
             elseif($request->waktu == 'Minggu Ini'){
 
-                $query->whereBetween('created_at', [
+                $query->whereBetween('waktu_dibuat', [
                     now()->startOfWeek(),
                     now()->endOfWeek()
                 ]);
@@ -176,7 +176,7 @@ class GuestController extends Controller
 
             elseif($request->waktu == 'Bulan Ini'){
 
-                $query->whereMonth('created_at', now()->month);
+                $query->whereMonth('waktu_dibuat', now()->month);
 
             }
 
@@ -185,11 +185,11 @@ class GuestController extends Controller
         $guests = $query
             ->orderByRaw("
                 CASE
-                    WHEN status = 'Selesai' THEN 1
+                    WHEN status_kunjungan = 'Selesai' THEN 1
                     ELSE 0
                 END
             ")
-            ->latest()
+            ->orderBy('waktu_dibuat', 'desc')
             ->get();
 
         return view('admin.manajemen-tamu', compact('guests'));
@@ -209,7 +209,7 @@ class GuestController extends Controller
     {
         $guest = Guest::findOrFail($id);
 
-        $guest->status = $request->status;
+        $guest->status_kunjungan = $request->status;
         $guest->save();
 
         return redirect()->back();

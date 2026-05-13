@@ -82,7 +82,7 @@
                         </p>
 
                         <h3 class="text-3xl font-bold text-gray-800 mt-2">
-                            {{ $guests->whereNotNull('berkas')->count() }}
+                            {{ $guests->whereNotNull('file_upload')->count() }}
                         </h3>
 
                     </div>
@@ -138,6 +138,13 @@
                         </a>
                     </button>
 
+                    <button onclick="openServiceModal()"
+                        class="bg-purple-100 hover:bg-purple-200 text-purple-600 px-6 py-3 rounded-2xl transition">
+
+                        ⚙ Kelola Layanan
+
+                    </button>
+
                     <button class="bg-green-100 text-green-600 px-5 py-2.5 rounded-xl hover:bg-green-200 transition">
                         ⬇ Export Excel
                     </button>
@@ -187,9 +194,9 @@
                             Menunggu
                         </option>
 
-                        <option value="Diterima"
-                            {{ request('status') == 'Diterima' ? 'selected' : '' }}>
-                            Diterima
+                        <option value="Datang"
+                            {{ request('status') == 'Datang' ? 'selected' : '' }}>
+                            Datang
                         </option>
 
                         <option value="Terjadwal"
@@ -269,7 +276,7 @@
                             <th class="p-5 font-medium">Tujuan</th>
                             <th class="p-5 font-medium">Status</th>
                             <th class="p-5 font-medium">Tanggal</th>
-                            <th class="p-5 font-medium">Berkas</th>
+                            <th class="p-5 font-medium">file_upload</th>
                             <th class="p-5 font-medium">Aksi</th>
 
                         </tr>
@@ -291,17 +298,17 @@
                             </td>
 
                             <td class="p-5 text-gray-600">
-                                {{ $guest->profesi }}
+                                {{ $guest->profesi->nama_profesi ?? '-' }}
                             </td>
 
                             <td class="p-5 text-gray-600">
-                                {{ $guest->instansi }}
+                                {{ $guest->asal_instansi }}
                             </td>
 
                             <td class="p-5">
 
                                 <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm">
-                                    {{ $guest->tujuan }}
+                                    {{ $guest->keperluan }}
                                 </span>
 
                             </td>
@@ -315,35 +322,33 @@
 
                                 <select name="status"
                                         onchange="this.form.submit()"
-
                                         class="px-4 py-2 rounded-xl text-sm font-medium border-0 outline-none cursor-pointer
 
-                                        {{ $guest->status == 'Menunggu' ? 'bg-yellow-100 text-yellow-700' : '' }}
+                                        {{ $guest->status_kunjungan == 'Menunggu' ? 'bg-yellow-100 text-yellow-700' : '' }}
 
-                                        {{ $guest->status == 'Diterima' ? 'bg-blue-100 text-blue-700' : '' }}
+                                        {{ $guest->status_kunjungan == 'Terjadwal' ? 'bg-blue-100 text-blue-700' : '' }}
 
-                                        {{ $guest->status == 'Terjadwal' ? 'bg-purple-100 text-purple-700' : '' }}
+                                        {{ $guest->status_kunjungan == 'Datang' ? 'bg-purple-100 text-purple-700' : '' }}
 
-                                        {{ $guest->status == 'Selesai' ? 'bg-green-100 text-green-700' : '' }}
-                                ">
+                                        {{ $guest->status_kunjungan == 'Selesai' ? 'bg-green-100 text-green-700' : '' }}">
 
                                     <option value="Menunggu"
-                                        {{ $guest->status == 'Menunggu' ? 'selected' : '' }}>
+                                        {{ $guest->status_kunjungan == 'Menunggu' ? 'selected' : '' }}>
                                         Menunggu
                                     </option>
 
-                                    <option value="Diterima"
-                                        {{ $guest->status == 'Diterima' ? 'selected' : '' }}>
-                                        Diterima
-                                    </option>
-
                                     <option value="Terjadwal"
-                                        {{ $guest->status == 'Terjadwal' ? 'selected' : '' }}>
+                                        {{ $guest->status_kunjungan == 'Terjadwal' ? 'selected' : '' }}>
                                         Terjadwal
                                     </option>
 
+                                    <option value="Datang"
+                                        {{ $guest->status_kunjungan == 'Datang' ? 'selected' : '' }}>
+                                        Datang
+                                    </option>
+
                                     <option value="Selesai"
-                                        {{ $guest->status == 'Selesai' ? 'selected' : '' }}>
+                                        {{ $guest->status_kunjungan == 'Selesai' ? 'selected' : '' }}>
                                         Selesai
                                     </option>
 
@@ -353,14 +358,14 @@
                         </td>
 
                             <td class="p-5 text-gray-500">
-                                {{ $guest->created_at->format('d M Y') }}
+                                {{ \Carbon\Carbon::parse($guest->waktu_dibuat)->format('d M Y') }}
                             </td>
 
                             <td class="p-5">
 
-                                @if($guest->berkas)
+                                @if($guest->file_upload)
 
-                                <a href="{{ asset('storage/berkas/'.$guest->berkas) }}"
+                                <a href="{{ asset('storage/file_upload/'.$guest->file_upload) }}"
                                    target="_blank"
                                    class="bg-gray-100 hover:bg-blue-100 hover:text-blue-600 transition px-4 py-2 rounded-lg text-sm">
 
@@ -385,12 +390,12 @@
                                         '{{ $guest->id }}',
                                         '{{ $guest->nama }}',
                                         '{{ $guest->email }}',
-                                        '{{ $guest->nohp }}',
-                                        '{{ $guest->jk }}',
-                                        '{{ $guest->profesi }}',
-                                        '{{ $guest->instansi }}',
-                                        '{{ $guest->tujuan }}',
-                                        '{{ $guest->keterangan }}'
+                                        '{{ $guest->nomor_telp }}',
+                                        '{{ $guest->jenis_kelamin }}',
+                                        '{{ $guest->profesi->nama_profesi ?? '-' }}',
+                                        '{{ $guest->asal_instansi }}',
+                                        '{{ $guest->keperluan }}',
+                                        '{{ $guest->catatan_tambahan }}'
                                     )"
                                     class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-4 py-2 rounded-lg text-sm transition">
 
@@ -561,6 +566,113 @@
 
 </div>
 
+<!-- SERVICE MODAL -->
+<div id="serviceModal"
+    class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+
+    <div class="bg-white w-full max-w-3xl rounded-3xl p-8 relative">
+
+        <button onclick="closeServiceModal()"
+            class="absolute top-5 right-5 text-gray-400 hover:text-black text-2xl">
+
+            ✕
+
+        </button>
+
+        <h2 class="text-2xl font-bold mb-6">
+            Manajemen Layanan
+        </h2>
+
+        <!-- TAB -->
+        <div class="flex gap-6 border-b mb-6">
+
+            <button id="tabUmum"
+                onclick="showUmum()"
+                class="pb-3 border-b-2 border-pink-500 text-pink-500 font-medium">
+
+                Layanan Umum
+
+            </button>
+
+            <button id="tabBidang"
+                onclick="showBidang()"
+                class="pb-3 text-gray-400 font-medium">
+
+                Layanan Bidang
+
+            </button>
+
+        </div>
+
+        <!-- CONTENT UMUM -->
+<div id="contentUmum">
+
+    <div class="flex gap-3 mb-6">
+
+        <input type="text"
+            placeholder="Masukkan nama layanan"
+            class="flex-1 border rounded-2xl px-4 py-3">
+
+        <button
+            class="bg-pink-500 hover:bg-pink-600 text-white px-6 rounded-2xl">
+
+            + Tambah
+
+        </button>
+
+    </div>
+
+    <div class="space-y-3 max-h-80 overflow-y-auto">
+
+        <div class="flex justify-between items-center border rounded-2xl px-4 py-3">
+
+            <span>Konsultasi Layanan</span>
+
+            <div class="flex gap-3">
+
+                <button class="text-blue-500">
+                    ✏
+                </button>
+
+                <button class="text-red-500">
+                    🗑
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CONTENT BIDANG -->
+<div id="contentBidang" class="hidden">
+
+    <label class="block mb-3 font-medium">
+        Pilih Bidang
+    </label>
+
+    <select class="w-full border rounded-2xl px-4 py-3 mb-6">
+
+        <option>-- Pilih Bidang --</option>
+
+        <option>Kepala Dinas</option>
+
+        <option>Sekretariat</option>
+
+        <option>Bidang Pelatihan</option>
+
+    </select>
+
+    <div class="text-gray-400 text-center py-10">
+
+        Belum ada layanan di bidang ini
+
+    </div>
+
+</div>
+
 <!-- SCRIPT MODAL -->
 <script>
 function openModal(
@@ -603,6 +715,81 @@ function closeModal(){
         .classList.add('hidden');
 
 }
+
+function openServiceModal() {
+
+    document.getElementById('serviceModal')
+        .classList.remove('hidden');
+
+    document.getElementById('serviceModal')
+        .classList.add('flex');
+
+}
+
+function closeServiceModal() {
+
+    document.getElementById('serviceModal')
+        .classList.remove('flex');
+
+    document.getElementById('serviceModal')
+        .classList.add('hidden');
+
+}
+
+function showUmum(){
+
+    document.getElementById('contentUmum')
+        .classList.remove('hidden');
+
+    document.getElementById('contentBidang')
+        .classList.add('hidden');
+
+    document.getElementById('tabUmum')
+        .classList.add(
+            'border-pink-500',
+            'text-pink-500',
+            'border-b-2'
+        );
+
+    document.getElementById('tabBidang')
+        .classList.remove(
+            'border-pink-500',
+            'text-pink-500',
+            'border-b-2'
+        );
+
+    document.getElementById('tabBidang')
+        .classList.add('text-gray-400');
+
+}
+
+function showBidang(){
+
+    document.getElementById('contentUmum')
+        .classList.add('hidden');
+
+    document.getElementById('contentBidang')
+        .classList.remove('hidden');
+
+    document.getElementById('tabBidang')
+        .classList.add(
+            'border-pink-500',
+            'text-pink-500',
+            'border-b-2'
+        );
+
+    document.getElementById('tabUmum')
+        .classList.remove(
+            'border-pink-500',
+            'text-pink-500',
+            'border-b-2'
+        );
+
+    document.getElementById('tabUmum')
+        .classList.add('text-gray-400');
+
+}
+
 </script>
 
 @endsection
