@@ -605,67 +605,237 @@
         </div>
 
         <!-- CONTENT UMUM -->
-<div id="contentUmum">
+        <div id="contentUmum">
 
+            <!-- INPUT -->
+            <div class="flex gap-3 mb-6">
+
+                <input type="text"
+                    placeholder="Masukkan nama layanan"
+                    class="flex-1 border border-gray-200 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-pink-200">
+
+                <button
+                    onclick="alert('Tambah layanan')"
+                    class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-2xl transition">
+                    + Tambah
+
+                </button>
+
+            </div>
+
+            <!-- LIST -->
+            <div class="space-y-3 max-h-80 overflow-y-auto pr-2">
+
+                <!-- ITEM -->
+                <div class="flex items-center justify-between border border-gray-100 rounded-2xl px-5 py-4 hover:bg-gray-50 transition">
+
+                    <span class="font-medium text-gray-700">
+                        Konsultasi Layanan
+                    </span>
+
+                    <div class="flex gap-4">
+
+<button
+                            onclick="alert('Edit layanan')"
+                            class="text-blue-500 hover:text-blue-700 transition">                            ✏
+                        </button>
+
+<button 
+                            onclick="alert('Hapus layanan')"
+                            class="text-red-500 hover:text-red-700 transition">                            🗑
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- ITEM -->
+                <div class="flex items-center justify-between border border-gray-100 rounded-2xl px-5 py-4 hover:bg-gray-50 transition">
+
+                    <span class="font-medium text-gray-700">
+                        Pengaduan/Keluhan
+                    </span>
+
+                    <div class="flex gap-4">
+
+                        <button
+                            onclick="alert('Edit layanan')"
+                            class="text-blue-500 hover:text-blue-700 transition">
+                            ✏
+                        </button>
+
+                        <button 
+                            onclick="alert('Hapus layanan')"
+                            class="text-red-500 hover:text-red-700 transition">
+                            🗑
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- ITEM -->
+                <div class="flex items-center justify-between border border-gray-100 rounded-2xl px-5 py-4 hover:bg-gray-50 transition">
+
+                    <span class="font-medium text-gray-700">
+                        Pengajuan Permohonan
+                    </span>
+
+                    <div class="flex gap-4">
+
+                        <button
+                            onclick="alert('Edit layanan')"
+                            class="text-blue-500 hover:text-blue-700 transition">                            ✏
+                        </button>
+
+                        <button 
+                            onclick="alert('Hapus layanan')"
+                            class="text-red-500 hover:text-red-700 transition">                            🗑
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- ITEM -->
+                <div class="flex items-center justify-between border border-gray-100 rounded-2xl px-5 py-4 hover:bg-gray-50 transition">
+
+                    <span class="font-medium text-gray-700">
+                        Mencari Informasi
+                    </span>
+
+                    <div class="flex gap-4">
+
+                        <button
+                            onclick="alert('Edit layanan')"
+                            class="text-blue-500 hover:text-blue-700 transition">                            ✏
+                        </button>
+
+                        <button 
+                            onclick="alert('Hapus layanan')"
+                            class="text-red-500 hover:text-red-700 transition">                            🗑
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- ITEM -->
+                <div class="flex items-center justify-between border border-gray-100 rounded-2xl px-5 py-4 hover:bg-gray-50 transition">
+
+                    <span class="font-medium text-gray-700">
+                        Meeting/Rapat
+                    </span>
+
+                    <div class="flex gap-4">
+
+                        <button
+                            onclick="alert('Edit layanan')"
+                            class="text-blue-500 hover:text-blue-700 transition">                            ✏
+                        </button>
+
+                        <button 
+                            onclick="alert('Hapus layanan')"
+                            class="text-red-500 hover:text-red-700 transition">                            🗑
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- ITEM -->
+                <div class="flex items-center justify-between border border-gray-100 rounded-2xl px-5 py-4 hover:bg-gray-50 transition">
+
+                    <span class="font-medium text-gray-700">
+                        Survey/Penelitian
+                    </span>
+
+                    <div class="flex gap-4">
+
+                        <button
+                            onclick="alert('Edit layanan')"
+                            class="text-blue-500 hover:text-blue-700 transition">                            ✏
+                        </button>
+
+                        <button 
+                            onclick="alert('Hapus layanan')"
+                            class="text-red-500 hover:text-red-700 transition">                            🗑
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- ITEM -->
+                <div class="flex items-center justify-between border border-gray-100 rounded-2xl px-5 py-4 hover:bg-gray-50 transition">
+
+                    <span class="font-medium text-gray-700">
+                        Layanan Terpadu
+                    </span>
+
+                    <div class="flex gap-4">
+
+                        <button
+                            onclick="alert('Edit layanan')"
+                            class="text-blue-500 hover:text-blue-700 transition">                            ✏
+                        </button>
+
+                        <button 
+                            onclick="alert('Hapus layanan')"
+                            class="text-red-500 hover:text-red-700 transition">                            🗑
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+<!-- CONTENT BIDANG -->
+<div id="contentBidang" class="hidden">
+
+    <!-- PILIH BIDANG -->
+    <div class="mb-6">
+
+        <label class="block mb-3 font-medium text-gray-700">
+            Pilih Bidang
+        </label>
+
+        <select
+            class="w-full border border-gray-200 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-pink-200">
+
+            <option>-- Pilih Bidang --</option>
+            <option>Kepala Dinas</option>
+            <option>Sekretariat</option>
+            <option>Bidang Pelatihan Kerja dan Produktivitas</option>
+            <option>Bidang Hubungan Industrial dan Jaminan Sosial</option>
+            <option>Bidang Pengawasan Ketenagakerjaan</option>
+            <option>Bidang Penempatan dan Transmigrasi</option>
+
+        </select>
+
+    </div>
+
+    <!-- INPUT -->
     <div class="flex gap-3 mb-6">
 
         <input type="text"
             placeholder="Masukkan nama layanan"
-            class="flex-1 border rounded-2xl px-4 py-3">
+            class="flex-1 border border-gray-200 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-pink-200">
 
         <button
-            class="bg-pink-500 hover:bg-pink-600 text-white px-6 rounded-2xl">
-
+            onclick="alert('Tambah layanan')"
+            class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-2xl transition">
             + Tambah
 
         </button>
 
     </div>
 
-    <div class="space-y-3 max-h-80 overflow-y-auto">
-
-        <div class="flex justify-between items-center border rounded-2xl px-4 py-3">
-
-            <span>Konsultasi Layanan</span>
-
-            <div class="flex gap-3">
-
-                <button class="text-blue-500">
-                    ✏
-                </button>
-
-                <button class="text-red-500">
-                    🗑
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- CONTENT BIDANG -->
-<div id="contentBidang" class="hidden">
-
-    <label class="block mb-3 font-medium">
-        Pilih Bidang
-    </label>
-
-    <select class="w-full border rounded-2xl px-4 py-3 mb-6">
-
-        <option>-- Pilih Bidang --</option>
-
-        <option>Kepala Dinas</option>
-
-        <option>Sekretariat</option>
-
-        <option>Bidang Pelatihan</option>
-
-    </select>
-
-    <div class="text-gray-400 text-center py-10">
+    <!-- EMPTY -->
+    <div class="border border-dashed border-gray-200 rounded-2xl py-16 text-center text-gray-400">
 
         Belum ada layanan di bidang ini
 
