@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Buku Tamu Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tambahkan library SweetAlert untuk notifikasi sukses -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-gray-100">
 
@@ -45,7 +47,8 @@
                            Isi Buku Tamu
                         </a>
 
-                        <a href="#"
+                        <!-- UPDATE LINK SURVEY DI SINI -->
+                        <a href="/survey"
                            class="border border-white text-white px-8 py-3 rounded-xl font-semibold transition duration-300 hover:bg-white hover:text-black hover:scale-105 text-center">
                            Survey Kepuasan
                         </a>
@@ -78,7 +81,7 @@
             <div class="grid md:grid-cols-3 gap-6">
 
                 <!-- CARD 1 -->
-                <div class="bg-white rounded-2xl shadow-md p-6 text-center transition duration-300 hover:shadow-xl hover:scale-105 hover:-translate-y-1 cursor-pointer">
+                <div onclick="window.location.href='/form'" class="bg-white rounded-2xl shadow-md p-6 text-center transition duration-300 hover:shadow-xl hover:scale-105 hover:-translate-y-1 cursor-pointer">
 
                     <div class="bg-blue-100 text-blue-600 w-14 h-14 flex items-center justify-center rounded-xl mx-auto mb-4 text-2xl">
                         📋
@@ -111,8 +114,8 @@
 
                 </div>
 
-                <!-- CARD 3 -->
-                <div class="bg-white rounded-2xl shadow-md p-6 text-center transition duration-300 hover:shadow-xl hover:scale-105 hover:-translate-y-1 cursor-pointer">
+                <!-- CARD 3 (UPDATE LINK DI CARD JUGA) -->
+                <div onclick="window.location.href='/survey'" class="bg-white rounded-2xl shadow-md p-6 text-center transition duration-300 hover:shadow-xl hover:scale-105 hover:-translate-y-1 cursor-pointer">
 
                     <div class="bg-orange-100 text-orange-600 w-14 h-14 flex items-center justify-center rounded-xl mx-auto mb-4 text-2xl">
                         ⭐
@@ -123,7 +126,7 @@
                     </h3>
 
                     <p class="text-gray-500 text-sm">
-                        Berikan masukan untuk meningkatkan kualitas pelayanan kami.
+                        Berikan masukan untuk meningkatkan kualitas pelayanan kami Melalui Survey SKM.
                     </p>
 
                 </div>
@@ -133,6 +136,19 @@
         </div>
 
     </div>
+
+    <!-- NOTIFIKASI SUKSES SETELAH ISI SURVEY -->
+    @if(session('success_survey'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Terima Kasih!',
+            text: "{{ session('success_survey') }}",
+            confirmButtonColor: '#2563eb',
+            borderRadius: '20px'
+        });
+    </script>
+    @endif
 
 </body>
 </html>

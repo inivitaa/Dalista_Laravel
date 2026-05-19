@@ -21,3 +21,11 @@ Route::delete('/admin/guests/{id}',
     [GuestController::class, 'destroy']);
 Route::get('/admin/dashboard',
     [GuestController::class, 'dashboard']);
+    Route::post('/survey/store', [GuestController::class, 'storeSurvey']);
+    // Halaman Form Survey
+Route::get('/survey', function () {
+    return view('survey');
+});
+
+// Proses Simpan Survey (Menghubungkan ke fungsi yang kita buat di Controller tadi)
+Route::post('/survey/store', [App\Http\Controllers\GuestController::class, 'storeSurvey']);
