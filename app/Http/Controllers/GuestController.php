@@ -93,9 +93,19 @@ class GuestController extends Controller
         // Statistik Tamu
         $total = Guest::count();
         $menunggu = Guest::where('status_kunjungan', 'Menunggu')->count();
+        $datang = Guest::where('status_kunjungan', 'Datang')->count();
         $terjadwal = Guest::where('status_kunjungan', 'Terjadwal')->count();
         $selesai = Guest::where('status_kunjungan', 'Selesai')->count();
         $recentGuests = Guest::orderBy('waktu_dibuat', 'desc')->take(5)->get();
+
+        $pieData = [
+
+            $menunggu,
+            $terjadwal,
+            $datang,
+            $selesai
+
+        ];
 
         // Statistik Survey (SKM)
         $avgRating = number_format(Survey::query()->avg('rating') ?? 0, 1);
@@ -108,8 +118,8 @@ class GuestController extends Controller
         }
 
         return view('admin.dashboard', compact(
-            'total', 'menunggu', 'terjadwal', 'selesai', 
-            'recentGuests', 'chartData', 'avgRating', 'recentSurveys'
+            'total', 'menunggu', 'datang', 'terjadwal', 'selesai', 
+            'recentGuests', 'chartData', 'avgRating', 'recentSurveys', 'pieData'
         ));
     }
 
@@ -145,5 +155,73 @@ class GuestController extends Controller
     {
         Guest::findOrFail($id)->delete();
         return redirect()->back()->with('success', 'Data tamu berhasil dihapus');
+    }
+
+    public function exportCsv(Request $request)
+    {
+        $bulan = $request->bulan;
+
+        $namaBulan = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember',
+        ];
+
+        $guests = Guest::query();
+
+        if ($bulan) {
+
+            $guests->whereMonth('waktu_dibuat', $bulan);
+
+        }
+
+        $guests = $guests->get();
+
+        $fileName = $bulan
+            ? 'data_tamu_' . strtolower($namaBulan[$bulan]) . '_2026.csv'
+            : 'data_tamu_semua.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=$fileName",
+        ];
+
+        $callback = function () use ($guests) {
+
+            $file = fopen('php://output', 'w');
+
+            fputcsv($file, [
+                'Nama',
+                'Email',
+                'Nomor Telepon',
+                'Instansi',
+                'Status'
+            ]);
+
+            foreach ($guests as $guest) {
+
+                fputcsv($file, [
+                    $guest->nama,
+                    $guest->email,
+                    '"' . $guest->nomor_telp,
+                    $guest->asal_instansi,
+                    $guest->status_kunjungan
+                ]);
+
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }

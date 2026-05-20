@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GuestController;
+use App\Http\Controllers\LayananController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -8,7 +10,6 @@ Route::get('/', function () {
 Route::get('/form', function () {
     return view('form');
 });
-use App\Http\Controllers\GuestController;
 
 Route::post('/guest/store', [GuestController::class, 'store']);
 
@@ -21,7 +22,11 @@ Route::delete('/admin/guests/{id}',
     [GuestController::class, 'destroy']);
 Route::get('/admin/dashboard',
     [GuestController::class, 'dashboard']);
-    Route::post('/survey/store', [GuestController::class, 'storeSurvey']);
+Route::post('/layanan/store', [LayananController::class, 'store'])
+    ->name('layanan.store');
+Route::get('/admin/export-csv', [GuestController::class, 'exportCsv']);
+
+Route::post('/survey/store', [GuestController::class, 'storeSurvey']);
     // Halaman Form Survey
 Route::get('/survey', function () {
     return view('survey');

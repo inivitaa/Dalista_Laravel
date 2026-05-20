@@ -145,9 +145,12 @@
 
                     </button>
 
-                    <button class="bg-green-100 text-green-600 px-5 py-2.5 rounded-xl hover:bg-green-200 transition">
+                    <a href="/admin/export-csv"
+                    class="bg-green-100 hover:bg-green-200 text-green-600 px-6 py-3 rounded-2xl transition">
+
                         ⬇ Export Excel
-                    </button>
+
+                    </a>
 
                     <button onclick="location.reload()"
                             class="bg-blue-100 text-blue-600 px-5 py-2.5 rounded-xl hover:bg-blue-200 transition">
@@ -605,23 +608,30 @@
         </div>
 
         <!-- CONTENT UMUM -->
-        <div id="contentUmum">
+        <form action="{{ route('layanan.store') }}"
+        method="POST"
+        class="flex gap-3 mb-6">
 
-            <!-- INPUT -->
-            <div class="flex gap-3 mb-6">
+        @csrf
 
-                <input type="text"
-                    placeholder="Masukkan nama layanan"
-                    class="flex-1 border border-gray-200 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-pink-200">
+        <input type="hidden"
+            name="jenis"
+            value="umum">
 
-                <button
-                    onclick="alert('Tambah layanan')"
-                    class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-2xl transition">
-                    + Tambah
+        <input type="text"
+            name="nama_layanan"
+            placeholder="Masukkan nama layanan"
+            class="flex-1 border border-gray-200 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-pink-200"
+            required>
 
-                </button>
+        <button
+            class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-2xl transition">
 
-            </div>
+            + Tambah
+
+        </button>
+
+    </form>
 
             <!-- LIST -->
             <div class="space-y-3 max-h-80 overflow-y-auto pr-2">
