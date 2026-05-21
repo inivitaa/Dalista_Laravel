@@ -39,7 +39,7 @@ class GuestController extends Controller
         $pendidikanId = Pendidikan::where('pendidikan_terakhir', trim($request->pendidikan))->first()?->id;
         $bidangId = BidangTujuan::where('bidang', trim($request->tujuan))->first()?->id;
 
-        Guest::create([
+        $guest = Guest::create([
             'nama' => $request->nama,
             'profesi_id' => $profesiId,
             'email' => $request->email,
@@ -54,11 +54,18 @@ class GuestController extends Controller
             'file_upload' => $fileName,
             'file_name' => $fileName,
             'status_kunjungan' => 'Menunggu',
+            'tracking_code' => 'DLT-' . date('Y') . '-' . str_pad(rand(1,9999), 4, '0', STR_PAD_LEFT),
             'waktu_dibuat' => now()
         ]); 
 
-        return redirect()->back()->with('success', 'Data berhasil dikirim');
-    }
+        return redirect()->back()->with([
+
+            'success' => true,
+
+            'tracking_code' => $guest->tracking_code
+
+        ]);    
+}
 
     // 2. FUNGSI HALAMAN MANAJEMEN TAMU (ADMIN)
     public function index(Request $request)
@@ -127,12 +134,14 @@ class GuestController extends Controller
     public function storeSurvey(Request $request) 
     {
         $request->validate([
+            'nama' => 'required|string|max:255',
             'rating' => 'required|integer|min:1|max:5',
             'ulasan' => 'nullable|string|max:500',
             'layanan' => 'required'
         ]);
 
         Survey::create([
+            'nama' => $request->nama,
             'rating' => $request->rating,
             'ulasan' => $request->ulasan,
             'layanan_diakses' => $request->layanan,
@@ -155,6 +164,16 @@ class GuestController extends Controller
     {
         Guest::findOrFail($id)->delete();
         return redirect()->back()->with('success', 'Data tamu berhasil dihapus');
+    }
+
+    public function checkStatus(Request $request)
+    {
+        $guest = Guest::where(
+            'tracking_code',
+            $request->tracking_code
+        )->first();
+
+        return view('pengunjung.status', compact('guest'));
     }
 
     public function exportCsv(Request $request)
@@ -224,4 +243,158 @@ class GuestController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+    public function lupaToken(Request $request)
+    {
+        $guest = Guest::where(
+            'email',
+            $request->email
+        )->first();
+
+        return view(
+            'pengunjung.lupa-token',
+            compact('guest')
+        );
+    }
+
+        public function surveyAdmin()
+        {
+            $surveys = Survey::query();
+
+            if(request('search')){
+
+                $surveys->where(
+                    'nama',
+                    'like',
+                    '%' . request('search') . '%'
+                );
+
+            }
+
+            if(request('layanan')){
+
+                $surveys->where(
+                    'layanan_diakses',
+                    request('layanan')
+                );
+
+            }
+
+            if(request('rating')){
+
+                $surveys->where(
+                    'rating',
+                    request('rating')
+                );
+
+            }
+
+            $surveys = $surveys
+                ->latest()
+                ->paginate(10);
+
+            $totalSurvey = $surveys->count();
+
+            $avgRating = round(
+                $surveys->avg('rating'),
+                1
+            );
+
+            $hebat = $surveys->where('rating', 5)->count();
+
+            $buruk = $surveys->where('rating', 1)->count();
+
+            return view(
+                'admin.survey',
+                compact(
+                    'surveys',
+                    'totalSurvey',
+                    'avgRating',
+                    'hebat',
+                    'buruk'
+                )
+            );
+        }
+        public function exportSurvey()
+        {
+            $fileName = 'laporan-survey.csv';
+
+            $surveys = Survey::all();
+
+            $headers = [
+
+                "Content-type" => "text/csv",
+
+                "Content-Disposition" => "attachment; filename=$fileName",
+
+                "Pragma" => "no-cache",
+
+                "Cache-Control" => "must-revalidate",
+
+                "Expires" => "0"
+
+            ];
+
+            $columns = [
+
+                'Nama',
+
+                'Layanan',
+
+                'Rating',
+
+                'Ulasan',
+
+                'Tanggal'
+
+            ];
+
+            $callback = function() use($surveys, $columns) {
+
+                $file = fopen('php://output', 'w');
+
+                fputcsv($file, $columns);
+
+                foreach($surveys as $survey){
+
+                    fputcsv($file, [
+
+                        $survey->nama,
+
+                        $survey->layanan_diakses,
+
+                        match($survey->rating){
+
+                            1 => 'Buruk',
+
+                            2 => 'Kurang',
+
+                            3 => 'Cukup',
+
+                            4 => 'Puas',
+
+                            5 => 'Hebat',
+
+                            default => '-'
+
+                            },
+
+                        $survey->ulasan,
+
+                        $survey->created_at->format('d-m-Y')
+
+                    ]);
+
+                }
+
+                fclose($file);
+
+            };
+
+            return response()->stream(
+                $callback,
+                200,
+                $headers
+            );
+        }
+        
 }

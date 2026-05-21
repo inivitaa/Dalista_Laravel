@@ -145,12 +145,52 @@
 
                     </button>
 
-                    <a href="/admin/export-csv"
-                    class="bg-green-100 hover:bg-green-200 text-green-600 px-6 py-3 rounded-2xl transition">
+                   <div class="relative">
+
+                    <button onclick="toggleExport()"
+                        class="bg-green-100 hover:bg-green-200 text-green-600 px-6 py-3 rounded-2xl transition">
 
                         ⬇ Export Excel
 
-                    </a>
+                    </button>
+
+                    <div id="exportDropdown"
+                        class="hidden absolute mt-3 bg-white border rounded-2xl shadow-lg p-4 z-50">
+
+                        <form action="/admin/export-csv" method="GET">
+
+                            <select name="bulan"
+                                class="border border-gray-200 rounded-xl px-4 py-3 mb-3 w-full">
+
+                                <option value="">Semua Bulan</option>
+
+                                <option value="01">Januari</option>
+                                <option value="02">Februari</option>
+                                <option value="03">Maret</option>
+                                <option value="04">April</option>
+                                <option value="05">Mei</option>
+                                <option value="06">Juni</option>
+                                <option value="07">Juli</option>
+                                <option value="08">Agustus</option>
+                                <option value="09">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+
+                            </select>
+
+                            <button type="submit"
+                                class="bg-green-500 hover:bg-green-600 text-white px-5 py-3 rounded-xl w-full">
+
+                                Download
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
 
                     <button onclick="location.reload()"
                             class="bg-blue-100 text-blue-600 px-5 py-2.5 rounded-xl hover:bg-blue-200 transition">
@@ -915,6 +955,15 @@ function closeServiceModal() {
         .classList.add('hidden');
 
 }
+
+function toggleExport() {
+
+    document
+        .getElementById('exportDropdown')
+        .classList.toggle('hidden');
+
+}
+
 
 function showUmum(){
 

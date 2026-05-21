@@ -25,14 +25,11 @@ class Guest extends Model
         'asal_instansi',
         'bidang_tujuan_id',
         'keperluan',
-
         'catatan_tambahan',
-
         'file_upload',
         'file_name',
-
         'status_kunjungan',
-
+        'tracking_code',
         'waktu_dibuat'
     ];
 

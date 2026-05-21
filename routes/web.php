@@ -5,12 +5,19 @@ use App\Http\Controllers\GuestController;
 use App\Http\Controllers\LayananController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pengunjung.welcome');
 });
 Route::get('/form', function () {
-    return view('form');
+    return view('pengunjung.form');
 });
-
+Route::get('/status', function () {
+    return view('pengunjung.status');
+});
+Route::get('/lupa-token', function () {
+    return view('pengunjung.lupa-token');
+});
+Route::post('/lupa-token', [GuestController::class, 'lupaToken']);
+Route::post('/status/check', [GuestController::class, 'checkStatus']);
 Route::post('/guest/store', [GuestController::class, 'store']);
 
 //ADMIN
@@ -25,11 +32,16 @@ Route::get('/admin/dashboard',
 Route::post('/layanan/store', [LayananController::class, 'store'])
     ->name('layanan.store');
 Route::get('/admin/export-csv', [GuestController::class, 'exportCsv']);
+Route::get('/admin/survey', [GuestController::class, 'surveyAdmin']);
+Route::get(
+    '/admin/survey/export',
+    [GuestController::class, 'exportSurvey']
+);
 
 Route::post('/survey/store', [GuestController::class, 'storeSurvey']);
     // Halaman Form Survey
 Route::get('/survey', function () {
-    return view('survey');
+    return view('pengunjung.survey');
 });
 
 // Proses Simpan Survey (Menghubungkan ke fungsi yang kita buat di Controller tadi)

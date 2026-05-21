@@ -21,6 +21,23 @@
         <form action="/survey/store" method="POST" id="surveyForm">
             @csrf
             
+            <!-- NAMA -->
+            <div class="mb-6 text-left">
+
+                <label class="block text-sm font-bold text-gray-700 mb-3 ml-1">
+                    Nama Anda:
+                </label>
+
+                <input 
+                    type="text"
+                    name="nama"
+                    required
+                    placeholder="Masukkan nama"
+                    class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 focus:border-blue-500 focus:bg-white outline-none transition-all"
+                >
+
+            </div>
+
             <!-- JENIS LAYANAN -->
             <div class="mb-8 text-left">
                 <label class="block text-sm font-bold text-gray-700 mb-3 ml-1">Layanan yang Anda terima:</label>

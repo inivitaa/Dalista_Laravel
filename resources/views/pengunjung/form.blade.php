@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Formulir Pendaftaran Tamu</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
+@extends('pengunjung.layout')
 
-<body class="bg-gradient-to-br from-blue-50 to-gray-100">
+@section('content')
 
 <div class="min-h-screen flex items-center justify-center px-4 py-10">
 
@@ -473,15 +466,47 @@ function handle(file){
 </script>
 
 @if(session('success'))
+
 <script>
+
 Swal.fire({
+
     icon: 'success',
-    title: 'Pendaftaran Telah Berhasil',
-    text: 'Data tamu berhasil dikirim ke sistem. Terima kasih telah mendaftar!',
+
+    title: 'Pendaftaran Berhasil',
+
+    html: `
+        <p style="margin-bottom:10px">
+            Data tamu berhasil dikirim.
+        </p>
+
+        <div style="
+            background:#f3f4f6;
+            padding:14px;
+            border-radius:12px;
+            font-size:22px;
+            font-weight:bold;
+            letter-spacing:2px;
+        ">
+            {{ session('tracking_code') }}
+        </div>
+
+        <p style="
+            margin-top:12px;
+            font-size:13px;
+            color:#6b7280;
+        ">
+            Simpan kode ini untuk cek status pengajuan.
+        </p>
+    `,
+
     confirmButtonColor: '#2563eb'
+
 });
+
 </script>
+
 @endif
 
-</body>
-</html>
+
+@endsection

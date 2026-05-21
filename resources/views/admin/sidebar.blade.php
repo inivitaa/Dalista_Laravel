@@ -1,15 +1,23 @@
 <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
 
     <!-- LOGO -->
-    <div class="p-6 border-b">
+    <div class="flex items-center gap-3 px-6 py-6 border-b">
 
-        <h1 class="text-2xl font-bold text-gray-800">
-            DALISTA
-        </h1>
+        <img src="{{ asset('images/logo-dalista.jpg') }}"
+            alt="Logo"
+            class="w-12 h-12 object-contain">
 
-        <p class="text-sm text-gray-400 mt-1">
-            Admin Panel
-        </p>
+        <div>
+
+            <img src="{{ asset('images/logo-dalista-text.jpg') }}"
+                alt="DALISTA"
+                class="h-8 object-contain">
+
+            <p class="text-gray-400 text-sm">
+                Admin Panel
+            </p>
+
+        </div>
 
     </div>
 
@@ -49,7 +57,7 @@ class="flex items-center gap-3 px-4 py-3 rounded-xl transition
         </a>
 
         <!-- SURVEY -->
-        <a href="#"
+        <a href="/admin/survey"
            class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 text-gray-600 transition">
 
             ⭐ Survey
