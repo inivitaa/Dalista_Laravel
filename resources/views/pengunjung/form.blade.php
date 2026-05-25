@@ -39,7 +39,7 @@
         </div>
 
         <!-- CARD -->
-        <div class="bg-white rounded-3xl shadow-xl p-8">
+        <div class="bg-white/80 backdrop-blur-2xl rounded-[40px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-white/60 p-10">
 
             <form action="/guest/store" 
                   method="POST" 
@@ -172,8 +172,8 @@
                     </button>
 
                     <button type="button" onclick="nextStep()"
-                        class="bg-blue-600 text-white px-6 py-2 rounded">
-                        Lanjut
+                        class="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-8 py-3 rounded-2xl shadow-lg hover:scale-105 transition duration-300 font-semibold">                               
+                         Lanjut
                     </button>
                 </div>
 
@@ -188,36 +188,50 @@
 <style>
 .input {
     width: 100%;
-    border: 1px solid #d1d5db;
-    border-radius: 12px;
-    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 16px 18px;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    font-size: 15px;
 }
 .input:focus {
     outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 2px #93c5fd;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 5px rgba(59,130,246,0.15);
+    background: white;
 }
 
 /* progress */
 .circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    border-radius: 9999px;
     border: 2px solid #d1d5db;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: white;
+    font-weight: bold;
+    font-size: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
 }
 .circle.active {
-    background: #2563eb;
+    background: linear-gradient(to right,#2563eb,#3b82f6);
     color: white;
+    border-color: #2563eb;
+    transform: scale(1.08);
 }
 .label {
-    font-size: 12px;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #6b7280;
 }
 .label.active {
     color: #2563eb;
-    font-weight: 600;
+    font-weight: 700;
 }
 .line {
     height: 3px;

@@ -397,4 +397,47 @@ class GuestController extends Controller
             );
         }
         
+
+        public function laporanAdmin()
+    {
+        $totalTamu = Guest::count();
+
+        $totalSurvey = Survey::count();
+        $surveys = Survey::all();
+        $avgRating = round(
+            Survey::avg('rating'),
+            1
+        );
+
+        $layananTerbanyak = Survey::select(
+            'layanan_diakses'
+        )
+        ->selectRaw('COUNT(*) as total')
+        ->groupBy('layanan_diakses')
+        ->orderByDesc('total')
+        ->first();
+
+        $totalKunjungan = Guest::count();
+
+        $rerataHarian = round(
+            Guest::count() / 30,
+            1
+        );
+
+        $waktuRata = '15 Menit';
+
+        return view(
+            'admin.laporan',
+            compact(
+                'totalTamu',
+                'totalSurvey',
+                'surveys',
+                'avgRating',
+                'layananTerbanyak',
+                'totalKunjungan',
+                'rerataHarian',
+                'waktuRata'
+            )
+        );
+    }
 }

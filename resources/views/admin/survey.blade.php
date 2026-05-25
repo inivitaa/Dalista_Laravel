@@ -173,7 +173,7 @@
                     class="border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
 
-                    <option value="">
+                   <option value="">
                         Semua Layanan
                     </option>
 
@@ -189,20 +189,43 @@
                         Pengaduan/Keluhan
                     </option>
 
-                    <option value="Pendaftaran Tamu"
-                    {{ request('layanan') == 'Pendaftaran Tamu' ? 'selected' : '' }}
+                    <option value="Pengajuan Permohonan"
+                    {{ request('layanan') == 'Pengajuan Permohonan' ? 'selected' : '' }}
                     >
-                        Pendaftaran Tamu
+                        Pengajuan Permohonan
                     </option>
 
-                    <option value="Informasi Publik"
-                    {{ request('layanan') == 'Informasi Publik' ? 'selected' : '' }}
+                    <option value="Mencari Informasi"
+                    {{ request('layanan') == 'Mencari Informasi' ? 'selected' : '' }}
                     >
-                        Informasi Publik
+                        Mencari Informasi
                     </option>
 
+                    <option value="Survey/Penelitian"
+                    {{ request('layanan') == 'Survey/Penelitian' ? 'selected' : '' }}
+                    >
+                        Survey/Penelitian
+                    </option>
+
+                    <option value="Layanan Terpadu"
+                    {{ request('layanan') == 'Layanan Terpadu' ? 'selected' : '' }}
+                    >
+                        Layanan Terpadu
+                    </option>
+
+                    <option value="Meeting"
+                    {{ request('layanan') == 'Meeting' ? 'selected' : '' }}
+                    >
+                        Meeting
+                    </option>
+
+                    <option value="Lainnya"
+                    {{ request('layanan') == 'Lainnya' ? 'selected' : '' }}
+                    >
+                        Lainnya
+                    </option>
                 </select>
-
+                
                 <!-- FILTER RATING -->
                 <select 
                     name="rating"

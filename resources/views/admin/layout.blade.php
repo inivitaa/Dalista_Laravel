@@ -15,12 +15,20 @@
     @include('admin.sidebar')
 
     <!-- CONTENT -->
-    <main class="flex-1 p-8">
+    <main class="flex-1 px-4 py-6">
 
         @yield('content')
+        <!-- FOOTER -->
+                    <div class="border-t border-gray-300 mt-16 pt-6 pb-4 text-center text-gray-500 text-sm">
 
+                        <p class="mt-2">
+                            © {{date('Y')}} Dinas Tenaga Kerja dan Transmigrasi Provinsi Jawa Tengah. All rights reserved.
+                        </p>
+
+                    </div>
+            </div>
     </main>
-
+    
 </div>
 
 </body>

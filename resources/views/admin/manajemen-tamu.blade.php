@@ -95,29 +95,7 @@
 
             </div>
 
-            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-
-                <div class="flex items-center justify-between">
-
-                    <div>
-
-                        <p class="text-gray-400 text-sm">
-                            Survey
-                        </p>
-
-                        <h3 class="text-3xl font-bold text-gray-800 mt-2">
-                            0
-                        </h3>
-
-                    </div>
-
-                    <div class="w-14 h-14 rounded-2xl bg-yellow-100 flex items-center justify-center text-2xl">
-                        ⭐
-                    </div>
-
-                </div>
-
-            </div>
+            
 
         </div>
 

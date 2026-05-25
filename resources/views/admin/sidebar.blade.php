@@ -1,6 +1,4 @@
-<aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
-
-    <!-- LOGO -->
+<aside class="w-64 min-h-screen h-screen sticky top-0 bg-white/90 backdrop-blur-xl border-r border-gray-100 shadow-sm flex flex-col">    <!-- LOGO -->
     <div class="flex items-center gap-3 px-6 py-6 border-b">
 
         <img src="{{ asset('images/logo-dalista.jpg') }}"
@@ -49,7 +47,7 @@ class="flex items-center gap-3 px-4 py-3 rounded-xl transition
         </a>
 
         <!-- LAPORAN -->
-        <a href="#"
+        <a href="/admin/laporan"
            class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 text-gray-600 transition">
 
             📑 Laporan

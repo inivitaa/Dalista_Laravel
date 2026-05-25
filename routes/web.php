@@ -37,6 +37,12 @@ Route::get(
     '/admin/survey/export',
     [GuestController::class, 'exportSurvey']
 );
+Route::get(
+    '/admin/laporan',
+    [GuestController::class, 'laporanAdmin']
+);
+
+
 
 Route::post('/survey/store', [GuestController::class, 'storeSurvey']);
     // Halaman Form Survey
