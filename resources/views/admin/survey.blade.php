@@ -18,140 +18,124 @@
     </div>
 
     <!-- CARD -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <!-- CARD STATISTIK -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
 
-        <!-- TOTAL -->
-        <div class="bg-white rounded-3xl p-6 shadow hover:shadow-xl transition">
+            <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-4xl font-bold text-slate-800">
+                            {{ $totalSurvey }}
+                        </h3>
 
-            <div class="flex items-center justify-between">
+                        <p class="text-gray-500 mt-1">
+                            Total Survey
+                        </p>
+                    </div>
 
-                <div>
-
-                    <p class="text-gray-400">
-                        Total Survey
-                    </p>
-
-                    <h2 class="text-4xl font-bold text-blue-600 mt-2">
-                        {{ $totalSurvey }}
-                    </h2>
-
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-3xl">
+                        📋
+                    </div>
                 </div>
+            </div>
 
-                <div class="text-5xl">
-                    📋
+            <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-4xl font-bold text-yellow-500">
+                            {{ number_format($avgRating,1) }}
+                        </h3>
+
+                        <p class="text-gray-500 mt-1">
+                            Rating Rata-rata
+                        </p>
+                    </div>
+
+                    <div class="w-14 h-14 rounded-2xl bg-yellow-50 flex items-center justify-center text-3xl">
+                        ⭐
+                    </div>
                 </div>
+            </div>
 
+            <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-4xl font-bold text-green-500">
+                            {{ $hebat }}
+                        </h3>
+
+                        <p class="text-gray-500 mt-1">
+                            Rating Hebat
+                        </p>
+                    </div>
+
+                    <div class="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center text-3xl">
+                        😍
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-4xl font-bold text-red-500">
+                            {{ $buruk }}
+                        </h3>
+
+                        <p class="text-gray-500 mt-1">
+                            Rating Buruk
+                        </p>
+                    </div>
+
+                    <div class="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center text-3xl">
+                        😢
+                    </div>
+                </div>
             </div>
 
         </div>
 
-        <!-- RATA -->
-        <div class="bg-white rounded-3xl p-6 shadow hover:shadow-xl transition">
+        <!-- CHART -->
+        <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 mb-8">
 
-            <div class="flex items-center justify-between">
+            <div class="mb-5">
 
-                <div>
-
-                    <p class="text-gray-400">
-                        Rating Rata-rata
-                    </p>
-
-                    <h2 class="text-4xl font-bold text-yellow-500 mt-2">
-                        ⭐ {{ $avgRating }}
-                    </h2>
-
-                </div>
-
-                <div class="text-5xl">
-                    🌟
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- HEBAT -->
-        <div class="bg-white rounded-3xl p-6 shadow hover:shadow-xl transition">
-
-            <div class="flex items-center justify-between">
-
-                <div>
-
-                    <p class="text-gray-400">
-                        Rating Hebat
-                    </p>
-
-                    <h2 class="text-4xl font-bold text-green-500 mt-2">
-                        {{ $hebat }}
-                    </h2>
-
-                </div>
-
-                <div class="text-5xl">
-                    😍
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- BURUK -->
-        <div class="bg-white rounded-3xl p-6 shadow hover:shadow-xl transition">
-
-            <div class="flex items-center justify-between">
-
-                <div>
-
-                    <p class="text-gray-400">
-                        Rating Buruk
-                    </p>
-
-                    <h2 class="text-4xl font-bold text-red-500 mt-2">
-                        {{ $buruk }}
-                    </h2>
-
-                </div>
-
-                <div class="text-5xl">
-                    😢
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- CHART -->
-    <div class="bg-white rounded-3xl shadow p-6 mb-8">
-
-        <div class="flex items-center justify-between mb-6">
-
-            <div>
-
-                <h2 class="text-2xl font-bold text-gray-800">
+                <h2 class="text-3xl font-bold text-slate-800">
                     Statistik Rating
                 </h2>
 
-                <p class="text-gray-400 text-sm">
-                    Grafik penilaian pengunjung
+                <p class="text-gray-500 mt-1">
+                    Distribusi penilaian kepuasan pengunjung
+                </p>
+
+            </div>
+
+            <div class="h-[280px]">
+                <canvas id="ratingChart"></canvas>
+            </div>
+
+        </div>
+
+    <!-- TABLE -->
+    <div class="bg-white rounded-3xl shadow overflow-hidden">
+
+        <div class="px-6 py-5 border-b">
+
+            <div>
+
+                <h2 class="text-3xl font-bold text-slate-800">
+                    Data Survey Pengunjung
+                </h2>   
+
+                <p class="text-gray-500 text-sm mt-1">
+                    Daftar seluruh penilaian dan kepuasan layanan
                 </p>
 
             </div>
 
         </div>
 
-        <div class="h-[350px]">
-
-            <canvas id="ratingChart"></canvas>
-
-        </div>
-
-    </div>
-
-    <!-- FILTER -->
-    <div class="bg-white rounded-3xl shadow p-6 mb-8">
-
+        <!-- FILTER -->
         <form method="GET" action="" id="filterForm">
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -163,14 +147,14 @@
                     value="{{ request('search') }}"
                     placeholder="Cari nama..."
                     onkeyup="submitFilter()"
-                    class="border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full border border-gray-200 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
 
                 <!-- FILTER LAYANAN -->
                 <select 
                     name="layanan"
-                    onchange="submitFilter"              
-                    class="border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onchange="submitFilter()"              
+                    class="w-full border border-gray-200 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
 
                    <option value="">
@@ -230,7 +214,7 @@
                 <select 
                     name="rating"
                     onchange="submitFilter()" 
-                    class="border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"               
+                    class="w-full border border-gray-200 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"               
                     >
 
                     <option value="">
@@ -260,7 +244,7 @@
                 </select>
 
                 <a href="/admin/survey/export"
-                class="bg-green-500 hover:bg-green-600 text-white px-5 py-3 rounded-2xl font-semibold transition">
+                class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-3 rounded-2xl shadow-sm font-medium text-center transition">
 
                     Export CSV
 
@@ -271,50 +255,31 @@
 
     </div>
 
-    <!-- TABLE -->
-    <div class="bg-white rounded-3xl shadow overflow-hidden">
-
-        <div class="p-6 border-b flex items-center justify-between">
-
-            <div>
-
-                <h2 class="text-2xl font-bold text-gray-800">
-                    Data Survey
-                </h2>
-
-                <p class="text-gray-400 text-sm mt-1">
-                    Seluruh data penilaian pengunjung
-                </p>
-
-            </div>
-
-        </div>
-
         <div class="overflow-x-auto">
 
             <table class="w-full">
 
-                <thead class="bg-gray-50">
+                <thead class="bg-slate-200">
 
                     <tr>
 
-                        <th class="p-4 text-left font-semibold text-gray-600">
+                        <th class="p-4 text-left font-bold text-gray-800">
                             Nama
                         </th>
 
-                        <th class="p-4 text-left font-semibold text-gray-600">
+                        <th class="p-4 text-left font-bold text-gray-800">
                             Layanan
                         </th>
 
-                        <th class="p-4 text-left font-semibold text-gray-600">
+                        <th class="p-4 text-left font-bold text-gray-800">
                             Rating
                         </th>
 
-                        <th class="p-4 text-left font-semibold text-gray-600">
+                        <th class="p-4 text-left font-bold text-gray-800">
                             Saran
                         </th>
 
-                        <th class="p-4 text-left font-semibold text-gray-600">
+                        <th class="p-4 text-left font-bold text-gray-800">
                             Tanggal
                         </th>
 
@@ -326,7 +291,7 @@
 
                     @forelse($surveys as $survey)
 
-                    <tr class="border-t hover:bg-gray-50 transition">
+                    <tr class="border-t border-gray-100 hover:bg-slate-50 transition">
 
                         <!-- NAMA -->
                         <td class="p-4 font-semibold text-gray-700">
@@ -338,7 +303,7 @@
                         <!-- LAYANAN -->
                         <td class="p-4">
 
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                            <span class="bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-sm">
 
                                 {{ $survey->layanan_diakses }}
 

@@ -27,7 +27,7 @@
             class="flex items-center gap-3 px-4 py-3 rounded-xl transition
 
             {{ request()->is('admin/dashboard')
-                ? 'bg-pink-50 text-pink-600 font-semibold'
+                ? 'bg-slate-50 text-slate-600 font-semibold'
                 : 'hover:bg-gray-100 text-gray-600' }}">
                 
             📊 Dashboard
@@ -36,11 +36,11 @@
 
         <!-- MANAJEMEN TAMU -->
         <a href="/admin/manajemen-tamu"
-class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+            class="flex items-center gap-3 px-4 py-3 rounded-xl transition
 
-{{ request()->is('admin/manajemen-tamu')
-    ? 'bg-pink-50 text-pink-600 font-semibold'
-    : 'hover:bg-gray-100 text-gray-600' }}">
+            {{ request()->is('admin/manajemen-tamu')
+                ? 'bg-slate-50 text-slate-600 font-semibold'
+                : 'hover:bg-gray-100 text-gray-600' }}">
 
             👥 Manajemen Tamu
 
@@ -48,16 +48,20 @@ class="flex items-center gap-3 px-4 py-3 rounded-xl transition
 
         <!-- LAPORAN -->
         <a href="/admin/laporan"
-           class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 text-gray-600 transition">
-
+            class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+            {{ request()->is('admin/laporan')
+                ? 'bg-slate-50 text-slate-600 font-semibold'
+                : 'hover:bg-gray-100 text-gray-600' }}">
             📑 Laporan
 
         </a>
 
         <!-- SURVEY -->
         <a href="/admin/survey"
-           class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 text-gray-600 transition">
-
+            class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+            {{ request()->is('admin/survey')
+                ? 'bg-slate-50 text-slate-600 font-semibold'
+                : 'hover:bg-gray-100 text-gray-600' }}">
             ⭐ Survey
 
         </a>
@@ -67,8 +71,8 @@ class="flex items-center gap-3 px-4 py-3 rounded-xl transition
     <!-- LOGOUT -->
     <div class="p-4 border-t">
 
-        <button class="w-full bg-gray-100 hover:bg-red-50 hover:text-red-500 transition rounded-xl py-3 text-gray-600">
-            Logout
+        <button class="w-full bg-red-50 hover:bg-red-50 hover:bg-red-100 rounded-2xl py-3 font-medium">
+              🚪 Logout
         </button>
 
     </div>

@@ -16,7 +16,8 @@
 </div>
 
 <!-- WELCOME CARD -->
-<div class="bg-gradient-to-r bg-gradient-to-r from-slate-800 to-slate-700 rounded-3xl p-8 mb-8 text-white shadow-lg">
+<div 
+class="bg-gradient-to-r bg-gradient-to-r from-slate-800 to-slate-700 rounded-3xl p-8 mb-8 text-white shadow-lg">
     <div class="flex items-center justify-between">
         <div>
             <h2 class="text-3xl font-bold">Selamat Datang Admin Dalista 👋</h2>
@@ -34,24 +35,24 @@
 <div class="grid md:grid-cols-5 gap-6 mb-8">
     <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
         <p class="text-gray-400 text-xs">Total Tamu</p>
-        <h2 class="text-2xl font-bold text-gray-800 mt-2">{{ $total }}</h2>
+        <h2 class="text-4xl font-bold text-gray-800 mt-2">{{ $total }}</h2>
     </div>
     <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
         <p class="text-gray-400 text-xs text-yellow-600">Menunggu</p>
-        <h2 class="text-2xl font-bold text-yellow-500 mt-2">{{ $menunggu }}</h2>
+        <h2 class="text-4xl font-bold text-yellow-500 mt-2">{{ $menunggu }}</h2>
     </div>
     <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
         <p class="text-gray-400 text-xs text-blue-600">Terjadwal</p>
-        <h2 class="text-2xl font-bold text-blue-500 mt-2">{{ $terjadwal }}</h2>
+        <h2 class="text-4xl font-bold text-blue-500 mt-2">{{ $terjadwal }}</h2>
     </div>
     <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
         <p class="text-gray-400 text-xs text-green-600">Selesai</p>
-        <h2 class="text-2xl font-bold text-green-500 mt-2">{{ $selesai }}</h2>
+        <h2 class="text-4xl font-bold text-green-500 mt-2">{{ $selesai }}</h2>
     </div>
     <!-- KOTAK RATING SKM BARU -->
     <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-        <p class="text-orange-400 text-xs font-bold uppercase">Rating SKM</p>
-        <h2 class="text-2xl font-bold text-orange-500 mt-2">⭐ {{ $avgRating }}</h2>
+        <p class="text-slate-400 text-xs font-bold uppercase">Rating SKM</p>
+        <h2 class="text-4xl font-bold text-slate-700 mt-2">⭐ {{ $avgRating }}</h2>
     </div>
 </div>
 

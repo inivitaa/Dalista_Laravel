@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Profesi;
+use App\Models\BidangTujuan;
 
 class Guest extends Model
 {
@@ -37,4 +38,10 @@ class Guest extends Model
     {
         return $this->belongsTo(Profesi::class, 'profesi_id');
     }
+
+    public function bidangTujuan()
+    {
+        return $this->belongsTo(BidangTujuan::class, 'bidang_tujuan_id');
+    }
+
 }

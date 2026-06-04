@@ -8,6 +8,7 @@ use App\Models\Profesi;
 use App\Models\Pendidikan;
 use App\Models\BidangTujuan;
 use App\Models\Survey; // Import model Survey
+use Barryvdh\DomPDF\Facade\Pdf; // Import PDF facade
 
 class GuestController extends Controller
 {
@@ -38,7 +39,6 @@ class GuestController extends Controller
         $profesiId = Profesi::where('nama_profesi', trim($request->profesi))->first()?->id;
         $pendidikanId = Pendidikan::where('pendidikan_terakhir', trim($request->pendidikan))->first()?->id;
         $bidangId = BidangTujuan::where('bidang', trim($request->tujuan))->first()?->id;
-
         $guest = Guest::create([
             'nama' => $request->nama,
             'profesi_id' => $profesiId,
@@ -59,11 +59,8 @@ class GuestController extends Controller
         ]); 
 
         return redirect()->back()->with([
-
             'success' => true,
-
             'tracking_code' => $guest->tracking_code
-
         ]);    
 }
 
@@ -104,14 +101,11 @@ class GuestController extends Controller
         $terjadwal = Guest::where('status_kunjungan', 'Terjadwal')->count();
         $selesai = Guest::where('status_kunjungan', 'Selesai')->count();
         $recentGuests = Guest::orderBy('waktu_dibuat', 'desc')->take(5)->get();
-
         $pieData = [
-
             $menunggu,
             $terjadwal,
             $datang,
             $selesai
-
         ];
 
         // Statistik Survey (SKM)
@@ -178,37 +172,18 @@ class GuestController extends Controller
 
     public function exportCsv(Request $request)
     {
-        $bulan = $request->bulan;
-
-        $namaBulan = [
-            '01' => 'Januari',
-            '02' => 'Februari',
-            '03' => 'Maret',
-            '04' => 'April',
-            '05' => 'Mei',
-            '06' => 'Juni',
-            '07' => 'Juli',
-            '08' => 'Agustus',
-            '09' => 'September',
-            '10' => 'Oktober',
-            '11' => 'November',
-            '12' => 'Desember',
-        ];
-
+        $periode = $request->periode;
         $guests = Guest::query();
 
         if ($bulan) {
-
-            $guests->whereMonth('waktu_dibuat', $bulan);
-
+            $guests->where('waktu_dibuat', '>=', now()->subDays($periode)
+            );
         }
 
         $guests = $guests->get();
-
-        $fileName = $bulan
-            ? 'data_tamu_' . strtolower($namaBulan[$bulan]) . '_2026.csv'
-            : 'data_tamu_semua.csv';
-
+        $fileName = $periode
+            ? 'Laporan-DALISTA-' . $periode . '-hari.csv'
+            : 'Laporan-DALISTA.csv';
         $headers = [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => "attachment; filename=$fileName",
@@ -223,7 +198,9 @@ class GuestController extends Controller
                 'Email',
                 'Nomor Telepon',
                 'Instansi',
-                'Status'
+                'Keperluan',
+                'Status',
+                'Tanggal'
             ]);
 
             foreach ($guests as $guest) {
@@ -233,7 +210,9 @@ class GuestController extends Controller
                     $guest->email,
                     '"' . $guest->nomor_telp,
                     $guest->asal_instansi,
-                    $guest->status_kunjungan
+                    $guest->keperluan,
+                    $guest->status_kunjungan,
+                    $guest->waktu_dibuat
                 ]);
 
             }
@@ -243,6 +222,7 @@ class GuestController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
     public function lupaToken(Request $request)
     {
         $guest = Guest::where(
@@ -399,45 +379,207 @@ class GuestController extends Controller
         
 
         public function laporanAdmin()
+        {
+            $periode = request('periode');
+            $bidang = request('bidang');
+            // QUERY TAMU
+            $guestQuery = Guest::query();
+
+            if ($periode) {
+
+                $guestQuery->where(
+                    'waktu_dibuat',
+                    '>=',
+                    now()->subDays($periode)
+                );
+            }
+            if ($bidang) {
+
+                $guestQuery->whereHas('bidangTujuan', function ($q) use ($bidang) {
+                    $q->where('bidang', $bidang
+                    );
+                }
+                );
+
+            }
+
+            $totalTamu = $guestQuery->count();
+
+            $totalKunjungan = $totalTamu;
+
+            // QUERY SURVEY
+            $surveyQuery = Survey::query();
+
+            if ($periode) {
+
+                $surveyQuery->where(
+                    'created_at',
+                    '>=',
+                    now()->subDays($periode)
+                );
+            }
+            if ($bidang) {
+
+                $surveyQuery->where(
+                    'layanan_diakses',
+                    $bidang
+                );
+            }
+            
+
+            $surveys = $surveyQuery->get();
+
+            $totalSurvey = $surveys->count();
+
+            // AMAN JIKA SURVEY KOSONG
+            $avgRating = $surveys->count()
+                ? round($surveys->avg('rating'), 1)
+                : 0;
+
+            // LAYANAN TERBANYAK
+            $layananTerbanyak = Survey::query();
+
+            if ($periode) {
+
+                $layananTerbanyak->where(
+                    'created_at',
+                    '>=',
+                    now()->subDays($periode)
+                );
+            
+            }
+                if ($bidang) {
+    
+                    $layananTerbanyak->where(
+                        'layanan_diakses',
+                        $bidang
+                    );
+    
+                }
+
+            $layananTerbanyak = $layananTerbanyak
+                ->select('layanan_diakses')
+                ->selectRaw('COUNT(*) as total')
+                ->groupBy('layanan_diakses')
+                ->orderByDesc('total')
+                ->first();
+
+            // RERATA HARIAN
+            $jumlahHari = $periode ?: 30;
+
+            $rerataHarian = $totalTamu
+                ? round($totalTamu / $jumlahHari, 1)
+                : 0;
+
+            $waktuRata = '15 Menit';
+
+            return view(
+                'admin.laporan',
+                compact(
+                    'periode',
+                    'bidang',
+                    'totalTamu',
+                    'totalSurvey',
+                    'surveys',
+                    'avgRating',
+                    'layananTerbanyak',
+                    'totalKunjungan',
+                    'rerataHarian',
+                    'waktuRata'
+                )
+            );
+        }
+    
+
+    public function exportPdf()
     {
-        $totalTamu = Guest::count();
+        $periode = request('periode');
+        $bidang = request('bidang');
 
-        $totalSurvey = Survey::count();
-        $surveys = Survey::all();
-        $avgRating = round(
-            Survey::avg('rating'),
-            1
-        );
+        $guestQuery = Guest::query();
 
-        $layananTerbanyak = Survey::select(
-            'layanan_diakses'
-        )
-        ->selectRaw('COUNT(*) as total')
-        ->groupBy('layanan_diakses')
-        ->orderByDesc('total')
-        ->first();
+        if ($periode) {
 
-        $totalKunjungan = Guest::count();
+            $guestQuery->where(
+                'waktu_dibuat',
+                '>=',
+                now()->subDays($periode)
+            );
 
-        $rerataHarian = round(
-            Guest::count() / 30,
-            1
-        );
+        }
+
+        $surveyQuery = Survey::query();
+
+        if ($periode) {
+
+            $surveyQuery->where(
+                'created_at',
+                '>=',
+                now()->subDays($periode)
+            );
+
+        }
+
+        if ($bidang) {
+
+            $surveyQuery->where(
+                'layanan_diakses',
+                $bidang
+            );
+
+        }
+
+        $guests = $guestQuery->get();
+
+        $surveys = $surveyQuery->get();
+
+        $totalTamu = $guests->count();
+
+        $totalKunjungan = $totalTamu;
+
+        $totalSurvey = $surveys->count();
+
+        $avgRating = $surveys->count()
+            ? round($surveys->avg('rating'), 1)
+            : 0;
+
+        $layananTerbanyak = clone $surveyQuery;
+
+        $layananTerbanyak = $layananTerbanyak
+            ->select('layanan_diakses')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('layanan_diakses')
+            ->orderByDesc('total')
+            ->first();
+
+        $jumlahHari = $periode ?: 30;
+
+        $rerataHarian = $totalTamu
+            ? round($totalTamu / $jumlahHari, 1)
+            : 0;
 
         $waktuRata = '15 Menit';
 
-        return view(
-            'admin.laporan',
+        $pdf = Pdf::loadView(
+            'admin.pdf.laporan',
             compact(
+                'periode',
+                'bidang',
                 'totalTamu',
                 'totalSurvey',
-                'surveys',
                 'avgRating',
                 'layananTerbanyak',
                 'totalKunjungan',
                 'rerataHarian',
-                'waktuRata'
+                'waktuRata',
+                'guests',
+                'surveys'
             )
         );
+
+        return $pdf->download(
+            'Laporan-DALISTA.pdf'
+        );
     }
+
 }

@@ -41,6 +41,10 @@ Route::get(
     '/admin/laporan',
     [GuestController::class, 'laporanAdmin']
 );
+Route::get(
+    '/admin/laporan/export-pdf',
+    [GuestController::class, 'exportPdf']
+)->name('laporan.pdf');
 
 
 

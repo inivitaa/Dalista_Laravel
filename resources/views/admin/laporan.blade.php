@@ -22,220 +22,208 @@
                 <!-- KANAN -->
                 <div class="flex items-center gap-4">
 
-                    <select class="border rounded-2xl px-6 py-4 shadow-sm">
+                    <form method="GET">
 
-                        <option>7 Hari Terakhir</option>
-                        <option>30 Hari Terakhir</option>
-                        <option>90 Hari Terakhir</option>       
+                        <select
+                            name="periode"
+                            onchange="this.form.submit()"
+                            class="border rounded-2xl px-5 py-4 shadow-sm">
+                            <option value=""
+                                {{ request()->filled('periode') ? '' : 'selected' }}>
+                                Semua Waktu
+                            </option>
+                            <option value="7"
+                                {{ request('periode') == 7 ? 'selected' : '' }}>
+                                7 Hari Terakhir
+                            </option>
 
-                    </select>
+                            <option value="30"
+                                {{ request('periode') == 30 ? 'selected' : '' }}>
+                                30 Hari Terakhir
+                            </option>
 
+                            <option value="90"
+                                {{ request('periode') == 90 ? 'selected' : '' }}>
+                                90 Hari Terakhir
+                            </option>
+
+                        </select>
                     <!-- FILTER BIDANG -->
-                    <select class="border rounded-2xl px-6 py-4 shadow-sm bg-white">
+                        <select
+                            name="bidang"
+                            onchange="this.form.submit()"
+                            class="border rounded-2xl px-3 py-4 shadow-sm bg-white">
 
-                        <option>Semua Bidang</option>
+                            <option value=""
+                                {{ request('bidang') == '' ? 'selected' : '' }}>
+                                Semua Bidang
+                            </option>
 
-                        <option>Konsultasi Layanan</option>
-                        <option>Pengaduan/Keluhan</option>
-                        <option>Pengajuan Permohonan</option>
-                        <option>Mencari Informasi</option>
-                        <option>Survey/Penelitian</option>
-                        <option>Layanan Terpadu</option>
-                        <option>Meeting</option>
-                        <option>Lainnya</option>
+                            <option value="Konsultasi Layanan"
+                                {{ request('bidang') == 'Konsultasi Layanan' ? 'selected' : '' }}>
+                                Konsultasi Layanan
+                            </option>
 
-                    </select>
+                            <option value="Pengaduan/Keluhan"
+                                {{ request('bidang') == 'Pengaduan/Keluhan' ? 'selected' : '' }}>
+                                Pengaduan/Keluhan
+                            </option>
 
-                    <button class="bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-4 rounded-2xl shadow">
+                            <option value="Pengajuan Permohonan"
+                                {{ request('bidang') == 'Pengajuan Permohonan' ? 'selected' : '' }}>
+                                Pengajuan Permohonan
+                            </option>
 
+                            <option value="Mencari Informasi"
+                                {{ request('bidang') == 'Mencari Informasi' ? 'selected' : '' }}>
+                                Mencari Informasi
+                            </option>
+
+                            <option value="Survey/Penelitian"
+                                {{ request('bidang') == 'Survey/Penelitian' ? 'selected' : '' }}>
+                                Survey/Penelitian
+                            </option>
+
+                            <option value="Layanan Terpadu"
+                                {{ request('bidang') == 'Layanan Terpadu' ? 'selected' : '' }}>
+                                Layanan Terpadu
+                            </option>
+
+                            <option value="Meeting"
+                                {{ request('bidang') == 'Meeting' ? 'selected' : '' }}>
+                                Meeting
+                            </option>
+
+                            <option value="Lainnya"
+                                {{ request('bidang') == 'Lainnya' ? 'selected' : '' }}>
+                                Lainnya
+                            </option>
+
+                        </select>
+                    </form>
+
+                    <a href="{{ route('laporan.pdf') }}?periode={{ request('periode') }}&bidang={{ request('bidang') }}"
+                        class="bg-red-500 hover:bg-red-600 text-white px-5 py-4 rounded-2xl shadow">
                         Export PDF
+                    </a>
 
-                    </button>
-
-                </div>
-
-            </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4 mb-8">
-
-                <!-- TOTAL KUNJUNGAN -->
-                <div class="bg-white rounded-3xl p-4 shadow">
-
-                    <div class="flex items-center justify-between">
-
-                        <div>
-
-                            <p class="text-gray-400 mb-2">
-                                Total Kunjungan
-                            </p>
-
-                            <h2 class="text-2xl font-bold text-gray-800">
-
-                                {{ $totalKunjungan }}
-
-                            </h2>
-
-                            <p class="text-sm text-red-400 mt-2">
-                                ↓ Data kunjungan tamu
-                            </p>
-
-                        </div>
-
-                        <div class="w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center text-white text-lg shadow-lg">
-
-                            👥
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- RERATA -->
-                <div class="bg-white rounded-3xl p-4 shadow">
-
-                    <div class="flex items-center justify-between">
-
-                        <div>
-
-                            <p class="text-gray-400 mb-2">
-                                Rerata Tamu Harian
-                            </p>
-
-                            <h2 class="text-2xl font-bold text-gray-800">
-
-                                {{ $rerataHarian }}
-
-                            </h2>
-
-                            <p class="text-sm text-orange-400 mt-2">
-                                ↑ Statistik harian
-                            </p>
-
-                        </div>
-
-                        <div class="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center text-white text-lg shadow-lg">
-
-                            📈
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- WAKTU -->
-                <div class="bg-white rounded-3xl p-4 shadow">
-
-                    <div class="flex items-center justify-between">
-
-                        <div>
-
-                            <p class="text-gray-400 mb-2">
-                                Waktu Rata-rata
-                            </p>
-
-                            <h2 class="text-2xl font-bold text-gray-800">
-
-                                {{ $waktuRata }}
-
-                            </h2>
-
-                            <p class="text-sm text-green-400 mt-2">
-                                ⏱️ Durasi kunjungan
-                            </p>
-
-                        </div>
-
-                        <div class="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center text-white text-lg shadow-lg">
-
-                            🕒
-
-                        </div>
-
-                    </div>
+                    <a href="/admin/export-csv?periode={{ request('periode') }}&bidang={{ request('bidang') }}"
+                        class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-4 rounded-2xl shadow">
+                            Export Excel
+                    </a>
 
                 </div>
 
             </div>
-        </div>
 
+ <!-- RINGKASAN STATISTIK -->
+<div class="mb-10">
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-5">
 
-    </div>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- TOTAL KUNJUNGAN -->
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
 
-        <!-- TOTAL TAMU -->
-        <div class="bg-white rounded-3xl p-4 shadow">
-
-            <p class="text-gray-400 mb-2">
-                Total Tamu
+            <p class="text-gray-400 text-sm mb-3">
+                Total Kunjungan
             </p>
 
-            <h2 class="text-4xl font-bold text-blue-600">
-
-                {{ $totalTamu }}
-
+            <h2 class="text-2xl font-bold text-slate-800">
+                {{ $totalKunjungan }}
             </h2>
+
+            <p class="text-xs text-gray-400 mt-2">
+                Data kunjungan tamu
+            </p>
+
+        </div>
+
+        <!-- RERATA -->
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+
+            <p class="text-gray-400 text-sm mb-3">
+                Rerata Harian
+            </p>
+
+            <h2 class="text-2xl font-bold text-slate-800">
+                {{ $rerataHarian }}
+            </h2>
+
+            <p class="text-xs text-gray-400 mt-2">
+                Statistik harian
+            </p>
+
+        </div>
+
+        <!-- WAKTU -->
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+
+            <p class="text-gray-400 text-sm mb-3">
+                Waktu Rata-rata
+            </p>
+
+            <h2 class="text-2xl font-bold text-slate-800">
+                {{ $waktuRata }}
+            </h2>
+
+            <p class="text-xs text-gray-400 mt-2">
+                Durasi kunjungan
+            </p>
 
         </div>
 
         <!-- TOTAL SURVEY -->
-        <div class="bg-white rounded-3xl p-4 shadow">
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
 
-            <p class="text-gray-400 mb-2">
+            <p class="text-gray-400 text-sm mb-3">
                 Total Survey
             </p>
 
-            <h2 class="text-4xl font-bold text-green-500">
-
+            <h2 class="text-2xl font-bold text-slate-800">
                 {{ $totalSurvey }}
-
             </h2>
 
         </div>
 
         <!-- RATING -->
-        <div class="bg-white rounded-3xl p-4 shadow">
+       <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
 
-            <p class="text-gray-400 mb-2">
-                Rating Rata-rata
+            <p class="text-gray-400 text-sm mb-3">
+                Rating
             </p>
 
-            <h2 class="text-4xl font-bold text-yellow-500">
-
-                ⭐ {{ $avgRating }}
-
+            <h2 class="text-2xl font-bold text-slate-800">
+                ⭐ {{ number_format($avgRating, 1) }}
             </h2>
 
         </div>
 
         <!-- LAYANAN -->
-        <div class="bg-white rounded-3xl p-4 shadow">
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
 
-            <p class="text-gray-400 mb-2">
+            <p class="text-gray-400 text-sm mb-3">
                 Layanan Terbanyak
             </p>
 
-            <h2 class="text-2xl font-bold text-purple-500">
-
-                {{ $layananTerbanyak->layanan_diakses ?? '-' }}
-
+            <h2 class="text-base font-bold text-blue-800 leading-snug">
+                {{ $layananTerbanyak ? $layananTerbanyak->layanan_diakses : '-' }}
             </h2>
 
         </div>
 
     </div>
+
+</div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
 
     <!-- CHART KUNJUNGAN -->
     <div class="bg-white rounded-3xl p-4 shadow">
 
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-6">
             Grafik Survey
         </h2>
 
-        <div class="h-80">
+        <div class="h-64">
 
             <canvas id="surveyChart"></canvas>
 
@@ -246,11 +234,11 @@
     <!-- PIE CHART -->
     <div class="bg-white rounded-3xl p-4 shadow">
 
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-6">
                 Jenis Layanan
             </h2>
 
-            <div class="h-80">
+            <div class="h-64">
 
                 <canvas id="layananChart"></canvas>
 

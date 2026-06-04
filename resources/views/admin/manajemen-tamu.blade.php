@@ -33,13 +33,13 @@
                             Total Tamu
                         </p>
 
-                        <h3 class="text-3xl font-bold text-gray-800 mt-2">
+                        <h3 class="text-4xl font-bold text-gray-800 mt-2">
                             {{ $guests->count() }}
                         </h3>
 
                     </div>
 
-                    <div class="w-14 h-14 rounded-2xl bg-pink-100 flex items-center justify-center text-2xl">
+                    <div class="w-16 h-16 rounded-2xl bg-pink-100 flex items-center justify-center text-2xl">
                         👥
                     </div>
 
@@ -47,7 +47,7 @@
 
             </div>
 
-            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+            <div class="bg-white rounded-4xl p-6 shadow-sm border border-gray-100">
 
                 <div class="flex items-center justify-between">
 
@@ -63,7 +63,7 @@
 
                     </div>
 
-                    <div class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center text-2xl">
+                    <div class="w-16 h-16 rounded-2xl bg-green-100 flex items-center justify-center text-2xl">
                         📅
                     </div>
 
@@ -81,13 +81,13 @@
                             Upload File
                         </p>
 
-                        <h3 class="text-3xl font-bold text-gray-800 mt-2">
+                        <h3 class="text-4xl font-bold text-gray-800 mt-2">
                             {{ $guests->whereNotNull('file_upload')->count() }}
                         </h3>
 
                     </div>
 
-                    <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center text-2xl">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center text-2xl">
                         📁
                     </div>
 
@@ -107,9 +107,9 @@
 
                 <div class="flex flex-wrap gap-3 mb-5">
 
-                    <button class="bg-pink-100 text-pink-600 px-5 py-2.5 rounded-xl hover:bg-pink-200 transition">
+                    <button class="bg-blue-100 text-blue-600 px-5 py-2.5 rounded-xl hover:bg-blue-200 transition">
                         <a href="/form"
-                        class="bg-pink-100 text-pink-600 px-5 py-2.5 rounded-xl hover:bg-pink-200 transition">
+                        class="bg-blue-100 text-blue-600 px-5 py-2.5 rounded-xl hover:bg-blue-200 transition">
 
                             + Tambah Tamu
 
