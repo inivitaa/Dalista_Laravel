@@ -63,16 +63,26 @@
                 ? 'bg-slate-50 text-slate-600 font-semibold'
                 : 'hover:bg-gray-100 text-gray-600' }}">
             ⭐ Survey
+        </a>
+        <!-- PROFIL ADMIN -->
+        <a href="/admin/profil"
+            class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+            {{ request()->is('admin/profil')
+                ? 'bg-slate-50 text-slate-600 font-semibold'
+                : 'hover:bg-gray-100 text-gray-600' }}">
+
+            👤 Profil Admin
 
         </a>
-
     </nav>
 
     <!-- LOGOUT -->
     <div class="p-4 border-t">
 
         <button class="w-full bg-red-50 hover:bg-red-50 hover:bg-red-100 rounded-2xl py-3 font-medium">
-              🚪 Logout
+            <a href="/admin/logout">
+                <span class="text-red-600">🚪</span> Logout 
+            </a>
         </button>
 
     </div>

@@ -216,7 +216,22 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
 
-    <!-- CHART KUNJUNGAN -->
+    <!-- CHART -->
+
+      <div class="bg-white rounded-3xl p-4 shadow">
+
+        <h2 class="text-xl font-bold text-gray-800 mb-6">
+            Status Kunjungan
+        </h2>
+
+        <div class="h-64">
+
+            <canvas id="statusChart"></canvas>
+
+        </div>
+
+    </div>
+
     <div class="bg-white rounded-3xl p-4 shadow">
 
         <h2 class="text-xl font-bold text-gray-800 mb-6">
@@ -230,8 +245,7 @@
         </div>
 
     </div>
-
-    <!-- PIE CHART -->
+    
     <div class="bg-white rounded-3xl p-4 shadow">
 
             <h2 class="text-xl font-bold text-gray-800 mb-6">
@@ -245,6 +259,19 @@
             </div>
 
         </div>
+        <div class="bg-white rounded-3xl p-4 shadow">
+
+    <h2 class="text-xl font-bold text-gray-800 mb-6">
+        Bidang Tujuan
+    </h2>
+
+    <div class="h-64">
+
+        <canvas id="bidangChart"></canvas>
+
+    </div>
+
+</div>
 
     </div>
 
@@ -256,74 +283,43 @@
             .getElementById('surveyChart');
 
         new Chart(surveyCtx, {
-
             type: 'bar',
-
             data: {
-
                 labels: [
-
                     'Buruk',
-
                     'Kurang',
-
                     'Cukup',
-
                     'Puas',
-
                     'Hebat'
-
                 ],
 
                 datasets: [{
-
                     label: 'Jumlah Survey',
-
                     data: [
-
                         {{ $surveys->where('rating',1)->count() }},
-
                         {{ $surveys->where('rating',2)->count() }},
-
                         {{ $surveys->where('rating',3)->count() }},
-
                         {{ $surveys->where('rating',4)->count() }},
-
                         {{ $surveys->where('rating',5)->count() }}
-
                     ],
 
                     backgroundColor: [
-
                         '#ef4444',
-
                         '#f97316',
-
                         '#eab308',
-
                         '#22c55e',
-
                         '#3b82f6'
-
                     ],
-
                     borderRadius: 12
-
                 }]
-
             },
 
             options: {
-
                 responsive: true,
-
                 maintainAspectRatio: false,
                 plugins: {
-
                     legend: {
-
                         display: true
-
                     }
 
                 },
@@ -446,23 +442,111 @@
                 scales: {
 
                     x: {
-
                         beginAtZero: true,
-
                         ticks: {
                             stepSize: 1,
                             precision: 0
-
                         }
-
                     }
-
                 }
-
             }
-
         });
+        const statusCtx = document
+    .getElementById('statusChart');
 
+new Chart(statusCtx, {
+
+    type: 'pie',
+
+    data: {
+
+        labels: [
+            'Menunggu',
+            'Terjadwal',
+            'Datang',
+            'Selesai'
+        ],
+
+        datasets: [{
+
+            data: [
+                {{ $statusChart[0] }},
+                {{ $statusChart[1] }},
+                {{ $statusChart[2] }},
+                {{ $statusChart[3] }}
+            ],
+
+            backgroundColor: [
+                '#f59e0b',
+                '#3b82f6',
+                '#10b981',
+                '#8b5cf6'
+            ]
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false
+
+    }
+
+});
+const bidangCtx = document
+    .getElementById('bidangChart');
+
+new Chart(bidangCtx, {
+
+    type: 'pie',
+
+    data: {
+
+        labels: [
+            'Kepala Dinas',
+            'Sekretariat',
+            'Pelatihan Kerja',
+            'Hubungan Industrial',
+            'Pengawasan',
+            'Penempatan'
+        ],
+
+        datasets: [{
+
+            data: [
+                {{ $bidangChart[0] }},
+                {{ $bidangChart[1] }},
+                {{ $bidangChart[2] }},
+                {{ $bidangChart[3] }},
+                {{ $bidangChart[4] }},
+                {{ $bidangChart[5] }}
+            ],
+
+            backgroundColor: [
+                '#3b82f6',
+                '#10b981',
+                '#f59e0b',
+                '#ef4444',
+                '#8b5cf6',
+                '#14b8a6'
+            ]
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false
+
+    }
+
+});
         </script>
 
 </div>

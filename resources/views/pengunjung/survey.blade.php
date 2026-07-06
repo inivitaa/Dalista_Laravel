@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+<div class="min-h-screen flex items-center justify-center p-6 py-10 relative overflow-hidden">
 
     <!-- BACKGROUND BLUR -->
     <div class="fixed top-0 right-0 w-[400px] h-[400px] bg-blue-200/30 rounded-full blur-3xl -z-10"></div>
@@ -10,17 +10,16 @@
     <div class="fixed bottom-0 left-0 w-[400px] h-[400px] bg-indigo-200/20 rounded-full blur-3xl -z-10"></div>
 
     <!-- CARD -->
-    <div class="bg-white/80 backdrop-blur-2xl rounded-[40px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-white/60 p-10 max-w-xl w-full">
+    <div class="bg-white/80 backdrop-blur-2xl rounded-[32px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-white/60 p-10 max-w-xl w-full">
 
         <!-- HEADER -->
         <div class="text-center mb-10">
 
 
             <!-- TITLE -->
-            <h2 class="text-4xl font-black text-gray-800 tracking-tight mb-3">
+            <h2 class="text-3xl font-black text-gray-800 tracking-tight mb-3">
 
-                Gimana Pelayanan Kami?
-
+                ⭐ Bagaimana pengalaman Anda?
             </h2>
 
             <!-- DESC -->
@@ -155,6 +154,8 @@
 
             </div>
 
+           
+
             <!-- BUTTON -->
             <button 
                 type="submit"
@@ -177,5 +178,78 @@
     </div>
 
 </div>
+ <!-- PENILAIAN PELAYANAN -->
+            <div class="mb-10">
+
+                <!-- Judul -->
+                <div class="bg-gray-50 border border-gray-200 rounded-3xl p-6">
+
+                    <div class="mb-6">
+
+                        <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                            📝 Penilaian Pelayanan
+                        </h3>
+
+                        <p class="text-sm text-gray-500 mt-2">
+                            Mohon berikan penilaian terhadap beberapa aspek pelayanan berikut.
+                        </p>
+
+                    </div>
+
+                    @php
+                        $pertanyaan = [
+                            'Pelayanan yang saya terima sudah sesuai dengan harapan.',
+                            'Petugas melayani dengan ramah dan sopan.',
+                            'Informasi yang diberikan mudah dipahami.',
+                            'Proses pelayanan berlangsung dengan baik.',
+                        ];
+
+                        $opsi = [
+                            'STS' => 'Sangat Tidak Setuju',
+                            'TS'  => 'Tidak Setuju',
+                            'KS'  => 'Kurang Setuju',
+                            'S'   => 'Setuju',
+                            'SS'  => 'Sangat Setuju',
+                        ];
+                    @endphp
+
+                    @foreach($pertanyaan as $index => $item)
+
+                    <div class="mb-6 last:mb-0 border border-gray-200 rounded-2xl p-5 bg-white">
+
+                        <p class="font-semibold text-gray-700 mb-4">
+                            {{ $index + 1 }}. {{ $item }}
+                        </p>
+
+                        <div class="space-y-3">
+
+                            @foreach($opsi as $value => $label)
+
+                            <label class="flex items-center gap-3 cursor-pointer hover:text-blue-600 transition">
+
+                                <input
+                                    type="radio"
+                                    name="pertanyaan_{{ $index }}"
+                                    value="{{ $value }}"
+                                    class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                                >
+
+                                <span class="text-sm text-gray-600">
+                                    {{ $label }}
+                                </span>
+
+                            </label>
+
+                            @endforeach
+
+                        </div>
+
+                    </div>
+
+                    @endforeach
+
+                </div>
+
+            </div>
 
 @endsection

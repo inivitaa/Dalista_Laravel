@@ -7,12 +7,126 @@ use App\Models\Guest;
 use App\Models\Profesi;
 use App\Models\Pendidikan;
 use App\Models\BidangTujuan;
+use App\Models\Layanan; // Import model Layanan
 use App\Models\Survey; // Import model Survey
+use App\Models\LayananDisnaker; // Import model LayananDisnaker
 use Barryvdh\DomPDF\Facade\Pdf; // Import PDF facade
+use App\Models\Admin;
+use Illuminate\Support\Facades\Hash;
 
 class GuestController extends Controller
 {
-    // 1. FUNGSI SIMPAN DATA TAMU (STEP FORM)
+    public function loginForm()
+    {
+        return view('admin.login');
+    }
+    public function login(Request $request)
+    {
+        $admin = Admin::where(
+            'email',
+            $request->email
+        )->first();
+
+        if (!$admin) {
+
+            return back()
+                ->with('error', 'Email tidak ditemukan');
+
+        }
+
+        if (!Hash::check(
+            $request->password,
+            $admin->password
+        )) {
+
+            return back()
+                ->with('error', 'Password salah');
+
+        }
+
+        session([
+            'admin_id' => $admin->id,
+            'admin_nama' => $admin->nama_lengkap
+        ]);
+
+        return redirect('/admin/dashboard');
+    }
+    public function profil()
+    {
+        $admin = Admin::find(
+            session('admin_id')
+        );
+
+        return view(
+            'admin.profil',
+            compact('admin')
+        );
+    }
+    public function logout()
+    {
+        session()->flush();
+
+        return redirect('/admin/login');
+    }
+        public function welcome()
+    {
+        $kunjunganHariIni = Guest::whereDate(
+            'waktu_dibuat',
+            today()
+        )->count();
+
+        $totalKunjungan = Guest::count();
+
+        return view(
+            'pengunjung.welcome',
+            compact(
+                'kunjunganHariIni',
+                'totalKunjungan'
+            )
+        );
+    }
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        $admin = Admin::find(session('admin_id'));
+
+        if (!Hash::check(
+            $request->old_password,
+            $admin->password
+        )) {
+
+            return back()->with(
+                'error',
+                'Password lama tidak sesuai'
+            );
+        }
+
+        $admin->password = Hash::make(
+            $request->new_password
+        );
+
+        $admin->save();
+
+        return back()->with(
+            'success',
+            'Password berhasil diperbarui'
+        );
+    }
+        // 1. FUNGSI SIMPAN DATA TAMU (STEP FORM)
+    public function form()
+    {
+        $tujuanKunjungan = Layanan::all();
+
+        return view(
+            'pengunjung.form',
+            compact('tujuanKunjungan')
+        );
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -38,7 +152,7 @@ class GuestController extends Controller
         // Cari ID Relasi
         $profesiId = Profesi::where('nama_profesi', trim($request->profesi))->first()?->id;
         $pendidikanId = Pendidikan::where('pendidikan_terakhir', trim($request->pendidikan))->first()?->id;
-        $bidangId = BidangTujuan::where('bidang', trim($request->tujuan))->first()?->id;
+        $bidangId = null;
         $guest = Guest::create([
             'nama' => $request->nama,
             'profesi_id' => $profesiId,
@@ -67,7 +181,16 @@ class GuestController extends Controller
     // 2. FUNGSI HALAMAN MANAJEMEN TAMU (ADMIN)
     public function index(Request $request)
     {
-        $query = Guest::query();
+        $query = Guest::with([
+            'profesi', 
+            'bidangTujuan', 
+            'layanan'
+            ]);
+
+            // $guests = $query
+            // ->orderBy('waktu_dibuat', 'desc')
+            // ->paginate($perPage)
+            // ->withQueryString();
 
         if($request->search){
             $search = $request->search;
@@ -87,10 +210,69 @@ class GuestController extends Controller
             elseif($request->waktu == 'Bulan Ini') $query->whereMonth('waktu_dibuat', now()->month);
         }
 
-        $guests = $query->orderBy('waktu_dibuat', 'desc')->get();
-        return view('admin.manajemen-tamu', compact('guests'));
+        $filteredQuery = clone $query;
+
+        $perPage = $request->per_page ?: 10;
+        
+        $guests = $query
+            ->orderBy('waktu_dibuat', 'desc')
+            ->paginate($perPage)
+            ->withQueryString();
+
+        $totalTamu = (clone $filteredQuery)->count();
+
+        $hariIni = (clone $filteredQuery)
+            ->whereDate('waktu_dibuat', today())
+            ->count();
+
+        $uploadFile = (clone $filteredQuery)
+            ->whereNotNull('file_upload')
+            ->count();
+
+
+        $layananUmum = Layanan::all();
+        $bidangTujuan = BidangTujuan::all();
+        $layananDisnaker = LayananDisnaker::all();
+
+        return view(
+            'admin.manajemen-tamu', 
+            compact('guests',
+                'totalTamu', 
+                'hariIni', 
+                'uploadFile',
+                'layananUmum',
+                'bidangTujuan',
+                'layananDisnaker'
+            ));
     }
 
+    public function destroyLayanan($id)
+    {
+        BidangTujuan::findOrFail($id)->delete();
+
+        return back()->with(
+            'success',
+            'Layanan berhasil dihapus'
+        );
+    }
+
+    public function updateLayanan(Request $request, $id)
+    {
+        $request->validate([
+            'nama_layanan' => 'required|string|max:255'
+        ]);
+
+        $layanan = BidangTujuan::findOrFail($id);
+
+        $layanan->update([
+            'bidang' => $request->nama_layanan
+        ]);
+
+        return back()->with(
+            'success',
+            'Layanan berhasil diperbarui'
+        );
+    }
     // 3. FUNGSI DASHBOARD (ADMIN)
     public function dashboard()
     {
@@ -148,10 +330,62 @@ class GuestController extends Controller
     // 5. UPDATE STATUS & DELETE
     public function updateStatus(Request $request, $id)
     {
+        dd('Masuk');
         $guest = Guest::findOrFail($id);
-        $guest->status_kunjungan = $request->status;
+
+        // $guest->bidang_tujuan_id = $request->bidang_tujuan_id;
+
+        // $guest->layanan_disnaker_id = $request->layanan_id;
+
+        // $guest->asn_dituju = $request->asn_dituju;
+
+        // kalau ada checkbox cara salinan
+        // $guest->cara_mendapatkan_salinan = $request->cara_salinan
+        //     ? implode(',', $request->cara_salinan)
+        //     : null;
+
+        // ubah status menjadi Datang
+        $guest->status_kunjungan = 'Datang';
+
+        // isi waktu check-in
+        $guest->waktu_checkin = now();
+
         $guest->save();
-        return redirect()->back();
+
+        return back()->with(
+            'success',
+            'Tamu berhasil ditandai datang.'
+        );
+    }
+
+    public function jadwalkan(Request $request, $id)
+    {
+        $request->validate([
+            'tanggal_kunjungan' => 'required',
+            'jam' => 'required',
+            'menit' => 'required',
+            'bidang_tujuan_id' => 'required',
+        ]);
+
+        $guest = Guest::findOrFail($id);
+
+        $guest->bidang_tujuan_id = $request->bidang_tujuan_id;
+        $guest->layanan_disnaker_id = $request->layanan_id;
+        $guest->asn_dituju = $request->asn_dituju;
+
+        $guest->jadwal_checkin =
+            $request->tanggal_kunjungan . ' ' .
+            $request->jam . ':' .
+            $request->menit . ':00';
+
+        $guest->status_kunjungan = 'Terjadwal';
+
+        $guest->save();
+
+        return back()->with(
+            'success',
+            'Jadwal kunjungan berhasil disimpan.'
+        );
     }
 
     public function destroy($id)
@@ -174,9 +408,20 @@ class GuestController extends Controller
     {
         $periode = $request->periode;
         $guests = Guest::query();
+        $bidang = $request->bidang;
 
-        if ($bulan) {
-            $guests->where('waktu_dibuat', '>=', now()->subDays($periode)
+        if ($periode) {
+            $guests->where(
+                'waktu_dibuat', 
+                '>=', 
+                now()->subDays($periode)
+            );
+        }
+
+        if ($bidang) {
+            $guests->where(
+                'keperluan',
+                $bidang
             );
         }
 
@@ -240,6 +485,25 @@ class GuestController extends Controller
         {
             $surveys = Survey::query();
 
+            if(request('periode')){
+
+                $surveys->where(
+                    'created_at',
+                    '>=',
+                    now()->subDays(request('periode'))
+                );
+
+            }
+
+            if(request('bidang')){
+
+                $surveys->where(
+                    'layanan_diakses',
+                    request('bidang')
+                );
+
+            }
+
             if(request('search')){
 
                 $surveys->where(
@@ -267,10 +531,12 @@ class GuestController extends Controller
                 );
 
             }
+            $perPage = request('per_page', 10);
 
             $surveys = $surveys
                 ->latest()
-                ->paginate(10);
+                ->paginate($perPage)
+                ->withQueryString();
 
             $totalSurvey = $surveys->count();
 
@@ -296,9 +562,32 @@ class GuestController extends Controller
         }
         public function exportSurvey()
         {
-            $fileName = 'laporan-survey.csv';
+            $periode = request('periode');
+            $bidang = request('bidang');
 
-            $surveys = Survey::all();
+            $surveys = Survey::query();
+            if ($periode) {
+
+                $surveys->where(
+                    'created_at',
+                    '>=',
+                    now()->subDays($periode)
+                );
+
+            }
+            if ($bidang) {
+                $surveys->where(
+                    'layanan_diakses',
+                    $bidang
+                );
+
+            }
+            $surveys = $surveys->get();
+
+            $fileName = $periode
+                ? "laporan-survey-{$periode}-hari.csv"
+                : "laporan-survey.csv";
+
 
             $headers = [
 
@@ -473,6 +762,21 @@ class GuestController extends Controller
 
             $waktuRata = '15 Menit';
 
+            $statusChart = [
+                Guest::where('status_kunjungan', 'Menunggu')->count(),
+                Guest::where('status_kunjungan', 'Terjadwal')->count(),
+                Guest::where('status_kunjungan', 'Datang')->count(),
+                Guest::where('status_kunjungan', 'Selesai')->count(),
+            ];
+            $bidangChart = [
+                Guest::whereHas('bidangTujuan', fn($q) => $q->where('bidang', 'Kepala Dinas'))->count(),
+                Guest::whereHas('bidangTujuan', fn($q) => $q->where('bidang', 'Sekretariat'))->count(),
+                Guest::whereHas('bidangTujuan', fn($q) => $q->where('bidang', 'Bidang Pelatihan Kerja dan Produktivitas'))->count(),
+                Guest::whereHas('bidangTujuan', fn($q) => $q->where('bidang', 'Bidang Hubungan Industrial dan Jaminan Sosial'))->count(),
+                Guest::whereHas('bidangTujuan', fn($q) => $q->where('bidang', 'Bidang Pengawasan Ketenagakerjaan'))->count(),
+                Guest::whereHas('bidangTujuan', fn($q) => $q->where('bidang', 'Bidang Penempatan dan Transmigrasi'))->count(),
+            ];
+
             return view(
                 'admin.laporan',
                 compact(
@@ -485,7 +789,9 @@ class GuestController extends Controller
                     'layananTerbanyak',
                     'totalKunjungan',
                     'rerataHarian',
-                    'waktuRata'
+                    'waktuRata',
+                    'statusChart',
+                    'bidangChart'
                 )
             );
         }
@@ -560,6 +866,35 @@ class GuestController extends Controller
 
         $waktuRata = '15 Menit';
 
+        $menunggu = $guests
+            ->where('status_kunjungan', 'Menunggu')
+            ->count();
+
+        $terjadwal = $guests
+            ->where('status_kunjungan', 'Terjadwal')
+            ->count();
+
+        $datang = $guests
+            ->where('status_kunjungan', 'Datang')
+            ->count();
+
+        $selesai = $guests
+            ->where('status_kunjungan', 'Selesai')
+            ->count();
+
+        $statusTerbanyak =collect([
+            'Menunggu' => $menunggu,
+            'Terjadwal' => $terjadwal,
+            'Datang' => $datang,
+            'Selesai' => $selesai
+        ])->sortDesc()->keys()->first();
+
+        $jumlahIsiSurvey = $totalSurvey;
+        $jumlahBelumIsiSurvey = $totalTamu - $totalSurvey;
+        $persentaseSurvey = $totalTamu
+            ? round(($totalSurvey / $totalTamu) * 100, 1)
+            : 0;
+
         $pdf = Pdf::loadView(
             'admin.pdf.laporan',
             compact(
@@ -573,7 +908,15 @@ class GuestController extends Controller
                 'rerataHarian',
                 'waktuRata',
                 'guests',
-                'surveys'
+                'surveys',
+                'menunggu',
+                'terjadwal',
+                'datang',
+                'selesai',
+                'statusTerbanyak',
+                'persentaseSurvey',
+                'jumlahIsiSurvey',
+                'jumlahBelumIsiSurvey'
             )
         );
 

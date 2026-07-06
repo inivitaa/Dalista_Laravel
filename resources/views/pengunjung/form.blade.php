@@ -117,15 +117,19 @@
                     <div class="space-y-4">
 
                         <select id="tujuan" name="tujuan" class="input">
-                            <option value="">-- Pilih Tujuan Kunjungan --</option>
-                            <option>Konsultasi Layanan</option>
-                            <option>Pengaduan/Keluhan</option>
-                            <option>Pengajuan Permohonan</option>
-                            <option>Mencari Informasi</option>
-                            <option>Survey/Penelitian</option>
-                            <option>Layanan Terpadu</option>
-                            <option>Meeting</option>
-                            <option>Lainnya</option>
+
+                            <option value="">
+                                -- Pilih Tujuan Kunjungan --
+                            </option>
+
+                            @foreach($tujuanKunjungan as $tujuan)
+
+                                <option value="{{ $tujuan->nama_layanan }}">
+                                    {{ $tujuan->nama_layanan }} 
+                                </option>
+
+                            @endforeach
+
                         </select>
 
                         <input id="tujuan_lainnya"

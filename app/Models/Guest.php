@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\LayananDisnaker;
 use App\Models\Profesi;
 use App\Models\BidangTujuan;
+// use App\Models\Layanan;
 
 class Guest extends Model
 {
@@ -34,7 +36,7 @@ class Guest extends Model
         'waktu_dibuat'
     ];
 
-      public function profesi()
+    public function profesi()
     {
         return $this->belongsTo(Profesi::class, 'profesi_id');
     }
@@ -43,5 +45,12 @@ class Guest extends Model
     {
         return $this->belongsTo(BidangTujuan::class, 'bidang_tujuan_id');
     }
+    public function layanan()
+{
+    return $this->belongsTo(
+        LayananDisnaker::class,
+        'layanan_disnaker_id'
+    );
+}
 
 }

@@ -13,8 +13,7 @@
     <div class="min-h-screen flex flex-col items-center px-4 pb-10">
 
         <!-- HEADER DALISTA -->
-        <div class="relative w-full max-w-6xl rounded-[40px] overflow-hidden mb-10">
-
+        <div class="relative w-full max-w-6xl rounded-[40px] overflow-visible mb-10">
 
             <!-- CONTENT -->
             <div class="relative z-10 flex flex-col items-center text-center px-6 py-16">
@@ -39,22 +38,46 @@
                 </div>
 
                 <!-- TITLE -->
-                <h1 class="text-5xl md:text-7xl font-black bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent leading-tight mb-2">                    
-                    Selamat Datang di
-
+<h1 class="text-5xl md:text-7xl font-black text-[#16275f] leading-relaxed mb-8">                    Selamat Datang di
                 </h1>
 
                 <!-- LOGO TEXT -->
                 <img src="/images/logo-text.png"
-                    class="h-20 object-contain mb-6 drop-shadow-2xl">
+                    class="h-20 object-contain mb-10 drop-shadow-2xl">
 
                 <!-- SUBTITLE -->
-                <p class="text-2xl md:text-3xl bg-gradient-to-r from-blue-900 to-purple-800 bg-clip-text text-transparent font-semibold">
-
+                <p class="text-3xl md:text-4xl text-indigo-800 font-semibold mb-2">
                     Digitalisasi Layanan Registrasi Tamu
-
                 </p>
 
+                <!-- STATISTIK -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 w-full max-w-xl">
+
+                    <div class="bg-white/80 backdrop-blur-md rounded-3xl shadow-lg p-6">
+
+                        <p class="text-gray-500 text-sm">
+                            Kunjungan Hari Ini
+                        </p>
+
+                        <h3 class="text-4xl font-bold text-blue-700 mt-2">
+                            {{ $kunjunganHariIni }}
+                        </h3>
+
+                    </div>
+
+                    <div class="bg-white/80 backdrop-blur-md rounded-3xl shadow-lg p-6">
+
+                        <p class="text-gray-500 text-sm">
+                            Total Kunjungan
+                        </p>
+
+                        <h3 class="text-4xl font-bold text-orange-500 mt-2">
+                            {{ $totalKunjungan }}
+                        </h3>
+
+                    </div>
+
+                </div>
             </div>
 
         </div>

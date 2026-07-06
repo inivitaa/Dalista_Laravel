@@ -58,6 +58,17 @@
     <h2 class="section-title">
         LAPORAN DATA TAMU DAN SURVEY
     </h2>
+    <div class="periode">
+
+        <b>Periode Laporan :</b>
+        {{ $periode ? $periode . ' Hari Terakhir' : 'Semua Data' }}
+
+        <br>
+
+        <b>Bidang :</b>
+        {{ $bidang ?: 'Semua Bidang' }}
+
+    </div>
     <!-- RINGKASAN -->
 
     <h3>Ringkasan Statistik</h3>
@@ -98,10 +109,70 @@
             <td class="label">Layanan Terbanyak</td>
             <td>{{ $layananTerbanyak->layanan_diakses ?? '-' }}</td>
         </tr>
+        <tr>
+            <td class="label">Status Menunggu</td>
+            <td>{{ $menunggu }}</td>
+        </tr>
+
+        <tr>
+            <td class="label">Status Terjadwal</td>
+            <td>{{ $terjadwal }}</td>
+        </tr>
+
+        <tr>
+            <td class="label">Status Datang</td>
+            <td>{{ $datang }}</td>
+        </tr>
+
+        <tr>
+            <td class="label">Status Selesai</td>
+            <td>{{ $selesai }}</td>
+        </tr>
 
     </table>
+    <h3>Analisis Singkat</h3>
 
+    <table class="ringkasan">
+
+        <tr>
+            <td class="label">Status Terbanyak</td>
+            <td>{{ $statusTerbanyak }}</td>
+        </tr>
+
+        <tr>
+            <td class="label">Layanan Terbanyak</td>
+            <td>{{ $layananTerbanyak->layanan_diakses ?? '-' }}</td>
+        </tr>
+        <tr>
+            <td class="label">Pengunjung Mengisi Survey</td>
+            <td>{{ $jumlahIsiSurvey }} orang</td>
+        </tr>
+
+        <tr>
+            <td class="label">Belum Mengisi Survey</td>
+            <td>{{ $jumlahBelumIsiSurvey }} orang</td>
+        </tr>
+        <tr>
+            <td class="label">Persentase Survey</td>
+            <td>{{ $persentaseSurvey }}%</td>
+        </tr>
+        {{-- <h3>Kesimpulan</h3>
+
+            <p style="text-align:justify; line-height:1.6">
+            Pada periode laporan ini terdapat
+            <b>{{ $totalTamu }}</b> kunjungan tamu dengan
+            <b>{{ $totalSurvey }}</b> survey yang berhasil dihimpun.
+            Layanan yang paling banyak diakses adalah
+            <b>{{ $layananTerbanyak->layanan_diakses ?? '-' }}</b>.
+            Mayoritas status kunjungan berada pada kategori
+            <b>{{ $statusTerbanyak }}</b>
+            dengan tingkat kepuasan rata-rata
+            <b>{{ number_format($avgRating,1) }}/5.0</b>.
+            </p> --}}
+
+    </table>
     <!-- DATA TAMU -->
+    <div style="page-break-before: always;"></div>
 
     <h3>Data Tamu</h3>
 
@@ -111,7 +182,9 @@
             <th width="40">No</th>
             <th>Nama</th>
             <th>Instansi</th>
+            <th>Keperluan</th>
             <th>Status</th>
+            <th>Tanggal</th>
         </tr>
 
         @foreach($guests as $guest)
@@ -120,15 +193,16 @@
             <td>{{ $loop->iteration }}</td>
             <td>{{ $guest->nama }}</td>
             <td>{{ $guest->asal_instansi }}</td>
+            <td>{{ $guest->keperluan }}</td>
             <td>{{ $guest->status_kunjungan }}</td>
-        </tr>
+            <td>{{ date('d-m-Y', strtotime($guest->waktu_dibuat)) }}</td>        </tr>
 
         @endforeach
 
     </table>
 
     <!-- DATA SURVEY -->
-
+    <div style="page-break-before: always;"></div>
     <h3>Data Survey</h3>
 
     <table class="table-data">
@@ -138,6 +212,7 @@
             <th>Nama</th>
             <th>Layanan</th>
             <th>Rating</th>
+            <th>Ulasan</th>
         </tr>
 
         @foreach($surveys as $survey)
@@ -147,6 +222,7 @@
             <td>{{ $survey->nama }}</td>
             <td>{{ $survey->layanan_diakses }}</td>
             <td>{{ $survey->rating }}</td>
+            <td>{{ $survey->ulasan }}</td>
         </tr>
 
         @endforeach
