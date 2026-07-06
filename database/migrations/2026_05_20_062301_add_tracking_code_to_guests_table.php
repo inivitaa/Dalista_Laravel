@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('daftar_tamu', function (Blueprint $table) {
+        Schema::table('guests', function (Blueprint $table) {
             
                 $table->string('tracking_code')
                     ->unique()
@@ -24,7 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('daftar_tamu', function (Blueprint $table) {
+        Schema::table('guests', function (Blueprint $table) {
             //
         });
     }
