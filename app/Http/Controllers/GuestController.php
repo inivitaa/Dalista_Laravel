@@ -528,38 +528,64 @@ class GuestController extends Controller
             if(request('periode')){
                 $query->where('created_at', '>=', now()->subDays(request('periode')));
             }
-
             if(request('bidang')){
                 $query->where('layanan_diakses', request('bidang'));
             }
-
             if(request('search')){
                 $query->where('nama', 'like', '%' . request('search') . '%');
             }
-
             if(request('layanan')){
                 $query->where('layanan_diakses', request('layanan'));
             }
-
             if(request('rating')){
                 $query->where('rating', request('rating'));
             }
 
+            $chartData = [
+                (clone $query)->where('rating', 1)->count(),
+                (clone $query)->where('rating', 2)->count(),
+                (clone $query)->where('rating', 3)->count(),
+                (clone $query)->where('rating', 4)->count(),
+                (clone $query)->where('rating', 5)->count(),
+            ];
+
             $totalSurvey = $query->count();
             $avgRating = round($query->avg('rating') ?? 0, 1);
-
             $hebat = (clone $query)->where('rating', 5)->count();
             $buruk = (clone $query)->where('rating', 1)->count();
+
+            $caseExpression = function($column) {
+                return "AVG(CASE 
+                    WHEN $column = 'SS' THEN 5 
+                    WHEN $column = 'S' THEN 4 
+                    WHEN $column = 'KS' THEN 3 
+                    WHEN $column = 'TS' THEN 2 
+                    WHEN $column = 'STS' THEN 1 
+                    ELSE 0 
+                END)";
+            };
+
+            $avgAspekRaw = (clone $query)->selectRaw("
+                {$caseExpression('p1')} as p1,
+                {$caseExpression('p2')} as p2,
+                {$caseExpression('p3')} as p3,
+                {$caseExpression('p4')} as p4,
+                {$caseExpression('p5')} as p5
+            ")->first();
+
+            $avgAspek = [
+                'p1' => round($avgAspekRaw->p1 ?? 0, 1),
+                'p2' => round($avgAspekRaw->p2 ?? 0, 1),
+                'p3' => round($avgAspekRaw->p3 ?? 0, 1),
+                'p4' => round($avgAspekRaw->p4 ?? 0, 1),
+                'p5' => round($avgAspekRaw->p5 ?? 0, 1),
+            ];
 
             $perPage = request('per_page', 10);
             $surveys = $query->latest()->paginate($perPage)->withQueryString();
 
             return view('admin.survey', compact(
-                'surveys', 
-                'totalSurvey', 
-                'avgRating', 
-                'hebat', 
-                'buruk'
+                'surveys', 'totalSurvey', 'avgRating', 'hebat', 'buruk', 'chartData', 'avgAspek'
             ));
         }
         public function exportSurvey()
