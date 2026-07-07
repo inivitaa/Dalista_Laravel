@@ -144,12 +144,7 @@
                 <p class="font-semibold text-slate-800">{{ $guest->keperluan }}</p>
             </div>
 
-            <div class="space-y-1">
-                <p class="text-sm text-slate-500">Bidang Tujuan</p>
-                <p class="font-semibold text-slate-800">
-                    {{ $guest->bidangTujuan->bidang ?? '-' }}
-                </p>
-            </div>
+            
 
             <div class="md:col-span-2 space-y-1">
                 <p class="text-sm text-slate-500">Keterangan</p>
@@ -178,6 +173,13 @@
         </div>
 
         <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <div class="space-y-1">
+                <p class="text-sm text-slate-500">Bidang Tujuan</p>
+                <p class="font-semibold text-slate-800">
+                    {{ $guest->bidangTujuan->bidang ?? '-' }}
+                </p>
+            </div>
 
             <div class="space-y-1">
                 <p class="text-sm text-slate-500">Layanan Disnaker</p>
@@ -219,6 +221,49 @@
                 </p>
 
             </div>
+            <div class="mt-6">
+
+                <label class="text-gray-500">
+                    Waktu Selesai
+                </label>
+
+                <p class="font-semibold text-gray-900">
+
+                    @if($guest->waktu_checkout)
+
+                        {{ \Carbon\Carbon::parse($guest->waktu_checkout)->format('d M Y • H:i') }}
+
+                    @else
+
+                        Belum selesai
+
+                    @endif
+
+                </p>
+
+            </div>
+
+            <div class="mt-6">
+
+                <label class="text-gray-500">
+                    Waktu Datang
+                </label>
+
+                <p class="font-semibold text-gray-900">
+
+                    @if($guest->waktu_checkin)
+
+                        {{ \Carbon\Carbon::parse($guest->waktu_checkin)->format('d M Y • H:i') }}
+
+                    @else
+
+                        Belum datang
+
+                    @endif
+
+                </p>
+
+            </div>
 
         </div>
 
@@ -228,21 +273,39 @@
 
         <!-- kiri -->
         <div class="flex gap-4">
+            {{-- MENUNGGU --}}
+            @if($guest->status_kunjungan == 'Menunggu')
+                
+                <button
+                    type="button"
+                    onclick="openJadwalModal()"
+                    class="px-6 py-3 rounded-xl bg-blue-500 text-white hover:bg-blue-600">
+                    Jadwalkan
+                </button>
 
-            <button
-                type="button"
-                onclick="openJadwalModal()"
-                class="px-6 py-3 rounded-xl bg-blue-500 text-white hover:bg-blue-600">
-                Jadwalkan
-            </button>
+            @endif
+            
+            {{-- TERJADWAL --}}
+            @if($guest->status_kunjungan == 'Terjadwal')
 
-            <button
-                type="button"
-                onclick="openDatangModal()"
-                class="px-6 py-3 rounded-xl bg-green-500 text-white hover:bg-green-600">
-                Tandai Datang
-            </button>
+                <button
+                    type="button"
+                    onclick="openDatangModal()"
+                    class="px-6 py-3 rounded-xl bg-green-500 text-white hover:bg-green-600">
+                    Tandai Datang
+                </button>
 
+            @endif
+            
+            {{-- DATANG --}}
+            @if($guest->status_kunjungan == 'Datang')
+                <button
+                    type="button"
+                    onclick="openSelesaiModal()"
+                    class="px-6 py-3 rounded-xl bg-green-500 text-white hover:bg-green-600">
+                    Selesai
+                </button>
+            @endif
         </div>
 
         <!-- kanan -->
@@ -412,6 +475,8 @@
     </div>
 
 </div>
+
+{{-- MODAL TANDAI DATANG --}}
 <div id="datangModal"
     class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
 
@@ -493,6 +558,72 @@
             </div>
 
         </form>
+    </div>
+</div>
+{{-- MODAL SELESAI --}}
+<div
+    id="selesaiModal"
+    class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+
+    <div class="bg-white rounded-3xl w-full max-w-md shadow-xl">
+
+        <!-- Header -->
+        <div class="flex justify-between items-start p-6 border-b">
+
+            <div>
+
+                <h2 class="text-3xl font-bold text-gray-800">
+                    Selesaikan Kunjungan
+                </h2>
+
+                <p class="text-gray-500 mt-2">
+                    Konfirmasi bahwa proses kunjungan tamu telah selesai.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                onclick="closeSelesaiModal()"
+                class="text-3xl text-gray-400 hover:text-red-500 transition">
+
+                &times;
+
+            </button>
+
+        </div>
+
+        <form id="selesaiForm" method="POST">
+
+            @csrf
+
+
+            <div class="px-6 pb-6 flex justify-end gap-3">
+
+                <button
+                    type="button"
+                    onclick="closeSelesaiModal()"
+                    class="px-6 py-3 rounded-xl border">
+
+                    Batal
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="px-6 py-3 rounded-xl bg-emerald-700 text-white">
+
+                    Ya, Selesai
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 <script>
 
     function openJadwalModal(){
@@ -598,6 +729,32 @@
 
         document
             .getElementById('datangModal')
+            .classList.add('hidden');
+
+    }
+    function openSelesaiModal() {
+
+    document.getElementById('selesaiForm').action =
+        '/admin/manajemen-tamu/{{ $guest->id }}/selesai';
+
+    document
+        .getElementById('selesaiModal')
+        .classList.remove('hidden');
+
+    document
+        .getElementById('selesaiModal')
+        .classList.add('flex');
+
+}
+
+    function closeSelesaiModal() {
+
+        document
+            .getElementById('selesaiModal')
+            .classList.remove('flex');
+
+        document
+            .getElementById('selesaiModal')
             .classList.add('hidden');
 
     }

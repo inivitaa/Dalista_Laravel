@@ -72,11 +72,15 @@ Route::middleware('admin.auth')->group(function () {
         [GuestController::class, 'index']);
 
     Route::get('/admin/manajemen-tamu/{id}',
-    [GuestDetailController::class, 'show'])
+        [GuestDetailController::class, 'show'])
     ->name('guest.detail');
 
     Route::post('/admin/manajemen-tamu/{id}/status',
         [GuestController::class, 'updateStatus']);
+
+    Route::post('/admin/manajemen-tamu/{id}/selesai',
+        [GuestDetailController::class, 'selesai'])
+    ->name('guest.selesai');
 
     Route::post('/admin/manajemen-tamu/{id}/jadwal',
         [GuestDetailController::class, 'jadwalkan'])

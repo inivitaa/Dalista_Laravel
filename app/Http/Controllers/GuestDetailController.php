@@ -48,6 +48,8 @@ class GuestDetailController extends Controller
         $guest->jadwal_checkin =
             $request->tanggal.' '.$request->jam;
 
+        $guest->jadwal_dibuat = now();
+
         $guest->bidang_tujuan_id =
             $request->bidang_tujuan_id;
 
@@ -83,6 +85,23 @@ class GuestDetailController extends Controller
             ->with(
                 'success',
                 'Tamu berhasil ditandai datang.'
+            );
+    }
+    public function selesai($id)
+    {
+        $guest = Guest::findOrFail($id);
+
+        $guest->status_kunjungan = 'Selesai';
+
+        $guest->waktu_checkout = now();
+
+        $guest->save();
+
+        return redirect()
+            ->route('guest.detail', $guest->id)
+            ->with(
+                'success',
+                'Kunjungan berhasil diselesaikan.'
             );
     }
 }
