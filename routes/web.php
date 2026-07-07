@@ -75,9 +75,6 @@ Route::middleware('admin.auth')->group(function () {
         [GuestDetailController::class, 'show'])
     ->name('guest.detail');
 
-    Route::post('/admin/manajemen-tamu/{id}/status',
-        [GuestController::class, 'updateStatus']);
-
     Route::post('/admin/manajemen-tamu/{id}/selesai',
         [GuestDetailController::class, 'selesai'])
     ->name('guest.selesai');

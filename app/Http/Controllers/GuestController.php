@@ -170,8 +170,7 @@ class GuestController extends Controller
             'file_upload' => $fileName,
             'file_name' => $fileName,
             'status_kunjungan' => 'Menunggu',
-            'tracking_code' => 'DLT-' . date('Y') . '-' . str_pad(rand(1,9999), 4, '0', STR_PAD_LEFT),
-            'created_at' => now()
+            'tracking_code' => 'DLT-' . date('Y') . '-' . str_pad(rand(1,9999), 4, '0', STR_PAD_LEFT)
         ]); 
 
         return redirect()->back()->with([
@@ -366,67 +365,6 @@ class GuestController extends Controller
     
         return redirect('/')->with('success_survey', 'Terima kasih atas penilaian Anda!');
     }
-
-    // 5. UPDATE STATUS & DELETE
-    public function updateStatus(Request $request, $id)
-    {
-        dd('Masuk');
-        $guest = Guest::findOrFail($id);
-
-        // $guest->bidang_tujuan_id = $request->bidang_tujuan_id;
-
-        // $guest->layanan_disnaker_id = $request->layanan_id;
-
-        // $guest->asn_dituju = $request->asn_dituju;
-
-        // kalau ada checkbox cara salinan
-        // $guest->cara_mendapatkan_salinan = $request->cara_salinan
-        //     ? implode(',', $request->cara_salinan)
-        //     : null;
-
-        // ubah status menjadi Datang
-        $guest->status_kunjungan = 'Datang';
-
-        // isi waktu check-in
-        $guest->waktu_checkin = now();
-
-        $guest->save();
-
-        return back()->with(
-            'success',
-            'Tamu berhasil ditandai datang.'
-        );
-    }
-
-    // public function jadwalkan(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'tanggal_kunjungan' => 'required',
-    //         'jam' => 'required',
-    //         'menit' => 'required',
-    //         'bidang_tujuan_id' => 'required',
-    //     ]);
-
-    //     $guest = Guest::findOrFail($id);
-
-    //     $guest->bidang_tujuan_id = $request->bidang_tujuan_id;
-    //     $guest->layanan_disnaker_id = $request->layanan_id;
-    //     $guest->asn_dituju = $request->asn_dituju;
-
-    //     $guest->jadwal_checkin =
-    //         $request->tanggal_kunjungan . ' ' .
-    //         $request->jam . ':' .
-    //         $request->menit . ':00';
-
-    //     $guest->status_kunjungan = 'Terjadwal';
-
-    //     $guest->save();
-
-    //     return back()->with(
-    //         'success',
-    //         'Jadwal kunjungan berhasil disimpan.'
-    //     );
-    // }
 
     public function destroy($id)
     {
