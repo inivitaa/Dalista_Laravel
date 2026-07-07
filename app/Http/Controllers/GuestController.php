@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Guest;
 use App\Models\Profesi;
 use App\Models\Pendidikan;
@@ -12,6 +13,7 @@ use App\Models\Survey; // Import model Survey
 use App\Models\LayananDisnaker; // Import model LayananDisnaker
 use Barryvdh\DomPDF\Facade\Pdf; // Import PDF facade
 use App\Models\Admin;
+use App\Models\WebVisitor;
 use Illuminate\Support\Facades\Hash;
 
 class GuestController extends Controller
@@ -169,7 +171,7 @@ class GuestController extends Controller
             'file_name' => $fileName,
             'status_kunjungan' => 'Menunggu',
             'tracking_code' => 'DLT-' . date('Y') . '-' . str_pad(rand(1,9999), 4, '0', STR_PAD_LEFT),
-            'waktu_dibuat' => now()
+            'created_at' => now()
         ]); 
 
         return redirect()->back()->with([
@@ -295,14 +297,41 @@ class GuestController extends Controller
         $recentSurveys = Survey::latest()->take(5)->get();
 
         // Data Chart
-        $chartData = [];
+        $currentYear = date('Y');
+        $monthlyData = WebVisitor::select(
+                DB::raw('MONTH(created_at) as month'),
+                DB::raw('COUNT(*) as count')
+            )
+            ->whereYear('created_at', $currentYear)
+            ->groupBy('month')
+            ->orderBy('month', 'asc')
+            ->pluck('count', 'month')
+            ->toArray();
+
+        // Menyusun array 12 bulan (Jan - Des) dengan default nilai 0 jika bulan kosong
+        $visitorCounts = [];
         for ($i = 1; $i <= 12; $i++) {
-            $chartData[] = Guest::whereMonth('waktu_dibuat', $i)->count();
+            $visitorCounts[] = $monthlyData[$i] ?? 0;
         }
 
+        // 2. Ambil data tipe perangkat untuk Doughnut Chart
+        $deviceData = WebVisitor::select('device_type', DB::raw('COUNT(*) as count'))
+            ->groupBy('device_type')
+            ->pluck('count', 'device_type')
+            ->toArray();
+
+        // Sesuaikan urutan array dengan label JavaScript: ['Desktop', 'Mobile', 'Tablet']
+        $deviceCounts = [
+            $deviceData['Desktop'] ?? 0,
+            $deviceData['Mobile'] ?? 0,
+            $deviceData['Tablet'] ?? 0,
+        ];
+
+        // Return view dengan menyertakan variabel visitorCounts dan deviceCounts
         return view('admin.dashboard', compact(
             'total', 'menunggu', 'datang', 'terjadwal', 'selesai', 
-            'recentGuests', 'chartData', 'avgRating', 'recentSurveys', 'pieData'
+            'recentGuests', 'avgRating', 'recentSurveys',
+            'visitorCounts', 'deviceCounts'
         ));
     }
 

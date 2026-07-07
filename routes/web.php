@@ -1,39 +1,45 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\GuestDetailController;
+use App\Http\Middleware\TrackVisitors;
+
 /*
 |--------------------------------------------------------------------------
 | PENGUNJUNG
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', [GuestController::class, 'welcome']);
+Route::middleware(TrackVisitors::class)->group(function () {
 
-Route::get('/form', [GuestController::class, 'form']);
+    Route::get('/', [GuestController::class, 'welcome']);
 
-Route::post('/guest/store', [GuestController::class, 'store']);
+    Route::get('/form', [GuestController::class, 'form']);
 
-Route::get('/survey', function () {
-    return view('pengunjung.survey');
+    Route::post('/guest/store', [GuestController::class, 'store']);
+
+    Route::get('/survey', function () {
+        return view('pengunjung.survey');
+    });
+
+    Route::post('/survey/store', [GuestController::class, 'storeSurvey']);
+
+    Route::get('/status', function () {
+        return view('pengunjung.status');
+    });
+
+    Route::post('/status/check', [GuestController::class, 'checkStatus']);
+
+    Route::get('/lupa-token', function () {
+        return view('pengunjung.lupa-token');
+    });
+
+    Route::post('/lupa-token', [GuestController::class, 'lupaToken']);
+
 });
-
-Route::post('/survey/store', [GuestController::class, 'storeSurvey']);
-
-Route::get('/status', function () {
-    return view('pengunjung.status');
-});
-
-Route::post('/status/check', [GuestController::class, 'checkStatus']);
-
-Route::get('/lupa-token', function () {
-    return view('pengunjung.lupa-token');
-});
-
-Route::post('/lupa-token', [GuestController::class, 'lupaToken']);
-
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +52,8 @@ Route::get('/admin/login', function () {
 });
 
 Route::post('/admin/login', [GuestController::class, 'login']);
-
+Route::get('/admin/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/admin/register', [RegisterController::class, 'register']);
 Route::get('/admin/logout', [GuestController::class, 'logout']);
 
 

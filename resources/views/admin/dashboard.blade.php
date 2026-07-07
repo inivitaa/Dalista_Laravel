@@ -132,22 +132,24 @@ class="bg-gradient-to-r bg-gradient-to-r from-slate-800 to-slate-700 rounded-3xl
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    // 1. GRAFIK KUNJUNGAN WEBSITE (LINE CHART)
     const ctx = document.getElementById('visitorChart');
     new Chart(ctx, {
         type: 'line',
         data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
             datasets: [{
-                label: 'Jumlah Tamu',
-                data: @json($chartData),
+                label: 'Total Visitor', // Mengubah label
+                data: @json($visitorCounts), // Menggunakan data visitorCounts dari backend baru
                 borderColor: '#3b82f6',
-                backgroundColor: 'rgba(59,130,246,0.1)',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
                 tension: 0.4,
                 fill: true
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
                     beginAtZero: true,
@@ -156,73 +158,51 @@ class="bg-gradient-to-r bg-gradient-to-r from-slate-800 to-slate-700 rounded-3xl
                     }
                 }
             },
-            plugins: 
-                { legend: { 
-                    display: false } }
+            plugins: { 
+                legend: { 
+                    display: false 
+                } 
+            }
         }
     });
 
-    const statusCtx = document.getElementById('statusChart');
+    // 2. GRAFIK PERANGKAT PENGUNJUNG (DOUGHNUT CHART)
+    // Mengubah id target canvas ke 'deviceChart' sesuai elemen HTML yang baru
+    const deviceCtx = document.getElementById('deviceChart');
 
-new Chart(statusCtx, {
-
-    type: 'doughnut',
-
-    data: {
-
-        labels: [
-            'Menunggu',
-            'Terjadwal',
-            'Datang',
-            'Selesai'
-        ],
-
-        datasets: [{
-
-            data: @json($pieData),
-
-            backgroundColor: [
-
-                '#facc15',
-                '#3b82f6',
-                '#06b6d4',
-                '#22c55e'
-
-            ],
-
-            borderWidth: 0
-
-        }]
-
-    },
-
-    options: {
-
-        responsive: true,
-
-        cutout: '68%',
-
-        plugins: {
-
-            legend: {
-
-                position: 'bottom',
-
-                labels: {
-
-                    padding: 20,
-
-                    usePointStyle: true
-
+    new Chart(deviceCtx, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                'Desktop',
+                'Mobile',
+                'Tablet'
+            ], // Mengubah kategori status tamu manual menjadi tipe perangkat
+            datasets: [{
+                data: @json($deviceCounts), // Menggunakan data deviceCounts dari backend baru
+                backgroundColor: [
+                    '#3b82f6', // Biru untuk Desktop
+                    '#22c55e', // Hijau untuk Mobile
+                    '#facc15'  // Kuning untuk Tablet
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '68%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
                 }
-
             }
-
         }
-
-    }
-
-});
+    });
 </script>
 
 @endsection
