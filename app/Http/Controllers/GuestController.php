@@ -335,24 +335,35 @@ class GuestController extends Controller
         ));
     }
 
-    // 4. FUNGSI SIMPAN SURVEY (SKM)
     public function storeSurvey(Request $request) 
     {
+        // Tambahkan validasi untuk 5 aspek pertanyaan dari frontend
         $request->validate([
             'nama' => 'required|string|max:255',
             'rating' => 'required|integer|min:1|max:5',
             'ulasan' => 'nullable|string|max:500',
-            'layanan' => 'required'
+            'layanan' => 'required',
+            'pertanyaan_0' => 'required|string',
+            'pertanyaan_1' => 'required|string',
+            'pertanyaan_2' => 'required|string',
+            'pertanyaan_3' => 'required|string',
+            'pertanyaan_4' => 'required|string',
         ]);
-
+    
+        // Simpan semua data termasuk p1 sampai p5
         Survey::create([
             'nama' => $request->nama,
             'rating' => $request->rating,
             'ulasan' => $request->ulasan,
             'layanan_diakses' => $request->layanan,
-            'guest_id' => $request->guest_id
+            'guest_id' => $request->guest_id, // atau gunakan auth()->id() jika tamu harus login
+            'p1' => $request->pertanyaan_0,
+            'p2' => $request->pertanyaan_1,
+            'p3' => $request->pertanyaan_2,
+            'p4' => $request->pertanyaan_3,
+            'p5' => $request->pertanyaan_4,
         ]);
-
+    
         return redirect('/')->with('success_survey', 'Terima kasih atas penilaian Anda!');
     }
 
@@ -512,82 +523,44 @@ class GuestController extends Controller
 
         public function surveyAdmin()
         {
-            $surveys = Survey::query();
+            $query = Survey::query();
 
             if(request('periode')){
-
-                $surveys->where(
-                    'created_at',
-                    '>=',
-                    now()->subDays(request('periode'))
-                );
-
+                $query->where('created_at', '>=', now()->subDays(request('periode')));
             }
 
             if(request('bidang')){
-
-                $surveys->where(
-                    'layanan_diakses',
-                    request('bidang')
-                );
-
+                $query->where('layanan_diakses', request('bidang'));
             }
 
             if(request('search')){
-
-                $surveys->where(
-                    'nama',
-                    'like',
-                    '%' . request('search') . '%'
-                );
-
+                $query->where('nama', 'like', '%' . request('search') . '%');
             }
 
             if(request('layanan')){
-
-                $surveys->where(
-                    'layanan_diakses',
-                    request('layanan')
-                );
-
+                $query->where('layanan_diakses', request('layanan'));
             }
 
             if(request('rating')){
-
-                $surveys->where(
-                    'rating',
-                    request('rating')
-                );
-
+                $query->where('rating', request('rating'));
             }
+
+            $totalSurvey = $query->count();
+            $avgRating = round($query->avg('rating') ?? 0, 1);
+
+            $hebat = (clone $query)->where('rating', 5)->count();
+            $buruk = (clone $query)->where('rating', 1)->count();
+
             $perPage = request('per_page', 10);
+            $surveys = $query->latest()->paginate($perPage)->withQueryString();
 
-            $surveys = $surveys
-                ->latest()
-                ->paginate($perPage)
-                ->withQueryString();
-
-            $totalSurvey = $surveys->count();
-
-            $avgRating = round(
-                $surveys->avg('rating'),
-                1
-            );
-
-            $hebat = $surveys->where('rating', 5)->count();
-
-            $buruk = $surveys->where('rating', 1)->count();
-
-            return view(
-                'admin.survey',
-                compact(
-                    'surveys',
-                    'totalSurvey',
-                    'avgRating',
-                    'hebat',
-                    'buruk'
-                )
-            );
+            return view('admin.survey', compact(
+                'surveys', 
+                'totalSurvey', 
+                'avgRating', 
+                'hebat', 
+                'buruk'
+            ));
         }
         public function exportSurvey()
         {
