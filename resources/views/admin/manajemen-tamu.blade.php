@@ -439,12 +439,12 @@
                             
                             <td class="p-5">
                                 <a
-    href="{{ route('guest.detail', $guest->id) }}"
-    class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-4 py-2 rounded-lg text-sm transition">
+                                    href="{{ route('guest.detail', $guest->id) }}"
+                                    class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-4 py-2 rounded-lg text-sm transition">
 
-    Detail
+                                    Detail
 
-</a>
+                                </a>
                                 {{-- <button
                                     type="button"
                                     onclick="openModal(
@@ -515,7 +515,7 @@
 
 
 
-<!-- MODAL DETAIL -->
+{{-- <!-- MODAL DETAIL -->
 <div id="detailModal"
      class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50 px-4">
 
@@ -697,9 +697,9 @@
                     </h4>
                 </div>
 
-            </div>
+            </div> --}}
 
-        </div>
+        {{-- </div>
         <div class="mt-8 flex justify-between">
 
             <div class="flex gap-3">
@@ -745,7 +745,7 @@
         </div>
 
         </div>
-</div>
+</div> --}}
 
 <!-- MODAL JADWAL -->
 <div id="jadwalModal"

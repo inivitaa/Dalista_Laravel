@@ -72,11 +72,17 @@ Route::middleware('admin.auth')->group(function () {
         [GuestController::class, 'updateStatus']);
 
     Route::post('/admin/manajemen-tamu/{id}/jadwal',
-        [GuestController::class, 'jadwalkan'])
+        [GuestDetailController::class, 'jadwalkan'])
         ->name('guest.jadwal');
 
-    Route::delete('/admin/guests/{id}',
-        [GuestController::class, 'destroy']);
+    Route::post(
+        '/admin/manajemen-tamu/{id}/datang',
+        [GuestDetailController::class, 'datang']
+    )->name('guest.datang');
+
+    Route::delete('/admin/manajemen-tamu/{id}',
+        [GuestController::class, 'destroy'])
+        ->name('guest.destroy');
 
     Route::post('/layanan/store',
         [LayananController::class, 'store'])

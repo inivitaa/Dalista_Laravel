@@ -358,35 +358,35 @@ class GuestController extends Controller
         );
     }
 
-    public function jadwalkan(Request $request, $id)
-    {
-        $request->validate([
-            'tanggal_kunjungan' => 'required',
-            'jam' => 'required',
-            'menit' => 'required',
-            'bidang_tujuan_id' => 'required',
-        ]);
+    // public function jadwalkan(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'tanggal_kunjungan' => 'required',
+    //         'jam' => 'required',
+    //         'menit' => 'required',
+    //         'bidang_tujuan_id' => 'required',
+    //     ]);
 
-        $guest = Guest::findOrFail($id);
+    //     $guest = Guest::findOrFail($id);
 
-        $guest->bidang_tujuan_id = $request->bidang_tujuan_id;
-        $guest->layanan_disnaker_id = $request->layanan_id;
-        $guest->asn_dituju = $request->asn_dituju;
+    //     $guest->bidang_tujuan_id = $request->bidang_tujuan_id;
+    //     $guest->layanan_disnaker_id = $request->layanan_id;
+    //     $guest->asn_dituju = $request->asn_dituju;
 
-        $guest->jadwal_checkin =
-            $request->tanggal_kunjungan . ' ' .
-            $request->jam . ':' .
-            $request->menit . ':00';
+    //     $guest->jadwal_checkin =
+    //         $request->tanggal_kunjungan . ' ' .
+    //         $request->jam . ':' .
+    //         $request->menit . ':00';
 
-        $guest->status_kunjungan = 'Terjadwal';
+    //     $guest->status_kunjungan = 'Terjadwal';
 
-        $guest->save();
+    //     $guest->save();
 
-        return back()->with(
-            'success',
-            'Jadwal kunjungan berhasil disimpan.'
-        );
-    }
+    //     return back()->with(
+    //         'success',
+    //         'Jadwal kunjungan berhasil disimpan.'
+    //     );
+    // }
 
     public function destroy($id)
     {
