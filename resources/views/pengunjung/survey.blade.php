@@ -44,16 +44,20 @@
                         name="layanan"
                         id="input-layanan"
                         required
-                        class="w-full appearance-none bg-white/70 border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 transition duration-300 cursor-pointer"
-                    >
+                        class="w-full appearance-none bg-white/70 border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 transition duration-300 cursor-pointer">
                         <option value="">-- Pilih Layanan --</option>
-                        <option>Konsultasi Layanan</option>
-                        <option>Pengaduan/Keluhan</option>
-                        <option>Pengajuan Permohonan</option>
-                        <option>Mencari Informasi</option>
-                        <option>Survey/Penelitian</option>
-                        <option>Layanan Terpadu</option>
-                        <option>Lainnya</option>
+
+                            @foreach($tujuanKunjungan as $tujuan)
+
+                                <option
+                                    value="{{ $tujuan->nama_layanan }}"
+                                    {{ request('layanan') == $tujuan->nama_layanan ? 'selected' : '' }}>
+
+                                    {{ $tujuan->nama_layanan }}
+
+                                </option>
+
+                            @endforeach
                     </select>
                 </div>
 

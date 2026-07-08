@@ -50,54 +50,23 @@
                         </select>
                     <!-- FILTER BIDANG -->
                         <select
-                            name="bidang"
+                            name="layanan"
                             onchange="this.form.submit()"
                             class="border rounded-2xl px-3 py-4 shadow-sm bg-white">
 
-                            <option value=""
-                                {{ request('bidang') == '' ? 'selected' : '' }}>
-                                Semua Bidang
-                            </option>
+                            <option value="">Semua Layanan</option>
 
-                            <option value="Konsultasi Layanan"
-                                {{ request('bidang') == 'Konsultasi Layanan' ? 'selected' : '' }}>
-                                Konsultasi Layanan
-                            </option>
+                            @foreach($layananUmum as $layanan)
 
-                            <option value="Pengaduan/Keluhan"
-                                {{ request('bidang') == 'Pengaduan/Keluhan' ? 'selected' : '' }}>
-                                Pengaduan/Keluhan
-                            </option>
+                                <option
+                                    value="{{ $layanan->nama_layanan }}"
+                                    {{ request('layanan') == $layanan->nama_layanan ? 'selected' : '' }}>
 
-                            <option value="Pengajuan Permohonan"
-                                {{ request('bidang') == 'Pengajuan Permohonan' ? 'selected' : '' }}>
-                                Pengajuan Permohonan
-                            </option>
+                                    {{ $layanan->nama_layanan }}
 
-                            <option value="Mencari Informasi"
-                                {{ request('bidang') == 'Mencari Informasi' ? 'selected' : '' }}>
-                                Mencari Informasi
-                            </option>
+                                </option>
 
-                            <option value="Survey/Penelitian"
-                                {{ request('bidang') == 'Survey/Penelitian' ? 'selected' : '' }}>
-                                Survey/Penelitian
-                            </option>
-
-                            <option value="Layanan Terpadu"
-                                {{ request('bidang') == 'Layanan Terpadu' ? 'selected' : '' }}>
-                                Layanan Terpadu
-                            </option>
-
-                            <option value="Meeting"
-                                {{ request('bidang') == 'Meeting' ? 'selected' : '' }}>
-                                Meeting
-                            </option>
-
-                            <option value="Lainnya"
-                                {{ request('bidang') == 'Lainnya' ? 'selected' : '' }}>
-                                Lainnya
-                            </option>
+                            @endforeach
 
                         </select>
                     </form>

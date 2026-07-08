@@ -138,15 +138,18 @@
                     </select>
 
                     <select name="bidang" onchange="this.form.submit()" class="border border-gray-200 rounded-2xl px-5 py-3 shadow-sm bg-white cursor-pointer">
-                        <option value="" {{ request('bidang') == '' ? 'selected' : '' }}>Semua Bidang</option>
-                        <option value="Konsultasi Layanan" {{ request('bidang') == 'Konsultasi Layanan' ? 'selected' : '' }}>Konsultasi Layanan</option>
-                        <option value="Pengaduan/Keluhan" {{ request('bidang') == 'Pengaduan/Keluhan' ? 'selected' : '' }}>Pengaduan/Keluhan</option>
-                        <option value="Pengajuan Permohonan" {{ request('bidang') == 'Pengajuan Permohonan' ? 'selected' : '' }}>Pengajuan Permohonan</option>
-                        <option value="Mencari Informasi" {{ request('bidang') == 'Mencari Informasi' ? 'selected' : '' }}>Mencari Informasi</option>
-                        <option value="Survey/Penelitian" {{ request('bidang') == 'Survey/Penelitian' ? 'selected' : '' }}>Survey/Penelitian</option>
-                        <option value="Layanan Terpadu" {{ request('bidang') == 'Layanan Terpadu' ? 'selected' : '' }}>Layanan Terpadu</option>
-                        <option value="Meeting" {{ request('bidang') == 'Meeting' ? 'selected' : '' }}>Meeting</option>
-                        <option value="Lainnya" {{ request('bidang') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                        <option value="">Semua Layanan</option>
+
+                        @foreach($layananUmum as $layanan)
+
+                        <option
+                            value="{{ $layanan->nama_layanan }}"
+                            {{ request('layanan') == $layanan->nama_layanan ? 'selected' : '' }}>
+
+                            {{ $layanan->nama_layanan }}
+
+                        </option>
+                        @endforeach
                     </select>
                 </form>
 
@@ -167,14 +170,18 @@
                 <div class="md:col-span-3">
                     <select name="layanan" onchange="submitFilter()" class="w-full border border-gray-200 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                         <option value="">Semua Layanan</option>
-                        <option value="Konsultasi Layanan" {{ request('layanan') == 'Konsultasi Layanan' ? 'selected' : '' }}>Konsultasi Layanan</option>
-                        <option value="Pengaduan/Keluhan" {{ request('layanan') == 'Pengaduan/Keluhan' ? 'selected' : '' }}>Pengaduan/Keluhan</option>
-                        <option value="Pengajuan Permohonan" {{ request('layanan') == 'Pengajuan Permohonan' ? 'selected' : '' }}>Pengajuan Permohonan</option>
-                        <option value="Mencari Informasi" {{ request('layanan') == 'Mencari Informasi' ? 'selected' : '' }}>Mencari Informasi</option>
-                        <option value="Survey/Penelitian" {{ request('layanan') == 'Survey/Penelitian' ? 'selected' : '' }}>Survey/Penelitian</option>
-                        <option value="Layanan Terpadu" {{ request('layanan') == 'Layanan Terpadu' ? 'selected' : '' }}>Layanan Terpadu</option>
-                        <option value="Meeting" {{ request('layanan') == 'Meeting' ? 'selected' : '' }}>Meeting</option>
-                        <option value="Lainnya" {{ request('layanan') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+
+                        @foreach($layananUmum as $layanan)
+
+                        <option
+                            value="{{ $layanan->nama_layanan }}"
+                            {{ request('layanan') == $layanan->nama_layanan ? 'selected' : '' }}>
+
+                            {{ $layanan->nama_layanan }}
+
+                        </option>
+
+                        @endforeach
                     </select>
                 </div>
                 

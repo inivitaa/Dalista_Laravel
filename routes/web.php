@@ -21,9 +21,8 @@ Route::middleware(TrackVisitors::class)->group(function () {
 
     Route::post('/guest/store', [GuestController::class, 'store']);
 
-    Route::get('/survey', function () {
-        return view('pengunjung.survey');
-    });
+    Route::get('/survey', 
+    [GuestController::class, 'survey']);
 
     Route::post('/survey/store', [GuestController::class, 'storeSurvey']);
 

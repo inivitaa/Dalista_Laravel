@@ -38,7 +38,7 @@
                 </div>
 
                 <!-- TITLE -->
-<h1 class="text-5xl md:text-7xl font-black text-[#16275f] leading-relaxed mb-8">                    Selamat Datang di
+            <h1 class="text-5xl md:text-7xl font-black text-[#16275f] leading-relaxed mb-8">                    Selamat Datang di
                 </h1>
 
                 <!-- LOGO TEXT -->
@@ -60,7 +60,7 @@
                         </p>
 
                         <h3 class="text-4xl font-bold text-blue-700 mt-2">
-                            {{ $kunjunganHariIni }}
+                            {{ $visitorHariIni }}
                         </h3>
 
                     </div>
@@ -72,7 +72,7 @@
                         </p>
 
                         <h3 class="text-4xl font-bold text-orange-500 mt-2">
-                            {{ $totalKunjungan }}
+                            {{ number_format($totalVisitor) }}
                         </h3>
 
                     </div>

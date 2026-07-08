@@ -165,44 +165,66 @@ class="bg-gradient-to-r bg-gradient-to-r from-slate-800 to-slate-700 rounded-3xl
             }
         }
     });
+    const statusCtx = document.getElementById('statusChart');
 
-    // 2. GRAFIK PERANGKAT PENGUNJUNG (DOUGHNUT CHART)
-    // Mengubah id target canvas ke 'deviceChart' sesuai elemen HTML yang baru
-    const deviceCtx = document.getElementById('deviceChart');
+new Chart(statusCtx, {
 
-    new Chart(deviceCtx, {
-        type: 'doughnut',
-        data: {
-            labels: [
-                'Desktop',
-                'Mobile',
-                'Tablet'
-            ], // Mengubah kategori status tamu manual menjadi tipe perangkat
-            datasets: [{
-                data: @json($deviceCounts), // Menggunakan data deviceCounts dari backend baru
-                backgroundColor: [
-                    '#3b82f6', // Biru untuk Desktop
-                    '#22c55e', // Hijau untuk Mobile
-                    '#facc15'  // Kuning untuk Tablet
-                ],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '68%',
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        padding: 20,
-                        usePointStyle: true
-                    }
+    type: 'doughnut',
+
+    data: {
+
+        labels: [
+            'Menunggu',
+            'Terjadwal',
+            'Datang',
+            'Selesai'
+        ],
+
+        datasets: [{
+
+            data: @json($pieData),
+
+            backgroundColor: [
+                '#f59e0b',
+                '#3b82f6',
+                '#8b5cf6',
+                '#22c55e'
+            ],
+
+            borderWidth: 0
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        cutout: '65%',
+
+        plugins: {
+
+            legend: {
+
+                position: 'bottom',
+
+                labels: {
+
+                    usePointStyle: true,
+                    padding: 20
+
                 }
+
             }
+
         }
-    });
+
+    }
+
+});
 </script>
 
 @endsection
