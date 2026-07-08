@@ -241,9 +241,10 @@
             onchange="this.form.submit()"
             class="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-200">
 
-            <option value="10" {{ request('per_page',10)==10?'selected':'' }}>10 per halaman</option>
-            <option value="25" {{ request('per_page')==25?'selected':'' }}>25 per halaman</option>
-            <option value="50" {{ request('per_page')==50?'selected':'' }}>50 per halaman</option>
+            <option value="25" {{ request('per_page',10)==10?'selected':'' }}>25 per halaman</option>
+            <option value="50" {{ request('per_page')==25?'selected':'' }}>50 per halaman</option>
+            <option value="100" {{ request('per_page')==50?'selected':'' }}>100 per halaman</option>
+            <option value="200" {{ request('per_page')==100?'selected':'' }}>200 per halaman</option>
 
         </select>
 

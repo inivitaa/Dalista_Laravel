@@ -47,13 +47,13 @@
                         class="w-full appearance-none bg-white/70 border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 transition duration-300 cursor-pointer">
                         <option value="">-- Pilih Layanan --</option>
 
-                            @foreach($tujuanKunjungan as $tujuan)
+                            @foreach($layananUmum as $layanan)
 
                                 <option
-                                    value="{{ $tujuan->nama_layanan }}"
-                                    {{ request('layanan') == $tujuan->nama_layanan ? 'selected' : '' }}>
+                                    value="{{ $layanan->nama_layanan }}"
+                                    {{ request('layanan') == $layanan->nama_layanan ? 'selected' : '' }}>
 
-                                    {{ $tujuan->nama_layanan }}
+                                    {{ $layanan->nama_layanan }}
 
                                 </option>
 
@@ -200,15 +200,31 @@
 
         // Validasi Step 1 secara manual agar tidak kosong sebelum pindah halaman
         if (!nama) {
-            alert('Silakan isi nama Anda terlebih dahulu.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Belum Lengkap',
+                text: 'Silakan isi nama Anda terlebih dahulu.',
+                confirmButtonColor: '#2563eb'
+            });
+
             return;
         }
         if (!layanan) {
-            alert('Silakan pilih jenis layanan yang Anda terima.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Belum Lengkap',
+                text: 'Silakan pilih jenis layanan yang Anda terima.',
+                confirmButtonColor: '#2563eb'
+            });
             return;
         }
         if (!ratingSelected) {
-            alert('Silakan pilih salah satu rating emoji.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Belum Lengkap',
+                text: 'Silakan pilih salah satu rating emoji.',
+                confirmButtonColor: '#2563eb'
+            });
             return;
         }
 
