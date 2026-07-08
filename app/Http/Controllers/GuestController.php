@@ -72,18 +72,18 @@ class GuestController extends Controller
     }
         public function welcome()
     {
-        $kunjunganHariIni = WebVisitor::whereDate(
+        $visitorHariIni = WebVisitor::whereDate(
             'created_at',
             today()
         )->count();
 
-        $totalKunjungan = Guest::count();
+        $totalVisitor = WebVisitor::count();
 
         return view(
             'pengunjung.welcome',
             compact(
-                'kunjunganHariIni',
-                'totalKunjungan'
+                'visitorHariIni',
+                'totalVisitor'
             )
         );
     }
@@ -126,6 +126,15 @@ class GuestController extends Controller
         return view(
             'pengunjung.form',
             compact('tujuanKunjungan')
+        );
+    }
+    public function survey()
+    {
+        $layananUmum = Layanan::all();
+
+        return view(
+            'pengunjung.survey',
+            compact('layananUmum')
         );
     }
 
@@ -330,7 +339,7 @@ class GuestController extends Controller
         return view('admin.dashboard', compact(
             'total', 'menunggu', 'datang', 'terjadwal', 'selesai', 
             'recentGuests', 'avgRating', 'recentSurveys',
-            'visitorCounts', 'deviceCounts'
+            'visitorCounts', 'deviceCounts','pieData'
         ));
     }
 
@@ -521,9 +530,9 @@ class GuestController extends Controller
 
             $perPage = request('per_page', 10);
             $surveys = $query->latest()->paginate($perPage)->withQueryString();
-
+            $layananUmum = Layanan::all();
             return view('admin.survey', compact(
-                'surveys', 'totalSurvey', 'avgRating', 'hebat', 'buruk', 'chartData', 'avgAspek'
+                'surveys', 'totalSurvey', 'avgRating', 'hebat', 'buruk', 'chartData', 'avgAspek','layananUmum'
             ));
         }
         public function exportSurvey()
@@ -742,7 +751,7 @@ class GuestController extends Controller
                 Guest::whereHas('bidangTujuan', fn($q) => $q->where('bidang', 'Bidang Pengawasan Ketenagakerjaan'))->count(),
                 Guest::whereHas('bidangTujuan', fn($q) => $q->where('bidang', 'Bidang Penempatan dan Transmigrasi'))->count(),
             ];
-
+            $layananUmum = Layanan::all();
             return view(
                 'admin.laporan',
                 compact(
@@ -757,7 +766,8 @@ class GuestController extends Controller
                     'rerataHarian',
                     'waktuRata',
                     'statusChart',
-                    'bidangChart'
+                    'bidangChart',
+                    'layananUmum'
                 )
             );
         }
