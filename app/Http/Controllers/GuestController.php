@@ -72,8 +72,8 @@ class GuestController extends Controller
     }
         public function welcome()
     {
-        $kunjunganHariIni = Guest::whereDate(
-            'waktu_dibuat',
+        $kunjunganHariIni = WebVisitor::whereDate(
+            'created_at',
             today()
         )->count();
 
@@ -298,11 +298,11 @@ class GuestController extends Controller
         // Data Chart
         $currentYear = date('Y');
         $monthlyData = WebVisitor::select(
-                DB::raw('MONTH(created_at) as month'),
+                DB::raw('EXTRACT(MONTH FROM created_at) as month'),
                 DB::raw('COUNT(*) as count')
             )
             ->whereYear('created_at', $currentYear)
-            ->groupBy('month')
+            ->groupBy(DB::raw('EXTRACT(MONTH FROM created_at)'))
             ->orderBy('month', 'asc')
             ->pluck('count', 'month')
             ->toArray();
