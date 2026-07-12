@@ -65,23 +65,19 @@
                     <label class="block text-sm font-bold text-gray-700 mb-6 ml-1">
                         Berikan Rating Pengalaman Umum
                     </label>
-                    <div class="grid grid-cols-5 gap-3">
+                    <div class="flex justify-center gap-5">
                         @foreach([
-                            ['val' => 1, 'img' => '😠', 'label' => 'Buruk'],
-                            ['val' => 2, 'img' => '😟', 'label' => 'Kurang'],
-                            ['val' => 3, 'img' => '😐', 'label' => 'Cukup'],
-                            ['val' => 4, 'img' => '😊', 'label' => 'Puas'],
-                            ['val' => 5, 'img' => '🤩', 'label' => 'Hebat']
+                            ['val' => 1, 'img' =>  '🤩', 'label' => 'Puas'],
+                            ['val' => 2, 'img' => '🙂', 'label' => 'Baik'],
+                            ['val' => 3, 'img' => '😊', 'label' => 'Cukup']
                         ] as $rate)
                         <label class="group cursor-pointer flex flex-col items-center bg-gray-50 hover:bg-blue-50 rounded-3xl px-3 py-5 transition duration-300 border border-transparent hover:border-blue-200">
                             <input 
                                 type="radio"
                                 name="rating"
                                 value="{{ $rate['val'] }}"
-                                class="hidden peer rating-radio"
-                            >
-                            <div class="text-4xl filter grayscale opacity-40 peer-checked:grayscale-0 peer-checked:opacity-100 peer-checked:scale-125 transition-all duration-300 group-hover:scale-110 group-hover:opacity-100">
-                                {{ $rate['img'] }}
+                                class="hidden peer rating-radio">
+                            <div class="rating-emoji text-4xl peer-checked:grayscale-0 peer-checked:opacity-100 peer-checked:scale-125 transition-all duration-300">                                {{ $rate['img'] }}
                             </div>
                             <span class="text-[11px] mt-3 text-gray-400 font-bold uppercase tracking-tight peer-checked:text-blue-600">
                                 {{ $rate['label'] }}
@@ -120,11 +116,11 @@
                         ];
 
                         $opsi = [
-                            'STS' => 'Sangat Tidak Setuju',
-                            'TS'  => 'Tidak Setuju',
-                            'KS'  => 'Kurang Setuju',
-                            'S'   => 'Setuju',
                             'SS'  => 'Sangat Setuju',
+                            'S'   => 'Setuju',
+                            'KS'  => 'Kurang Setuju',
+                            'TS'  => 'Tidak Setuju',
+                            'STS' => 'Sangat Tidak Setuju',                           
                         ];
                     @endphp
 
@@ -258,5 +254,41 @@
         document.getElementById('form-desc').innerText = "Langkah 1 dari 2: Berikan penilaian umum Anda terlebih dahulu.";
     }
 </script>
+<style>
 
+.rating-emoji{
+    display:inline-block;
+    transform-origin:center;
+    animation: premiumFloat 3.5s ease-in-out infinite;
+    will-change: transform;
+}
+
+@keyframes premiumFloat{
+
+    0%{
+        transform:translateY(0px) rotate(0deg) scale(1);
+    }
+
+    20%{
+        transform:translateY(-4px) rotate(-3deg) scale(1.03);
+    }
+
+    40%{
+        transform:translateY(-8px) rotate(3deg) scale(1.08);
+    }
+
+    60%{
+        transform:translateY(-5px) rotate(-2deg) scale(1.05);
+    }
+
+    80%{
+        transform:translateY(-2px) rotate(2deg) scale(1.02);
+    }
+
+    100%{
+        transform:translateY(0px) rotate(0deg) scale(1);
+    }
+
+}
+</style>
 @endsection

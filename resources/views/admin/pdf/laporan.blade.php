@@ -8,173 +8,309 @@
 </head>
 
 <body>
+<!-- ================= HEADER ================= -->
 
-    <!-- HEADER -->
+<div class="header">
 
-    <div class="header">
+    <table width="100%" style="border:none;">
 
-        <table style="width:100%; border:none;">
+        <tr>
 
-            <tr>
+            <td width="90" style="border:none;">
+                <img src="{{ public_path('images/logo-jateng.jpg') }}" width="80">
+            </td>
 
-                <td style="width:70px; border:none;">
+            <td style="border:none;text-align:center;">
 
-                    <img src="{{ public_path('images/logo-jateng.jpg') }}"
-                    style="width:85px;">
+                <div class="judul">
+                    DINAS TENAGA KERJA DAN TRANSMIGRASI
+                </div>
 
-                </td>
+                <div class="subjudul">
+                    PROVINSI JAWA TENGAH
+                </div>
 
-                <td style="border:none; text-align:center;">
+                <div class="subjudul-kecil">
+                    SISTEM DALISTA
+                </div>
 
-                    <div class="judul">
-                        DINAS TENAGA KERJA DAN TRANSMIGRASI
-                    </div>
+                <div class="subjudul-kecil">
+                    (Digitalisasi Layanan Registrasi Tamu)
+                </div>
 
-                    <div class="subjudul">
-                        PROVINSI JAWA TENGAH
-                    </div>
+            </td>
 
-                    <div class="subjudul-kecil">
-                        SISTEM DALISTA (Digitalisasi Layanan Registrasi Tamu)
-                    </div>
+            <td width="90" style="border:none;"></td>
 
-                    <div class="info">
-                        Tanggal Cetak : {{ date('d F Y') }}
-                    </div>
+        </tr>
 
-                </td>
+    </table>
 
-                <td style="width:90px; border:none;">
-                </td>
+</div>
 
-            </tr>
+<div style="text-align:center; margin-top:2px;">
 
-        </table>
+    <div class="laporan-info">
 
-    </div>
+        <b>Periode :</b>
+        {{ $periode ? $periode.' Hari Terakhir' : 'Semua Data' }}
 
-    <!-- JUDUL -->
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
-    <h2 class="section-title">
-        LAPORAN DATA TAMU DAN SURVEY
-    </h2>
-    <div class="periode">
-
-        <b>Periode Laporan :</b>
-        {{ $periode ? $periode . ' Hari Terakhir' : 'Semua Data' }}
+        <b>Layanan :</b>
+        {{ $layanan ?: 'Semua Layanan' }}
 
         <br>
 
-        <b>Bidang :</b>
-        {{ $bidang ?: 'Semua Bidang' }}
+        <b>Tanggal Cetak :</b>
+        {{ date('d F Y') }}
 
     </div>
-    <!-- RINGKASAN -->
 
-    <h3>Ringkasan Statistik</h3>
+</div>
 
-    <table class="ringkasan">
+<hr style="margin-top:8px;margin-bottom:15px;">
 
-        <tr>
-            <td class="label">Total Kunjungan</td>
-            <td>{{ $totalKunjungan }}</td>
-        </tr>
+<h3 class="judul-section">
 
-        <tr>
-            <td class="label">Total Tamu</td>
-            <td>{{ $totalTamu }}</td>
-        </tr>
+Ringkasan Statistik
 
-        <tr>
-            <td class="label">Total Survey</td>
-            <td>{{ $totalSurvey }}</td>
-        </tr>
+</h3>
 
-        <tr>
-            <td class="label">Rating Rata-rata</td>
-            <td>{{ number_format($avgRating,1) }}/5.0</td>
-        </tr>
+<table width="100%" style="border:none;margin-bottom:25px;">
 
-        <tr>
-            <td class="label">Rerata Harian</td>
-            <td>{{ $rerataHarian }}</td>
-        </tr>
+<tr>
 
-        <tr>
-            <td class="label">Waktu Rata-rata</td>
-            <td>{{ $waktuRata }}</td>
-        </tr>
+<td width="25%" style="border:none;padding:6px;">
 
-        <tr>
-            <td class="label">Layanan Terbanyak</td>
-            <td>{{ $layananTerbanyak->layanan_diakses ?? '-' }}</td>
-        </tr>
-        <tr>
-            <td class="label">Status Menunggu</td>
-            <td>{{ $menunggu }}</td>
-        </tr>
+<div class="card">
 
-        <tr>
-            <td class="label">Status Terjadwal</td>
-            <td>{{ $terjadwal }}</td>
-        </tr>
+<div class="card-title">
 
-        <tr>
-            <td class="label">Status Datang</td>
-            <td>{{ $datang }}</td>
-        </tr>
+Total Tamu
 
-        <tr>
-            <td class="label">Status Selesai</td>
-            <td>{{ $selesai }}</td>
-        </tr>
+</div>
 
-    </table>
-    <h3>Analisis Singkat</h3>
+<div class="card-value">
 
-    <table class="ringkasan">
+{{ $totalTamu }}
 
-        <tr>
-            <td class="label">Status Terbanyak</td>
-            <td>{{ $statusTerbanyak }}</td>
-        </tr>
+</div>
 
-        <tr>
-            <td class="label">Layanan Terbanyak</td>
-            <td>{{ $layananTerbanyak->layanan_diakses ?? '-' }}</td>
-        </tr>
-        <tr>
-            <td class="label">Pengunjung Mengisi Survey</td>
-            <td>{{ $jumlahIsiSurvey }} orang</td>
-        </tr>
+</div>
 
-        <tr>
-            <td class="label">Belum Mengisi Survey</td>
-            <td>{{ $jumlahBelumIsiSurvey }} orang</td>
-        </tr>
-        <tr>
-            <td class="label">Persentase Survey</td>
-            <td>{{ $persentaseSurvey }}%</td>
-        </tr>
-        {{-- <h3>Kesimpulan</h3>
+</td>
 
-            <p style="text-align:justify; line-height:1.6">
-            Pada periode laporan ini terdapat
-            <b>{{ $totalTamu }}</b> kunjungan tamu dengan
-            <b>{{ $totalSurvey }}</b> survey yang berhasil dihimpun.
-            Layanan yang paling banyak diakses adalah
-            <b>{{ $layananTerbanyak->layanan_diakses ?? '-' }}</b>.
-            Mayoritas status kunjungan berada pada kategori
-            <b>{{ $statusTerbanyak }}</b>
-            dengan tingkat kepuasan rata-rata
-            <b>{{ number_format($avgRating,1) }}/5.0</b>.
-            </p> --}}
+<td width="25%" style="border:none;padding:6px;">
 
-    </table>
+<div class="card">
+
+<div class="card-title">
+
+Total Survey
+
+</div>
+
+<div class="card-value">
+
+{{ $totalSurvey }}
+
+</div>
+
+</div>
+
+</td>
+
+<td width="25%" style="border:none;padding:6px;">
+
+<div class="card">
+
+<div class="card-title">
+
+Rating
+
+</div>
+
+<div class="card-value">
+
+{{ number_format($avgRating,1) }}
+
+★
+
+</div>
+
+</div>
+
+</td>
+
+<td width="25%" style="border:none;padding:6px;">
+
+<div class="card">
+
+<div class="card-title">
+
+Survey
+
+</div>
+
+<div class="card-value">
+
+{{ $persentaseSurvey }}%
+
+</div>
+
+</div>
+
+</td>
+
+</tr>
+
+</table>
+<h3 class="judul-section">
+    Analisis Singkat
+</h3>
+
+<table class="analisis-table">
+
+    <tr>
+        <td width="35%">
+            Total Kunjungan
+        </td>
+        <td>
+            : {{ $totalKunjungan }} tamu
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Rating Kepuasan
+        </td>
+        <td>
+            : {{ number_format($avgRating,1) }}/5 ({{ $avgRating >= 4 ? 'Sangat Baik' : ($avgRating >= 3 ? 'Baik' : 'Perlu Peningkatan') }})
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Survey Terisi
+        </td>
+        <td>
+            : {{ $jumlahIsiSurvey }} dari {{ $totalTamu }} tamu ({{ $persentaseSurvey }}%)
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Layanan Terbanyak
+        </td>
+        <td>
+            : {{ $layananTerbanyak->layanan_diakses ?? '-' }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Status Terbanyak
+        </td>
+        <td>
+            : {{ $statusTerbanyak }}
+        </td>
+    </tr>
+
+</table>
+
+
+
+<h3 style="margin-top:30px;">Distribusi Status Kunjungan</h3>
+
+<table class="chart-table">
+
+    <tr>
+        <td class="chart-label">Menunggu</td>
+
+        <td width="350">
+
+            <div class="bar">
+
+                <div class="bar-fill blue"
+                    style="width:{{ $totalTamu ? ($menunggu/$totalTamu)*100 : 0 }}%;">
+                </div>
+
+            </div>
+
+        </td>
+
+        <td>{{ $menunggu }}</td>
+    </tr>
+
+    <tr>
+        <td class="chart-label">Terjadwal</td>
+
+        <td>
+
+            <div class="bar">
+
+                <div class="bar-fill yellow"
+                    style="width:{{ $totalTamu ? ($terjadwal/$totalTamu)*100 : 0 }}%;">
+                </div>
+
+            </div>
+
+        </td>
+
+        <td>{{ $terjadwal }}</td>
+    </tr>
+
+    <tr>
+        <td class="chart-label">Datang</td>
+
+        <td>
+
+            <div class="bar">
+
+                <div class="bar-fill green"
+                    style="width:{{ $totalTamu ? ($datang/$totalTamu)*100 : 0 }}%;">
+                </div>
+
+            </div>
+
+        </td>
+
+        <td>{{ $datang }}</td>
+    </tr>
+
+    <tr>
+        <td class="chart-label">Selesai</td>
+
+        <td>
+
+            <div class="bar">
+
+                <div class="bar-fill red"
+                    style="width:{{ $totalTamu ? ($selesai/$totalTamu)*100 : 0 }}%;">
+                </div>
+
+            </div>
+
+        </td>
+
+        <td>{{ $selesai }}</td>
+    </tr>
+
+</table>
+Setelah pelayanan selesai, 
+Anda dapat memberikan
+penilaian melalui Survei Kepuasan untuk membantu kami meningkatkan kualitas pelayanan.
     <!-- DATA TAMU -->
-    <div style="page-break-before: always;"></div>
+<div style="page-break-before: always;"></div>
 
-    <h3>Data Tamu</h3>
+<h2 class="section-title">
+    Data Tamu
+</h2>
+
+<p style="margin-bottom:12px;color:#666;font-size:11px;">
+Daftar seluruh tamu yang melakukan registrasi pada Sistem DALISTA sesuai filter laporan.
+</p>
 
     <table class="table-data">
 
@@ -189,21 +325,48 @@
 
         @foreach($guests as $guest)
 
-        <tr>
-            <td>{{ $loop->iteration }}</td>
-            <td>{{ $guest->nama }}</td>
-            <td>{{ $guest->asal_instansi }}</td>
-            <td>{{ $guest->keperluan }}</td>
-            <td>{{ $guest->status_kunjungan }}</td>
-            <td>{{ date('d-m-Y', strtotime($guest->waktu_dibuat)) }}</td>        </tr>
+<tr>
 
-        @endforeach
+    <td align="center">
+        {{ $loop->iteration }}
+    </td>
+
+    <td>
+        {{ $guest->nama }}
+    </td>
+
+    <td>
+        {{ $guest->asal_instansi ?: '-' }}
+    </td>
+
+    <td>
+        {{ $guest->keperluan }}
+    </td>
+
+    <td>
+        {{ $guest->status_kunjungan }}
+    </td>
+
+    <td align="center">
+        {{ date('d M Y',strtotime($guest->waktu_dibuat)) }}
+    </td>
+
+</tr>
+
+@endforeach
 
     </table>
 
     <!-- DATA SURVEY -->
     <div style="page-break-before: always;"></div>
-    <h3>Data Survey</h3>
+
+    <h2 class="section-title">
+    Data Survey Kepuasan
+</h2>
+
+<p style="margin-bottom:12px;color:#666;font-size:11px;">
+Daftar hasil survei kepuasan masyarakat yang telah dikirimkan melalui Sistem DALISTA.
+</p>
 
     <table class="table-data">
 
@@ -220,8 +383,29 @@
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $survey->nama }}</td>
-            <td>{{ $survey->layanan_diakses }}</td>
-            <td>{{ $survey->rating }}</td>
+            <td>{{ $survey->layanan_diakses }}</td>            
+            <td align="center">
+
+                @switch($survey->rating)
+
+                    @case(3)
+                        Puas
+                        @break
+
+                    @case(2)
+                        Baik
+                        @break
+
+                    @case(1)
+                        Cukup
+                        @break
+
+                    @default
+                        -
+
+                @endswitch
+
+            </td>
             <td>{{ $survey->ulasan }}</td>
         </tr>
 
@@ -267,10 +451,115 @@
         Dinas Tenaga Kerja dan Transmigrasi Provinsi Jawa Tengah
 
     </div>
+<h3 style="margin-top:30px;">Tes QuickChart</h3>
 
+<img
+    src="https://quickchart.io/chart?width=500&height=300&c=%7B%22type%22%3A%22pie%22%2C%22data%22%3A%7B%22labels%22%3A%5B%22Menunggu%22%2C%22Datang%22%5D%2C%22datasets%22%3A%5B%7B%22data%22%3A%5B8%2C3%5D%7D%5D%7D%7D"
+    width="300">
 </body>
 
 <style>
+.judul-section{
+
+font-size:17px;
+
+font-weight:bold;
+
+margin-bottom:12px;
+
+}
+
+.card{
+
+border:1px solid #d1d5db;
+
+border-radius:8px;
+
+padding:14px;
+
+text-align:center;
+
+height:70px;
+
+}
+
+.card-title{
+
+font-size:11px;
+
+color:#666;
+
+margin-bottom:8px;
+
+}
+
+.card-value{
+
+font-size:24px;
+
+font-weight:bold;
+
+color:#1d4ed8;
+
+}
+.analisis-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    margin-bottom:25px;
+}
+
+.analisis-table td{
+    padding:8px 4px;
+    border-bottom:1px solid #e5e7eb;
+    vertical-align:top;
+}
+
+.chart-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+.chart-table td{
+    border:none;
+    padding:8px 4px;
+    vertical-align:middle;
+}
+
+.chart-label{
+    width:120px;
+    font-weight:bold;
+}
+
+.bar{
+    width:100%;
+    height:18px;
+    background:#e5e7eb;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.bar-fill{
+    height:18px;
+    border-radius:10px;
+}
+
+.blue{
+    background:#2563eb;
+}
+
+.yellow{
+    background:#f59e0b;
+}
+
+.green{
+    background:#10b981;
+}
+
+.red{
+    background:#ef4444;
+}
 
         body{
             font-family: DejaVu Sans;
@@ -282,29 +571,34 @@
         .header{
             border-bottom:2px solid #000;
             padding-bottom:8px;
-            margin-bottom:10px;
+            margin-bottom:8px;
+        }
+        .laporan-info{
+            font-size:11px;
+            line-height:1.5;
         }
 
         .judul{
-            font-size:18px;
+            font-size:19px;
             font-weight:bold;
+            margin-bottom:4px;
         }
 
         .subjudul{
             font-size:12px;
-            margin-top:1px;
+            margin-top:2px;
         }
 
         .subjudul-kecil{
             font-size:10px;
             color:#555;
-            margin-top:2px;
+            margin-top:5px;
         }
 
         .info{
             font-size:10px;
             color:#666;
-            margin-top:4px;
+            margin-top:8px;
         }
 
         .section-title{
@@ -340,25 +634,45 @@
             font-weight:bold;
         }
 
-        .table-data{
-            width:100%;
-            border-collapse:collapse;
-            margin-top:10px;
-        }
+.table-data{
 
-        .table-data th,
-        .table-data td{
-            border:1px solid #444;
-            padding:6px;
-        }
+    width:100%;
 
-        .table-data th{
-            background:#f3f4f6;
-        }
+    border-collapse:collapse;
 
-        .table-data tr{
-            page-break-inside:avoid;
-        }
+    margin-top:15px;
+
+    font-size:12px;
+
+}
+
+.table-data th{
+
+    background:#e5e7eb;
+
+    color:#222;
+
+    padding:8px;
+
+    border:1px solid #bdbdbd;
+
+    font-weight:bold;
+
+}
+
+.table-data td{
+
+    padding:5px 7px;
+    vertical-align:middle;
+    border:1px solid #d6d6d6;
+
+}
+
+.table-data tr:nth-child(even){
+
+    background:#fafafa;
+
+}
 
         .ttd-table{
             width:100%;

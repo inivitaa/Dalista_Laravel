@@ -15,6 +15,8 @@ use Barryvdh\DomPDF\Facade\Pdf; // Import PDF facade
 use App\Models\Admin;
 use App\Models\WebVisitor;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\File;
 
 class GuestController extends Controller
 {
@@ -776,7 +778,7 @@ class GuestController extends Controller
     public function exportPdf()
     {
         $periode = request('periode');
-        $bidang = request('bidang');
+        $layanan = request('layanan');
 
         $guestQuery = Guest::query();
 
@@ -802,11 +804,11 @@ class GuestController extends Controller
 
         }
 
-        if ($bidang) {
+        if ($layanan) {
 
             $surveyQuery->where(
                 'layanan_diakses',
-                $bidang
+                $layanan
             );
 
         }
@@ -870,12 +872,17 @@ class GuestController extends Controller
         $persentaseSurvey = $totalTamu
             ? round(($totalSurvey / $totalTamu) * 100, 1)
             : 0;
-
+        $pieData = [
+            'Menunggu' => $menunggu,
+            'Terjadwal' => $terjadwal,
+            'Datang' => $datang,
+            'Selesai' => $selesai,
+        ];
         $pdf = Pdf::loadView(
             'admin.pdf.laporan',
             compact(
                 'periode',
-                'bidang',
+                'layanan',
                 'totalTamu',
                 'totalSurvey',
                 'avgRating',
@@ -892,7 +899,8 @@ class GuestController extends Controller
                 'statusTerbanyak',
                 'persentaseSurvey',
                 'jumlahIsiSurvey',
-                'jumlahBelumIsiSurvey'
+                'jumlahBelumIsiSurvey',
+                'pieData'
             )
         );
 

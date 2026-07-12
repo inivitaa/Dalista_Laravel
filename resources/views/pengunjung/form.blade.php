@@ -16,21 +16,21 @@
         <div class="mb-10">
             <div class="flex items-center justify-between">
 
-                <div class="flex flex-col items-center w-full">
+                <div class="flex flex-col items-center">
                     <div id="circle1" class="circle active">1</div>
                     <span class="label active">Data Diri</span>
                 </div>
 
                 <div class="line" id="line1"></div>
 
-                <div class="flex flex-col items-center w-full">
+                <div class="flex flex-col items-center">
                     <div id="circle2" class="circle">2</div>
                     <span class="label">Informasi</span>
                 </div>
 
                 <div class="line" id="line2"></div>
 
-                <div class="flex flex-col items-center w-full">
+                <div class="flex flex-col items-center">
                     <div id="circle3" class="circle">3</div>
                     <span class="label">Kunjungan</span>
                 </div>
@@ -237,15 +237,55 @@
     color: #2563eb;
     font-weight: 700;
 }
-.line {
-    height: 3px;
-    flex: 1;
-    background: #e5e7eb;
-}
-.line.active {
-    background: #2563eb;
+.line{
+    position:relative;
+    width:170px;
+    height:4px;
+    background:#d1d5db;
+    border-radius:999px;
+    overflow:hidden;
+    margin-bottom:28px;
 }
 
+/* garis ketika step aktif */
+.line.active{
+
+    background:#dbeafe;
+
+}
+
+.line.active::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background-image:
+        radial-gradient(circle,#2563eb 2px,transparent 2px);
+
+    background-size:18px 100%;
+
+    animation:dotsMove 1s linear infinite;
+
+}
+
+@keyframes dotsMove{
+
+    from{
+
+        background-position:0 0;
+
+    }
+
+    to{
+
+        background-position:18px 0;
+
+    }
+
+}
 /* upload */
 .upload-box {
     border: 2px dashed #d1d5db;
