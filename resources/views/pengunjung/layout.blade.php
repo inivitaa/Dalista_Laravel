@@ -16,6 +16,12 @@
 <body class="bg-gray-100">
 
     <div class="flex-1 p-4 md:p-8 lg:p-10 overflow-x-hidden">
+        <div
+            id="overlay"
+            class="fixed inset-0 bg-black/40 hidden lg:hidden z-40"
+            onclick="toggleSidebar()">
+        </div>
+
 
         @include('pengunjung.sidebar')
 
@@ -41,8 +47,24 @@
 
             </div>
         </div>
-    </div>
-    
+</div>
+
+<script>
+
+function toggleSidebar(){
+
+    document
+        .getElementById('sidebar')
+        .classList.toggle('-translate-x-full');
+
+    document
+        .getElementById('overlay')
+        .classList.toggle('hidden');
+
+}
+
+</script>
+
 </body>
 
 </html>
