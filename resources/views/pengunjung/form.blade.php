@@ -2,8 +2,7 @@
 
 @section('content')
 
-<div class="min-h-screen flex items-center justify-center px-4 py-10">
-
+<div class="min-h-screen flex justify-center px-4 py-6 md:py-10">
     <div class="w-full max-w-3xl">
 
         <!-- HEADER -->
@@ -39,8 +38,7 @@
         </div>
 
         <!-- CARD -->
-        <div class="bg-white/80 backdrop-blur-2xl rounded-[40px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-white/60 p-10">
-
+<div class="bg-white/80 backdrop-blur-2xl rounded-[40px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-white/60 p-5 md:p-10">
             <form action="/guest/store" 
                   method="POST" 
                   enctype="multipart/form-data"

@@ -1,14 +1,4 @@
-<div
-    id="sidebar"
-    class="fixed lg:sticky top-0 left-0
-           w-72 h-screen
-           bg-white border-r border-gray-100 shadow-sm
-           p-5 flex flex-col
-           transform -translate-x-full
-           lg:translate-x-0
-           transition duration-300
-           z-50">
-           
+<div class="hidden lg:flex w-72 min-h-screen bg-white border-r border-gray-100 shadow-sm p-5 flex-col">
     <!-- LOGO -->
     <div class="flex items-center gap-3 border-b border-gray-100 pb-5 mb-6">
 
