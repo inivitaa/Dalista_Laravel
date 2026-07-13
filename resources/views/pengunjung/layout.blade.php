@@ -15,17 +15,26 @@
 
 <body class="bg-gray-100">
 
-    <div class="flex min-h-screen">
+    <div class="flex-1 p-4 md:p-8 lg:p-10 overflow-x-hidden">
 
         @include('pengunjung.sidebar')
 
         <div class="flex-1 p-10">
+            <div class="lg:hidden mb-5">
 
+                <button
+                    onclick="toggleSidebar()"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-xl">
+
+                    ☰ Menu
+
+                </button>
+
+            </div>
             @yield('content')
 
             <!-- FOOTER -->
-            <div class="border-t border-gray-300 mt-16 pt-6 pb-4 text-center text-gray-500 text-sm">
-
+            <div class="border-t mt-16 pt-6 pb-4 px-4 text-center text-gray-500 text-sm">
                 <p class="mt-2">
                     © {{date('Y')}} Dinas Tenaga Kerja dan Transmigrasi Provinsi Jawa Tengah. All rights reserved.
                 </p>

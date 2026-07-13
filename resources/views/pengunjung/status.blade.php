@@ -23,8 +23,7 @@
         </div>
 
         <!-- CARD -->
-        <div class="bg-white rounded-3xl shadow-xl p-10 border border-gray-100">
-
+<div class="bg-white rounded-3xl shadow-xl p-5 md:p-10">
             <!-- FORM -->
             <form action="/status/check"
                 method="POST"

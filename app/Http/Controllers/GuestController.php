@@ -878,6 +878,44 @@ class GuestController extends Controller
             'Datang' => $datang,
             'Selesai' => $selesai,
         ];
+        // =====================
+
+// ===============================
+// Statistik Layanan
+// ===============================
+
+$layananStatistik = Guest::select(
+        'keperluan',
+        DB::raw('COUNT(*) as total')
+    )
+    ->groupBy('keperluan')
+    ->orderByDesc('total')
+    ->get();
+
+$bidangStatistik = Guest::select(
+        'bidang_tujuan_id',
+        DB::raw('COUNT(*) as total')
+    )
+    ->whereNotNull('bidang_tujuan_id')
+    ->with('bidangTujuan')
+    ->groupBy('bidang_tujuan_id')
+    ->orderByDesc('total')
+    ->get();
+
+// ===============================
+// Statistik Layanan Disnaker
+// ===============================
+
+$layananDisnakerStatistik = Guest::select(
+        'layanan_disnaker_id',
+        DB::raw('COUNT(*) as total')
+    )
+    ->whereNotNull('layanan_disnaker_id')
+    ->with('layanan')
+    ->groupBy('layanan_disnaker_id')
+    ->orderByDesc('total')
+    ->get();
+
         $pdf = Pdf::loadView(
             'admin.pdf.laporan',
             compact(
@@ -900,7 +938,10 @@ class GuestController extends Controller
                 'persentaseSurvey',
                 'jumlahIsiSurvey',
                 'jumlahBelumIsiSurvey',
-                'pieData'
+                'pieData',
+                'layananStatistik',
+                'persentaseSurvey',
+                'bidangStatistik'
             )
         );
 

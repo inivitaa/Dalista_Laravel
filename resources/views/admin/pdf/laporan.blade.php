@@ -46,6 +46,8 @@
 
     </table>
 
+
+</table>
 </div>
 
 <div style="text-align:center; margin-top:2px;">
@@ -58,7 +60,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;
 
         <b>Layanan :</b>
-        {{ $layanan ?: 'Semua Layanan' }}
+        {{ request('$layanan') ?: 'Semua Layanan' }}
 
         <br>
 
@@ -228,7 +230,7 @@ Survey
     <tr>
         <td class="chart-label">Menunggu</td>
 
-        <td width="350">
+        <td width="150">
 
             <div class="bar">
 
@@ -240,7 +242,12 @@ Survey
 
         </td>
 
-        <td>{{ $menunggu }}</td>
+<td width="90" style="text-align:right;font-weight:bold;color:#2563eb;">
+
+    {{ $menunggu }}
+    ({{ $totalTamu ? number_format(($menunggu/$totalTamu)*100,1) : 0 }}%)
+
+</td>
     </tr>
 
     <tr>
@@ -258,7 +265,12 @@ Survey
 
         </td>
 
-        <td>{{ $terjadwal }}</td>
+<td width="90" style="text-align:right;font-weight:bold;color:#f59e0b;">
+
+    {{ $terjadwal }}
+    ({{ $totalTamu ? number_format(($terjadwal/$totalTamu)*100,1) : 0 }}%)
+
+</td>
     </tr>
 
     <tr>
@@ -276,8 +288,12 @@ Survey
 
         </td>
 
-        <td>{{ $datang }}</td>
-    </tr>
+<td width="90" style="text-align:right;font-weight:bold;color:#10b981;">
+
+    {{ $datang }}
+    ({{ $totalTamu ? number_format(($datang/$totalTamu)*100,1) : 0 }}%)
+
+</td>    </tr>
 
     <tr>
         <td class="chart-label">Selesai</td>
@@ -294,14 +310,211 @@ Survey
 
         </td>
 
-        <td>{{ $selesai }}</td>
+<td width="90" style="text-align:right;font-weight:bold;color:#ef4444;">
+
+    {{ $selesai }}
+    ({{ $totalTamu ? number_format(($selesai/$totalTamu)*100,1) : 0 }}%)
+
+</td>
     </tr>
 
 </table>
-Setelah pelayanan selesai, 
-Anda dapat memberikan
-penilaian melalui Survei Kepuasan untuk membantu kami meningkatkan kualitas pelayanan.
-    <!-- DATA TAMU -->
+
+<h3 style="margin-top:30px;">
+    Distribusi Jenis Layanan
+</h3>
+
+<table style="width:100%; border-collapse:collapse;">
+
+@foreach($layananStatistik as $layanan)
+
+@php
+
+$persen = $totalTamu
+    ? ($layanan->total / $totalTamu) * 100
+    : 0;
+
+@endphp
+
+<tr>
+
+<td width="150">
+
+<b>{{ $layanan->keperluan }}</b>
+
+</td>
+
+<td width="280">
+
+<div style="
+    background:#e5e7eb;
+    height:12px;
+    border-radius:8px;
+">
+
+<div style="
+    width:{{ $persen }}%;
+    height:12px;
+    background:#2563eb;
+    border-radius:8px;
+">
+</div>
+
+</div>
+<td width="100"
+    style="
+        text-align:right;
+        font-weight:bold;
+        color:#2563eb;
+        font-size:11px;
+    ">
+
+    {{ $layanan->total }}
+    ({{ number_format($persen,1) }}%)
+
+</td>
+</td>
+<td
+    width="110"
+    style="
+        text-align:right;
+        font-weight:bold;
+        color:#2563eb;
+        font-size:11px;
+    "
+>
+
+{{ $layanan->total }}
+
+({{ number_format($persen,1) }}%)
+
+</td>
+
+</tr>
+
+<tr>
+<td colspan="3" style="height:4px;border:none;"></td>
+</tr>
+
+@endforeach  
+</table>
+<h3 style="margin-top:25px;">
+Ringkasan Laporan
+</h3>
+
+<table style="
+width:100%;
+border-collapse:collapse;
+border:1px solid #dbe3ef;
+background:#f8fafc;
+margin-top:10px;
+">
+
+<tr>
+
+<td style="padding:10px;border:none;">
+
+<b>Kesimpulan Statistik</b>
+
+<br><br>
+
+• Total kunjungan :
+<b>{{ $totalTamu }}</b> tamu
+
+<br>
+
+• Status terbanyak :
+<b>{{ $statusTerbanyak }}</b>
+
+<br>
+
+• Layanan terbanyak :
+<b>{{ $layananTerbanyak->layanan_diakses ?? '-' }}</b>
+
+<br>
+
+• Rating Kepuasan :
+<b>{{ number_format($avgRating,1) }}/5</b>
+
+<br>
+
+• Survey Terisi :
+<b>{{ $persentaseSurvey }}%</b>
+
+</td>
+
+</tr>
+
+</table>
+
+<h3 style="margin-top:30px;">
+    Distribusi Bidang Tujuan
+</h3>
+
+<table style="width:100%; border-collapse:collapse;">
+
+@foreach($bidangStatistik as $item)
+
+@php
+$persen = $totalTamu
+    ? ($item->total / $totalTamu) * 100
+    : 0;
+@endphp
+
+<tr>
+    <td colspan="3"
+        style="
+            font-weight:bold;
+            padding-bottom:4px;
+            border:none;
+        ">
+        {{ $item->bidangTujuan->bidang }}
+    </td>
+</tr>
+
+<tr>
+
+    <td style="border:none;"></td>
+
+    <td style="border:none;">
+
+        <div class="bar">
+
+            <div class="bar-fill blue"
+                style="width:{{ $persen }}%;">
+            </div>
+
+        </div>
+
+    </td>
+
+    <td
+        width="80"
+        style="
+            border:none;
+            text-align:right;
+            font-weight:bold;
+            color:#2563eb;
+            font-size:11px;
+        ">
+
+        {{ $item->total }}
+        ({{ number_format($persen,1) }}%)
+
+    </td>
+
+</tr>
+
+<tr>
+    <td colspan="3"
+        style="height:12px;border:none;">
+    </td>
+</tr>
+
+@endforeach
+
+</table>
+<!-- DATA TAMU -->
 <div style="page-break-before: always;"></div>
 
 <h2 class="section-title">
@@ -451,11 +664,7 @@ Daftar hasil survei kepuasan masyarakat yang telah dikirimkan melalui Sistem DAL
         Dinas Tenaga Kerja dan Transmigrasi Provinsi Jawa Tengah
 
     </div>
-<h3 style="margin-top:30px;">Tes QuickChart</h3>
 
-<img
-    src="https://quickchart.io/chart?width=500&height=300&c=%7B%22type%22%3A%22pie%22%2C%22data%22%3A%7B%22labels%22%3A%5B%22Menunggu%22%2C%22Datang%22%5D%2C%22datasets%22%3A%5B%7B%22data%22%3A%5B8%2C3%5D%7D%5D%7D%7D"
-    width="300">
 </body>
 
 <style>
@@ -533,16 +742,16 @@ color:#1d4ed8;
 }
 
 .bar{
-    width:100%;
-    height:18px;
+    width:500px;
+    height:12px;
     background:#e5e7eb;
-    border-radius:10px;
+    border-radius:6px;
     overflow:hidden;
 }
 
 .bar-fill{
-    height:18px;
-    border-radius:10px;
+    height:12px;
+    border-radius:6px;
 }
 
 .blue{

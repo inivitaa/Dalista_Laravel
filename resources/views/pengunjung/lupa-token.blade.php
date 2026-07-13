@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="min-h-screen flex justify-center px-6 pt-16">
+<div class="min-h-screen flex justify-center px-4 md:px-6 pt-10 md:pt-16">
 
     <div class="w-full max-w-3xl">
 
@@ -24,8 +24,7 @@
         </div>
 
         <!-- CARD -->
-        <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-10">
-
+<div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-5 md:p-10">
             <!-- FORM -->
             <form action="/lupa-token"
                 method="POST"
