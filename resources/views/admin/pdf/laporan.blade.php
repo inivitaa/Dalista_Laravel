@@ -60,7 +60,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;
 
         <b>Layanan :</b>
-        {{ request('$layanan') ?: 'Semua Layanan' }}
+        {{ request('layanan') ?: 'Semua Layanan' }}
 
         <br>
 
@@ -220,184 +220,6 @@ Survey
     </tr>
 
 </table>
-
-
-
-<h3 style="margin-top:30px;">Distribusi Status Kunjungan</h3>
-
-<table class="chart-table">
-
-    <tr>
-        <td class="chart-label">Menunggu</td>
-
-        <td width="150">
-
-            <div class="bar">
-
-                <div class="bar-fill blue"
-                    style="width:{{ $totalTamu ? ($menunggu/$totalTamu)*100 : 0 }}%;">
-                </div>
-
-            </div>
-
-        </td>
-
-<td width="90" style="text-align:right;font-weight:bold;color:#2563eb;">
-
-    {{ $menunggu }}
-    ({{ $totalTamu ? number_format(($menunggu/$totalTamu)*100,1) : 0 }}%)
-
-</td>
-    </tr>
-
-    <tr>
-        <td class="chart-label">Terjadwal</td>
-
-        <td>
-
-            <div class="bar">
-
-                <div class="bar-fill yellow"
-                    style="width:{{ $totalTamu ? ($terjadwal/$totalTamu)*100 : 0 }}%;">
-                </div>
-
-            </div>
-
-        </td>
-
-<td width="90" style="text-align:right;font-weight:bold;color:#f59e0b;">
-
-    {{ $terjadwal }}
-    ({{ $totalTamu ? number_format(($terjadwal/$totalTamu)*100,1) : 0 }}%)
-
-</td>
-    </tr>
-
-    <tr>
-        <td class="chart-label">Datang</td>
-
-        <td>
-
-            <div class="bar">
-
-                <div class="bar-fill green"
-                    style="width:{{ $totalTamu ? ($datang/$totalTamu)*100 : 0 }}%;">
-                </div>
-
-            </div>
-
-        </td>
-
-<td width="90" style="text-align:right;font-weight:bold;color:#10b981;">
-
-    {{ $datang }}
-    ({{ $totalTamu ? number_format(($datang/$totalTamu)*100,1) : 0 }}%)
-
-</td>    </tr>
-
-    <tr>
-        <td class="chart-label">Selesai</td>
-
-        <td>
-
-            <div class="bar">
-
-                <div class="bar-fill red"
-                    style="width:{{ $totalTamu ? ($selesai/$totalTamu)*100 : 0 }}%;">
-                </div>
-
-            </div>
-
-        </td>
-
-<td width="90" style="text-align:right;font-weight:bold;color:#ef4444;">
-
-    {{ $selesai }}
-    ({{ $totalTamu ? number_format(($selesai/$totalTamu)*100,1) : 0 }}%)
-
-</td>
-    </tr>
-
-</table>
-
-<h3 style="margin-top:30px;">
-    Distribusi Jenis Layanan
-</h3>
-
-<table style="width:100%; border-collapse:collapse;">
-
-@foreach($layananStatistik as $layanan)
-
-@php
-
-$persen = $totalTamu
-    ? ($layanan->total / $totalTamu) * 100
-    : 0;
-
-@endphp
-
-<tr>
-
-<td width="150">
-
-<b>{{ $layanan->keperluan }}</b>
-
-</td>
-
-<td width="280">
-
-<div style="
-    background:#e5e7eb;
-    height:12px;
-    border-radius:8px;
-">
-
-<div style="
-    width:{{ $persen }}%;
-    height:12px;
-    background:#2563eb;
-    border-radius:8px;
-">
-</div>
-
-</div>
-<td width="100"
-    style="
-        text-align:right;
-        font-weight:bold;
-        color:#2563eb;
-        font-size:11px;
-    ">
-
-    {{ $layanan->total }}
-    ({{ number_format($persen,1) }}%)
-
-</td>
-</td>
-<td
-    width="110"
-    style="
-        text-align:right;
-        font-weight:bold;
-        color:#2563eb;
-        font-size:11px;
-    "
->
-
-{{ $layanan->total }}
-
-({{ number_format($persen,1) }}%)
-
-</td>
-
-</tr>
-
-<tr>
-<td colspan="3" style="height:4px;border:none;"></td>
-</tr>
-
-@endforeach  
-</table>
 <h3 style="margin-top:25px;">
 Ringkasan Laporan
 </h3>
@@ -447,8 +269,186 @@ margin-top:10px;
 
 </table>
 
-<h3 style="margin-top:30px;">
-    Distribusi Bidang Tujuan
+<div style="page-break-before: always;"></div>
+
+<div class="chart-box">
+<h3 style="margin-top:0px;">Statistik Status Kunjungan</h3>
+
+<table class="chart-table">
+
+    <tr>
+        <td class="chart-label">Menunggu</td>
+
+        <td>
+
+            <div class="bar-status">
+
+                <div class="bar-fill blue"
+                    style="width:{{ $totalTamu ? ($menunggu/$totalTamu)*100 : 0 }}%;">
+                </div>
+
+            </div>
+
+        </td>
+
+<td width="90" style="text-align:right;font-weight:bold;color:#2563eb;">
+
+    {{ $menunggu }}
+    ({{ $totalTamu ? number_format(($menunggu/$totalTamu)*100,1) : 0 }}%)
+
+</td>
+    </tr>
+
+    <tr>
+        <td class="chart-label">Terjadwal</td>
+
+        <td>
+
+            <div class="bar-status">
+
+                <div class="bar-fill yellow"
+                    style="width:{{ $totalTamu ? ($terjadwal/$totalTamu)*100 : 0 }}%;">
+                </div>
+
+            </div>
+
+        </td>
+
+<td width="90" style="text-align:right;font-weight:bold;color:#f59e0b;">
+
+    {{ $terjadwal }}
+    ({{ $totalTamu ? number_format(($terjadwal/$totalTamu)*100,1) : 0 }}%)
+
+</td>
+    </tr>
+
+    <tr>
+        <td class="chart-label">Datang</td>
+
+        <td>
+
+            <div class="bar-status">
+
+                <div class="bar-fill green"
+                    style="width:{{ $totalTamu ? ($datang/$totalTamu)*100 : 0 }}%;">
+                </div>
+
+            </div>
+
+        </td>
+
+<td width="90" style="text-align:right;font-weight:bold;color:#10b981;">
+
+    {{ $datang }}
+    ({{ $totalTamu ? number_format(($datang/$totalTamu)*100,1) : 0 }}%)
+
+</td>    
+</tr>
+
+    <tr>
+        <td class="chart-label">Selesai</td>
+
+        <td>
+
+            <div class="bar-status">
+
+                <div class="bar-fill red"
+                    style="width:{{ $totalTamu ? ($selesai/$totalTamu)*100 : 0 }}%;">
+                </div>
+
+            </div>
+
+        </td>
+
+<td width="90" style="text-align:right;font-weight:bold;color:#ef4444;">
+
+    {{ $selesai }}
+    ({{ $totalTamu ? number_format(($selesai/$totalTamu)*100,1) : 0 }}%)
+
+</td>
+    </tr>
+
+</table>
+</div>
+
+
+<div class="chart-box">
+
+<h3 style="margin-top:0px;">
+    Statistik Jenis Layanan
+</h3>
+
+<table style="width:100%; border-collapse:collapse;">
+
+@foreach($layananStatistik as $layanan)
+
+@php
+
+$persen = $totalTamu
+    ? ($layanan->total / $totalTamu) * 100
+    : 0;
+
+@endphp
+
+<tr>
+
+<td colspan="3"
+    style="
+        font-weight:bold;
+        padding-bottom:4px;
+        border:none;
+    ">
+
+    {{ $layanan->keperluan }}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="border:none;"></td>
+
+<td style="border:none;">
+
+    <div class="bar">
+
+        <div class="bar-fill blue"
+            style="width:{{ $persen }}%;">
+        </div>
+
+    </div>
+
+</td>
+
+<td
+    width="80"
+    style="
+        border:none;
+        text-align:right;
+        font-weight:bold;
+        color:#2563eb;
+        font-size:11px;
+    ">
+
+    {{ $layanan->total }}
+    ({{ number_format($persen,1) }}%)
+
+</td>
+
+</tr>
+
+<tr>
+<td colspan="3" style="height:12px;border:none;"></td>
+</tr>
+
+@endforeach  
+</table>
+</div>
+<div class="chart-box">
+
+<h3 style="margin-top:0px;">
+    Statistik Bidang Tujuan
 </h3>
 
 <table style="width:100%; border-collapse:collapse;">
@@ -514,6 +514,68 @@ $persen = $totalTamu
 @endforeach
 
 </table>
+</div>
+<div class="chart-box">
+
+<h3 style="margin-top:0px;">
+    Statistik Layanan Disnaker
+</h3>
+
+<table style="width:100%; border-collapse:collapse;">
+
+@foreach($layananDisnakerStatistik as $item)
+
+@php
+$persen = $totalTamu
+    ? ($item->total / $totalTamu) * 100
+    : 0;
+@endphp
+
+<tr>
+    <td colspan="3"
+        style="font-weight:bold; padding-bottom:4px; border:none;">
+        {{ $item->layanan->nama_layanan }}
+    </td>
+</tr>
+
+<tr>
+
+    <td style="border:none;"></td>
+
+    <td style="border:none;">
+
+        <div class="bar">
+            <div class="bar-fill blue"
+                 style="width:{{ $persen }}%;">
+            </div>
+        </div>
+
+    </td>
+
+    <td width="80"
+        style="
+            border:none;
+            text-align:right;
+            font-weight:bold;
+            color:#2563eb;
+            font-size:11px;
+        ">
+
+        {{ $item->total }}
+        ({{ number_format($persen,1) }}%)
+
+    </td>
+
+</tr>
+
+<tr>
+    <td colspan="3" style="height:12px;border:none;"></td>
+</tr>
+
+@endforeach
+
+</table>
+</div>
 <!-- DATA TAMU -->
 <div style="page-break-before: always;"></div>
 
@@ -521,9 +583,6 @@ $persen = $totalTamu
     Data Tamu
 </h2>
 
-<p style="margin-bottom:12px;color:#666;font-size:11px;">
-Daftar seluruh tamu yang melakukan registrasi pada Sistem DALISTA sesuai filter laporan.
-</p>
 
     <table class="table-data">
 
@@ -576,10 +635,6 @@ Daftar seluruh tamu yang melakukan registrasi pada Sistem DALISTA sesuai filter 
     <h2 class="section-title">
     Data Survey Kepuasan
 </h2>
-
-<p style="margin-bottom:12px;color:#666;font-size:11px;">
-Daftar hasil survei kepuasan masyarakat yang telah dikirimkan melalui Sistem DALISTA.
-</p>
 
     <table class="table-data">
 
@@ -748,10 +803,24 @@ color:#1d4ed8;
     border-radius:6px;
     overflow:hidden;
 }
+.bar-status{
+    width:330px;
+    height:12px;
+    background:#e5e7eb;
+    border-radius:6px;
+    overflow:hidden;
+}
 
 .bar-fill{
     height:12px;
     border-radius:6px;
+}
+.chart-box{
+    border:1px solid #dbe3ef;
+    background:#f8fafc;
+    padding:15px;
+    margin-top:20px;
+    margin-bottom:20px;
 }
 
 .blue{
@@ -827,21 +896,6 @@ color:#1d4ed8;
             margin-bottom:15px;
         }
 
-        .ringkasan{
-            width:70%;
-            border-collapse:collapse;
-            margin-bottom:20px;
-        }
-
-        .ringkasan td{
-            border-bottom:1px solid #ddd;
-            padding:6px;
-        }
-
-        .label{
-            width:220px;
-            font-weight:bold;
-        }
 
 .table-data{
 
