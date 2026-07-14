@@ -2,75 +2,62 @@
 
 @section('content')
 
-<div class="p-8">
+<div class="p-4 md:p-8 max-w-7xl mx-auto">
 
+    <!-- HEADER -->
     <div class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-800">
-            Survey Kepuasan
-        </h1>
-        <p class="text-gray-500 mt-2">
-            Data hasil penilaian dan kepuasan pengunjung.
-        </p>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Survey Kepuasan</h1>
+        <p class="text-gray-500 mt-2">Data hasil penilaian dan kepuasan pengunjung.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+    <!-- CARDS SUMMARY -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
         <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-4xl font-bold text-slate-800">
-                        {{ $totalSurvey }}
-                    </h3>
-                    <p class="text-gray-500 mt-1">Total Survey</p>
+                    <h3 class="text-3xl md:text-4xl font-bold text-slate-800">{{ $totalSurvey }}</h3>
+                    <p class="text-gray-500 mt-1 text-sm">Total Survey</p>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-3xl">📋</div>
+                <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-2xl md:text-3xl">📋</div>
             </div>
         </div>
 
         <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-4xl font-bold text-yellow-500">
-                        {{ number_format($avgRating, 1) }}
-                    </h3>
-                    <p class="text-gray-500 mt-1">Rating Rata-rata</p>
+                    <h3 class="text-3xl md:text-4xl font-bold text-yellow-500">{{ number_format($avgRating, 1) }}</h3>
+                    <p class="text-gray-500 mt-1 text-sm">Rating Rata-rata</p>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-yellow-50 flex items-center justify-center text-3xl">⭐</div>
+                <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-yellow-50 flex items-center justify-center text-2xl md:text-3xl">⭐</div>
             </div>
         </div>
 
         <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-4xl font-bold text-green-500">
-                        {{ $hebat }}
-                    </h3>
-                    <p class="text-gray-500 mt-1">Rating Hebat</p>
+                    <h3 class="text-3xl md:text-4xl font-bold text-green-500">{{ $hebat }}</h3>
+                    <p class="text-gray-500 mt-1 text-sm">Rating Hebat</p>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center text-3xl">😍</div>
+                <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-green-50 flex items-center justify-center text-2xl md:text-3xl">😍</div>
             </div>
         </div>
 
         <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
             <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="text-4xl font-bold text-red-500">
-                        {{ $buruk }}
-                    </h3>
-                    <p class="text-gray-500 mt-1">Rating Buruk</p>
+                    <h3 class="text-3xl md:text-4xl font-bold text-red-500">{{ $buruk }}</h3>
+                    <p class="text-gray-500 mt-1 text-sm">Rating Buruk</p>
                 </div>
-                <div class="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center text-3xl">😢</div>
+                <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-red-50 flex items-center justify-center text-2xl md:text-3xl">😢</div>
             </div>
         </div>
     </div>
 
+    <!-- RERATA ASPEK PELAYANAN -->
     <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 mb-8">
         <div class="mb-6">
-            <h2 class="text-3xl font-bold text-slate-800">
-                Rerata Nilai Per Aspek Pelayanan
-            </h2>
-            <p class="text-gray-500 mt-1">
-                Analisis detil performa kualitas pelayanan berdasarkan 5 komponen utama Indeks Kepuasan.
-            </p>
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Rerata Nilai Per Aspek Pelayanan</h2>
+            <p class="text-gray-500 mt-1 text-sm">Analisis detil performa kualitas pelayanan berdasarkan 5 komponen utama Indeks Kepuasan.</p>
         </div>
 
         @php
@@ -83,7 +70,7 @@
             ];
         @endphp
 
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
             @foreach($avgAspek as $key => $skor)
             <div class="bg-slate-50/60 border border-slate-100 rounded-2xl p-5 flex flex-col justify-between">
                 <div>
@@ -97,7 +84,7 @@
                 
                 <div>
                     <div class="flex items-baseline justify-between mb-2">
-                        <span class="text-3xl font-black text-slate-800">{{ $skor }}</span>
+                        <span class="text-2xl md:text-3xl font-black text-slate-800">{{ $skor }}</span>
                         <span class="text-xs text-gray-400 font-bold">/ 5.0</span>
                     </div>
                     
@@ -112,80 +99,71 @@
         </div>
     </div>
 
+    <!-- STATISTIK RATING CHART -->
     <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 mb-8">
         <div class="mb-5">
-            <h2 class="text-3xl font-bold text-slate-800">Statistik Rating</h2>
-            <p class="text-gray-500 mt-1">Distribusi penilaian kepuasan pengunjung</p>
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Statistik Rating</h2>
+            <p class="text-gray-500 mt-1 text-sm">Distribusi penilaian kepuasan pengunjung</p>
         </div>
         <div class="h-[280px]">
             <canvas id="ratingChart"></canvas>
         </div>
     </div>
 
+    <!-- TABLE AREA -->
     <div class="bg-white rounded-3xl shadow overflow-hidden">
-        <div class="flex justify-between items-start p-6 border-b">
+        <div class="flex flex-col lg:flex-row justify-between lg:items-center p-6 border-b gap-4">
             <div>
-                <h2 class="text-3xl font-bold text-slate-800">Data Survey Pengunjung</h2>   
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Data Survey Pengunjung</h2>   
                 <p class="text-gray-500 text-sm mt-1">Daftar seluruh penilaian dan kepuasan layanan</p>
             </div>
-            <div class="flex items-center gap-3">
-                <form method="GET" class="flex items-center gap-3">
-                    <select name="periode" onchange="this.form.submit()" class="border border-gray-200 rounded-2xl px-5 py-3 shadow-sm bg-white cursor-pointer">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3 w-full lg:w-auto">
+                <form method="GET" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+                    <select name="periode" onchange="this.form.submit()" class="border border-gray-200 rounded-2xl px-5 py-3 shadow-sm bg-white cursor-pointer focus:ring-2 focus:ring-blue-500 focus:outline-none">
                         <option value="" {{ request()->filled('periode') ? '' : 'selected' }}>Semua Waktu</option>
                         <option value="7" {{ request('periode') == 7 ? 'selected' : '' }}>7 Hari Terakhir</option>
                         <option value="30" {{ request('periode') == 30 ? 'selected' : '' }}>30 Hari Terakhir</option>
                         <option value="90" {{ request('periode') == 90 ? 'selected' : '' }}>90 Hari Terakhir</option>
                     </select>
 
-                    <select name="bidang" onchange="this.form.submit()" class="border border-gray-200 rounded-2xl px-5 py-3 shadow-sm bg-white cursor-pointer">
+                    <select name="bidang" onchange="this.form.submit()" class="border border-gray-200 rounded-2xl px-5 py-3 shadow-sm bg-white cursor-pointer focus:ring-2 focus:ring-blue-500 focus:outline-none">
                         <option value="">Semua Layanan</option>
-
                         @foreach($layananUmum as $layanan)
-
-                        <option
-                            value="{{ $layanan->nama_layanan }}"
-                            {{ request('layanan') == $layanan->nama_layanan ? 'selected' : '' }}>
-
+                        <option value="{{ $layanan->nama_layanan }}" {{ request('layanan') == $layanan->nama_layanan ? 'selected' : '' }}>
                             {{ $layanan->nama_layanan }}
-
                         </option>
                         @endforeach
                     </select>
                 </form>
 
                 <a href="/admin/survey/export?periode={{ request('periode') }}&bidang={{ request('bidang') }}"
-                    class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-3 rounded-2xl shadow-sm font-medium transition">
+                    class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-3 rounded-2xl shadow-sm font-medium text-center transition">
                     Export CSV
                 </a>
             </div>
         </div>
 
+        <!-- SEARCH & ADVANCED FILTERS -->
         <form method="GET" action="" id="filterForm">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 p-6">
-                <div class="md:col-span-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 p-6">
+                <div class="lg:col-span-4">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama..." onkeyup="submitFilter()"
                         class="w-full border border-gray-200 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
-                <div class="md:col-span-3">
+                <div class="lg:col-span-3">
                     <select name="layanan" onchange="submitFilter()" class="w-full border border-gray-200 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                         <option value="">Semua Layanan</option>
-
                         @foreach($layananUmum as $layanan)
-
-                        <option
-                            value="{{ $layanan->nama_layanan }}"
-                            {{ request('layanan') == $layanan->nama_layanan ? 'selected' : '' }}>
-
+                        <option value="{{ $layanan->nama_layanan }}" {{ request('layanan') == $layanan->nama_layanan ? 'selected' : '' }}>
                             {{ $layanan->nama_layanan }}
-
                         </option>
-
                         @endforeach
                     </select>
                 </div>
                 
-                <div class="md:col-span-3">
+                <div class="lg:col-span-3">
                     <select name="rating" onchange="submitFilter()" class="w-full border border-gray-200 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                         <option value="">Semua Rating</option>
                         <option value="1" {{ request('rating') == '1' ? 'selected' : '' }}>😢 Buruk</option>
@@ -196,7 +174,7 @@
                     </select>
                 </div>
 
-                <div class="md:col-span-2">
+                <div class="lg:col-span-2">
                     <select name="per_page" onchange="this.form.submit()" class="w-full border border-gray-200 rounded-2xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                         <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10 per halaman</option>
                         <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25 per halaman</option>
@@ -207,7 +185,7 @@
         </form>
 
         <div class="overflow-x-auto">
-            <table class="w-full">
+            <table class="w-full min-w-[900px]">
                 <thead class="bg-slate-100 border-y border-slate-200">
                    <tr>
                         <th class="px-6 py-5 text-left text-gray-500 font-semibold w-16">No</th>
@@ -281,11 +259,14 @@
             </table>
         </div>
 
-        <div class="flex justify-between items-center px-6 py-5 border-t bg-white">
-            <p class="text-sm text-gray-500">
+        <!-- PAGINATION AND DATA METRIC -->
+        <div class="flex flex-col sm:flex-row justify-between items-center px-6 py-5 border-t bg-white gap-4">
+            <p class="text-sm text-gray-500 text-center sm:text-left">
                 Menampilkan {{ $surveys->firstItem() ?? 0 }} sampai {{ $surveys->lastItem() ?? 0 }} dari {{ $surveys->total() }} data
             </p>
-            {{ $surveys->links() }}
+            <div class="w-full sm:w-auto flex justify-center">
+                {{ $surveys->links() }}
+            </div>
         </div>
     </div>
 </div>

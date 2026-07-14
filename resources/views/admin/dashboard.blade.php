@@ -5,120 +5,103 @@
 @section('content')
 
 <!-- HEADER -->
-<div class="flex items-center justify-between mb-8">
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
     <div>
-        <h1 class="text-4xl font-bold text-gray-800">Dashboard Admin</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Dashboard Admin</h1>
         <p class="text-gray-500 mt-2">Ringkasan aktivitas dan data kunjungan tamu</p>
     </div>
-    <button onclick="location.reload()" class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-2xl transition shadow">
-        ↻ Refresh Data
+    <button onclick="location.reload()" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-2xl transition shadow text-center">
+        🔄 Refresh Data
     </button>
 </div>
 
 <!-- WELCOME CARD -->
-<div 
-class="bg-gradient-to-r bg-gradient-to-r from-slate-800 to-slate-700 rounded-3xl p-8 mb-8 text-white shadow-lg">
-    <div class="flex items-center justify-between">
+<div class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-3xl p-6 md:p-8 mb-8 text-white shadow-lg">
+    <div class="flex items-center justify-between gap-4">
         <div>
-            <h2 class="text-3xl font-bold">Selamat Datang Admin Dalista 👋</h2>
-            <p class="mt-3 text-slate-200 text-lg">Berikut ringkasan aktivitas dan kunjungan tamu hari ini.</p>
+            <h2 class="text-2xl md:text-3xl font-bold">Selamat Datang Admin Dalista 👋</h2>
+            <p class="mt-2 md:mt-3 text-slate-200 text-sm md:text-lg">Berikut ringkasan aktivitas dan kunjungan tamu hari ini.</p>
         </div>
-        <div class="hidden md:flex w-20 h-20 bg-white/10 rounded-3xl items-center justify-center text-4xl backdrop-blur-sm">
-
-    📊
-
-</div>
+        <div class="hidden md:flex w-20 h-20 bg-white/10 rounded-3xl items-center justify-center text-4xl shrink-0 backdrop-blur-sm">
+            📝
+        </div>
     </div>
 </div>
 
-<!-- STATISTIK (Update: Sekarang 5 Kolom agar Rating SKM Muat) -->
-<div class="grid md:grid-cols-5 gap-6 mb-8">
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+<!-- STATISTIK (Update: Sekarang Responsif 5 Kolom) -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 mb-8">
+    <div class="bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-gray-100">
         <p class="text-gray-400 text-xs">Total Tamu</p>
-        <h2 class="text-4xl font-bold text-gray-800 mt-2">{{ $total }}</h2>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">{{ $total }}</h2>
     </div>
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+    <div class="bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-gray-100">
         <p class="text-gray-400 text-xs text-yellow-600">Menunggu</p>
-        <h2 class="text-4xl font-bold text-yellow-500 mt-2">{{ $menunggu }}</h2>
+        <h2 class="text-3xl md:text-4xl font-bold text-yellow-500 mt-2">{{ $menunggu }}</h2>
     </div>
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+    <div class="bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-gray-100">
         <p class="text-gray-400 text-xs text-blue-600">Terjadwal</p>
-        <h2 class="text-4xl font-bold text-blue-500 mt-2">{{ $terjadwal }}</h2>
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-500 mt-2">{{ $terjadwal }}</h2>
     </div>
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+    <div class="bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-gray-100">
         <p class="text-gray-400 text-xs text-green-600">Selesai</p>
-        <h2 class="text-4xl font-bold text-green-500 mt-2">{{ $selesai }}</h2>
+        <h2 class="text-3xl md:text-4xl font-bold text-green-500 mt-2">{{ $selesai }}</h2>
     </div>
-    <!-- KOTAK RATING SKM BARU -->
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+    <!-- KOTAK RATING SKM BARU (Mengambil 2 kolom di mobile jika ganjil) -->
+    <div class="col-span-2 sm:col-span-1 bg-white rounded-3xl p-5 md:p-6 shadow-sm border border-gray-100">
         <p class="text-slate-400 text-xs font-bold uppercase">Rating SKM</p>
-        <h2 class="text-4xl font-bold text-slate-700 mt-2">⭐ {{ $avgRating }}</h2>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-700 mt-2">⭐ {{ $avgRating }}</h2>
     </div>
 </div>
 
 <!-- CHART -->
-<div class="grid lg:grid-cols-2 gap-6 mb-8">
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-8">
-        <h3 class="text-2xl font-bold text-gray-800">Statistik Kunjungan</h3>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+        <h3 class="text-xl md:text-2xl font-bold text-gray-800">Statistik Kunjungan</h3>
         <p class="text-gray-400 text-sm mt-1 mb-6">Jumlah tamu berdasarkan bulan</p>
-        <div class="h-96"><canvas id="visitorChart"></canvas>
+        <div class="h-80 md:h-96"><canvas id="visitorChart"></canvas></div>
     </div>
-</div>
 
-<!-- PIE CHART -->
-<div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-8">
-    <div class="flex items-center justify-between mb-6">
-
-        <div>
-
-            <h3 class="text-2xl font-bold text-gray-800">
-                Status Kunjungan
-            </h3>
-
-            <p class="text-gray-400 text-sm mt-1">
-                Statistik berdasarkan status tamu
-            </p>
-
+    <!-- PIE CHART -->
+    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800">Status Kunjungan</h3>
+                <p class="text-gray-400 text-sm mt-1">Statistik berdasarkan status tamu</p>
+            </div>
         </div>
-
+        <div class="h-80 md:h-96 flex items-center justify-center">
+            <canvas id="statusChart"></canvas>
+        </div>
     </div>
-
-    <div class="h-96 flex items-center justify-center">
-
-        <canvas id="statusChart"></canvas>
-
-    </div>
-
-</div>
 </div>
 
 <!-- GRID BAWAH -->
-<div class="grid lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <!-- AKTIVITAS TERBARU -->
     <div class="lg:col-span-2 bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-sm transition">
-        <h3 class="text-2xl font-bold text-gray-800 mb-6">Aktivitas Terbaru</h3>
+        <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Aktivitas Terbaru</h3>
         <div class="space-y-4">
             @foreach($recentGuests as $guest)
-            <div class="flex items-center justify-between border border-gray-100 hover:shadow-sm transition rounded-2xl p-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border border-gray-100 hover:shadow-sm transition rounded-2xl p-4 gap-2">
                 <div>
                     <h4 class="font-semibold text-gray-800">{{ $guest->nama }}</h4>
                     <p class="text-sm text-gray-400 mt-1">{{ $guest->keperluan }}</p>
                 </div>
-                <span class="text-xs text-gray-400">{{ \Carbon\Carbon::parse($guest->waktu_dibuat)->diffForHumans() }}</span>
+                <span class="text-xs text-gray-400 self-start sm:self-center">{{ \Carbon\Carbon::parse($guest->waktu_dibuat)->diffForHumans() }}</span>
             </div>
             @endforeach
         </div>
     </div>
 
-    <!-- ULASAN SURVEY TERBARU (BARU) -->
+    <!-- ULASAN SURVEY TERBARU -->
     <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-        <h3 class="text-2xl font-bold text-gray-800 mb-6">Ulasan SKM</h3>
+        <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Ulasan SKM</h3>
         <div class="space-y-4">
             @forelse($recentSurveys as $srv)
             <div class="bg-slate-50 rounded-2xl p-4 border border-gray-100">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm font-bold text-blue-600">{{ $srv->layanan_diakses }}</span>
-                    <span class="text-xs text-slate-500 font-bold">⭐ {{ $srv->rating }}</span>
+                <div class="flex justify-between items-start gap-2 mb-2">
+                    <span class="text-sm font-bold text-blue-600 break-words max-w-[75%]">{{ $srv->layanan_diakses }}</span>
+                    <span class="text-xs text-slate-500 font-bold shrink-0">⭐ {{ $srv->rating }}</span>
                 </div>
                 <p class="text-gray-600 text-sm italic">"{{ $srv->ulasan ?? 'Tidak ada ulasan teks' }}"</p>
                 <p class="text-[10px] text-gray-400 mt-2">{{ $srv->created_at->diffForHumans() }}</p>
@@ -139,8 +122,8 @@ class="bg-gradient-to-r bg-gradient-to-r from-slate-800 to-slate-700 rounded-3xl
         data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
             datasets: [{
-                label: 'Total Visitor', // Mengubah label
-                data: @json($visitorCounts), // Menggunakan data visitorCounts dari backend baru
+                label: 'Total Visitor',
+                data: @json($visitorCounts),
                 borderColor: '#3b82f6',
                 backgroundColor: 'rgba(59, 130, 246, 0.1)',
                 tension: 0.4,
@@ -165,66 +148,33 @@ class="bg-gradient-to-r bg-gradient-to-r from-slate-800 to-slate-700 rounded-3xl
             }
         }
     });
+
     const statusCtx = document.getElementById('statusChart');
-
-new Chart(statusCtx, {
-
-    type: 'doughnut',
-
-    data: {
-
-        labels: [
-            'Menunggu',
-            'Terjadwal',
-            'Datang',
-            'Selesai'
-        ],
-
-        datasets: [{
-
-            data: @json($pieData),
-
-            backgroundColor: [
-                '#f59e0b',
-                '#3b82f6',
-                '#8b5cf6',
-                '#22c55e'
-            ],
-
-            borderWidth: 0
-
-        }]
-
-    },
-
-    options: {
-
-        responsive: true,
-
-        maintainAspectRatio: false,
-
-        cutout: '65%',
-
-        plugins: {
-
-            legend: {
-
-                position: 'bottom',
-
-                labels: {
-
-                    usePointStyle: true,
-                    padding: 20
-
+    new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Menunggu', 'Terjadwal', 'Datang', 'Selesai'],
+            datasets: [{
+                data: @json($pieData),
+                backgroundColor: ['#f59e0b', '#3b82f6', '#8b5cf6', '#22c55e'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '65%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20
+                    }
                 }
-
             }
-
         }
-
-    }
-
-});
+    });
 </script>
 
 @endsection

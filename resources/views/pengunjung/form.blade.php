@@ -11,7 +11,7 @@
             <p class="text-sm sm:text-base text-gray-500 mt-2">Silakan isi formulir di bawah ini untuk mendaftar sebagai tamu. Pastikan semua informasi yang Anda berikan adalah akurat.</p>
         </div>
 
-        <!-- PROGRESS (RESPONSIVE FIX) -->
+        <!-- PROGRESS  -->
         <div class="mb-8 md:mb-12 px-2">
             <div class="flex items-center justify-between w-full relative">
 
