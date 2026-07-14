@@ -2,34 +2,39 @@
 
 @section('content')
 
-<div class="min-h-screen flex justify-center px-4 py-6 md:py-10">
+<div class="min-h-screen flex justify-center px-2 sm:px-4 py-6 md:py-10">
     <div class="w-full max-w-3xl">
 
         <!-- HEADER -->
-        <div class="text-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">Formulir Pendaftaran Tamu</h1>
-            <p class="text-gray-500 mt-2">Silakan isi formulir di bawah ini untuk mendaftar sebagai tamu. Pastikan semua informasi yang Anda berikan adalah akurat.</p>
+        <div class="text-center mb-6 px-2">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Formulir Pendaftaran Tamu</h1>
+            <p class="text-sm sm:text-base text-gray-500 mt-2">Silakan isi formulir di bawah ini untuk mendaftar sebagai tamu. Pastikan semua informasi yang Anda berikan adalah akurat.</p>
         </div>
 
-        <!-- PROGRESS -->
-        <div class="mb-10">
-            <div class="flex items-center justify-between">
+        <!-- PROGRESS (RESPONSIVE FIX) -->
+        <div class="mb-8 md:mb-12 px-2">
+            <div class="flex items-center justify-between w-full relative">
 
-                <div class="flex flex-col items-center">
+                <!-- Step 1 -->
+                <div class="flex flex-col items-center z-10">
                     <div id="circle1" class="circle active">1</div>
                     <span class="label active">Data Diri</span>
                 </div>
 
-                <div class="line" id="line1"></div>
+                <!-- Line 1 -->
+                <div class="line flex-1 mx-2 sm:mx-4" id="line1"></div>
 
-                <div class="flex flex-col items-center">
+                <!-- Step 2 -->
+                <div class="flex flex-col items-center z-10">
                     <div id="circle2" class="circle">2</div>
                     <span class="label">Informasi</span>
                 </div>
 
-                <div class="line" id="line2"></div>
+                <!-- Line 2 -->
+                <div class="line flex-1 mx-2 sm:mx-4" id="line2"></div>
 
-                <div class="flex flex-col items-center">
+                <!-- Step 3 -->
+                <div class="flex flex-col items-center z-10">
                     <div id="circle3" class="circle">3</div>
                     <span class="label">Kunjungan</span>
                 </div>
@@ -38,7 +43,7 @@
         </div>
 
         <!-- CARD -->
-<div class="bg-white/80 backdrop-blur-2xl rounded-[40px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-white/60 p-5 md:p-10">
+        <div class="bg-white/80 backdrop-blur-2xl rounded-[24px] sm:rounded-[40px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-white/60 p-4 sm:p-6 md:p-10 mx-2 sm:mx-0">
             <form action="/guest/store" 
                   method="POST" 
                   enctype="multipart/form-data"
@@ -48,7 +53,7 @@
 
                 <!-- STEP 1 -->
                 <div class="step" id="step1">
-                    <h2 class="text-xl font-semibold mb-4">Data Diri</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold mb-4 text-gray-800">Data Diri</h2>
 
                     <div class="space-y-4">
                         <input id="nama" name="nama" class="input" placeholder="Nama Lengkap">
@@ -67,11 +72,9 @@
 
                 <!-- STEP 2 -->
                 <div class="step hidden" id="step2">
-                    <h2 class="text-xl font-semibold mb-4">Informasi Tambahan</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold mb-4 text-gray-800">Informasi Tambahan</h2>
 
                     <div class="space-y-4">
-
-                        <!-- PROFESI LENGKAP -->
                         <select id="profesi" name="profesi" class="input">
                             <option value="">-- Pilih Profesi --</option>
                             <option value="PNS">PNS</option>
@@ -104,30 +107,21 @@
                         </select>
 
                         <input name="instansi" class="input" placeholder="Nama Perusahaan/Instansi">
-
                     </div>
                 </div>
 
                 <!-- STEP 3 -->
                 <div class="step hidden" id="step3">
-                    <h2 class="text-xl font-semibold mb-4">Informasi Kunjungan</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold mb-4 text-gray-800">Informasi Kunjungan</h2>
 
                     <div class="space-y-4">
-
                         <select id="tujuan" name="tujuan" class="input">
-
-                            <option value="">
-                                -- Pilih Tujuan Kunjungan --
-                            </option>
-
+                            <option value="">-- Pilih Tujuan Kunjungan --</option>
                             @foreach($tujuanKunjungan as $tujuan)
-
                                 <option value="{{ $tujuan->nama_layanan }}">
                                     {{ $tujuan->nama_layanan }} 
                                 </option>
-
                             @endforeach
-
                         </select>
 
                         <input id="tujuan_lainnya"
@@ -142,61 +136,63 @@
                         </select>
 
                         <!-- UPLOAD MODERN -->
-                        <div id="uploadBox" class="upload-box">
+                        <div id="uploadBox" class="upload-box p-4 sm:p-8">
                             <input type="file" id="fileInput" name="file_upload" class="hidden">
-
                             <div class="text-center">
-                                <div class="text-5xl text-gray-400 mb-3">📁</div>
-                                <p class="text-blue-600 font-medium">Klik untuk upload</p>
-                                <p class="text-gray-500 text-sm">atau drag file ke sini</p>
-                                <p class="text-gray-400 text-xs mt-2">
+                                <div class="text-4xl sm:text-5xl text-gray-400 mb-2 sm:mb-3">📁</div>
+                                <p class="text-blue-600 font-medium text-sm sm:text-base">Klik untuk upload</p>
+                                <p class="text-gray-500 text-xs sm:text-sm">atau drag file ke sini</p>
+                                <p class="text-gray-400 text-[11px] sm:text-xs mt-2">
                                     Maksimal 1 file, ukuran 5MB. JPG, PNG, PDF
                                 </p>
                             </div>
                         </div>
 
-                        <img id="previewImg" class="hidden mt-3 rounded-xl max-h-40">
-                        <p id="fileName" class="hidden text-sm mt-2"></p>
+                        <img id="previewImg" class="hidden mt-3 rounded-xl max-h-40 mx-auto">
+                        <p id="fileName" class="hidden text-sm mt-2 text-center break-all text-gray-600"></p>
 
-                        <textarea id="keterangan" name="keterangan" class="input" placeholder="Keterangan"></textarea>
-
+                        <textarea id="keterangan" name="keterangan" class="input h-24 resize-none" placeholder="Keterangan"></textarea>
                     </div>
                 </div>
 
                 <!-- ERROR -->
-                <p id="errorMsg" class="text-red-500 hidden mt-2"></p>
+                <p id="errorMsg" class="text-red-500 hidden mt-2 text-sm"></p>
 
                 <!-- BUTTON -->
-                <div class="flex justify-between mt-6">
+                <div class="flex justify-between mt-6 gap-4">
                     <button type="button" onclick="prevStep()" id="btnPrev"
-                        class="hidden bg-gray-300 px-4 py-2 rounded">
+                        class="hidden bg-gray-200 text-gray-700 px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl font-semibold hover:bg-gray-300 transition duration-200 text-sm sm:text-base">
                         Kembali
                     </button>
 
-                    <button type="button" onclick="nextStep()"
-                        class="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-8 py-3 rounded-2xl shadow-lg hover:scale-105 transition duration-300 font-semibold">                               
+                    <button type="button" onclick="nextStep()" id="btnNext"
+                        class="ml-auto bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-2.5 sm:px-8 sm:py-3 rounded-xl sm:rounded-2xl shadow-lg hover:scale-[1.02] active:scale-95 transition duration-200 font-semibold text-sm sm:text-base">                               
                          Lanjut
                     </button>
                 </div>
 
             </form>
-
         </div>
-
     </div>
-
 </div>
 
 <style>
 .input {
     width: 100%;
     border: 1px solid #e5e7eb;
-    border-radius: 20px;
-    padding: 16px 18px;
+    border-radius: 14px;
+    padding: 12px 16px;
     background: rgba(255,255,255,0.8);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
-    font-size: 15px;
+    font-size: 14px;
+}
+@media (min-width: 640px) {
+    .input {
+        border-radius: 20px;
+        padding: 16px 18px;
+        font-size: 15px;
+    }
 }
 .input:focus {
     outline: none;
@@ -205,10 +201,10 @@
     background: white;
 }
 
-/* progress */
+/* progress bar responsive */
 .circle {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     border-radius: 9999px;
     border: 2px solid #d1d5db;
     display: flex;
@@ -216,80 +212,76 @@
     justify-content: center;
     background: white;
     font-weight: bold;
-    font-size: 18px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    font-size: 14px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.05);
     transition: all 0.3s ease;
 }
 .circle.active {
     background: linear-gradient(to right,#2563eb,#3b82f6);
     color: white;
     border-color: #2563eb;
-    transform: scale(1.08);
+    transform: scale(1.05);
 }
 .label {
-    font-size: 14px;
-    margin-top: 10px;
+    font-size: 11px;
+    margin-top: 6px;
     color: #6b7280;
+    text-align: center;
+    white-space: nowrap;
 }
 .label.active {
     color: #2563eb;
     font-weight: 700;
 }
-.line{
-    position:relative;
-    width:170px;
-    height:4px;
-    background:#d1d5db;
-    border-radius:999px;
-    overflow:hidden;
-    margin-bottom:28px;
+
+/* Perubahan Krusial: Menggunakan flex-1 dan margin-bottom dikurangi agar lurus dengan lingkaran */
+.line {
+    height: 4px;
+    background: #d1d5db;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 20px; 
 }
 
-/* garis ketika step aktif */
-.line.active{
-
-    background:#dbeafe;
-
-}
-
-.line.active::after{
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    background-image:
-        radial-gradient(circle,#2563eb 2px,transparent 2px);
-
-    background-size:18px 100%;
-
-    animation:dotsMove 1s linear infinite;
-
-}
-
-@keyframes dotsMove{
-
-    from{
-
-        background-position:0 0;
-
+@media (min-width: 640px) {
+    .circle {
+        width: 60px;
+        height: 60px;
+        font-size: 18px;
     }
-
-    to{
-
-        background-position:18px 0;
-
+    .label {
+        font-size: 14px;
+        margin-top: 10px;
     }
-
+    .line {
+        margin-bottom: 28px;
+    }
 }
+
+.line.active {
+    background: #dbeafe;
+}
+
+.line.active::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle,#2563eb 2px,transparent 2px);
+    background-size: 18px 100%;
+    animation: dotsMove 1s linear infinite;
+}
+
+@keyframes dotsMove {
+    from { background-position: 0 0; }
+    to { background-position: 18px 0; }
+}
+
 /* upload */
 .upload-box {
     border: 2px dashed #d1d5db;
-    padding: 30px;
     border-radius: 16px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 .upload-box:hover {
     border-color: #2563eb;
@@ -301,43 +293,38 @@
 let step = 1;
 
 function showStep(s){
+    document.querySelectorAll('.step').forEach(e => e.classList.add('hidden'));
+    document.getElementById('step' + s).classList.remove('hidden');
 
-    document.querySelectorAll('.step').forEach(e =>
-        e.classList.add('hidden')
-    );
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
 
-    document.getElementById('step' + s)
-        .classList.remove('hidden');
-
-    document.getElementById('btnPrev').style.display =
-        s === 1 ? 'none' : 'block';
-
-    for(let i = 1; i <= 3; i++){
-
-        document.getElementById('circle' + i)
-            .classList.toggle('active', i <= s);
-
-        document.querySelectorAll('.label')[i - 1]
-            .classList.toggle('active', i <= s);
-
+    if (s === 1) {
+        btnPrev.classList.add('hidden');
+    } else {
+        btnPrev.classList.remove('hidden');
     }
 
-    document.getElementById('line1')
-        .classList.toggle('active', s > 1);
+    if (s === 3) {
+        btnNext.innerText = "Kirim Data ✨";
+    } else {
+        btnNext.innerText = "Lanjut";
+    }
 
-    document.getElementById('line2')
-        .classList.toggle('active', s > 2);
+    for(let i = 1; i <= 3; i++){
+        document.getElementById('circle' + i).classList.toggle('active', i <= s);
+        document.querySelectorAll('.label')[i - 1].classList.toggle('active', i <= s);
+    }
 
+    if(document.getElementById('line1')) document.getElementById('line1').classList.toggle('active', s > 1);
+    if(document.getElementById('line2')) document.getElementById('line2').classList.toggle('active', s > 2);
 }
 
 /* VALIDASI + NEXT STEP */
 function nextStep(){
-
     let error = "";
 
-    // ================= STEP 1 =================
     if(step === 1){
-
         if(
             !document.getElementById('nama').value.trim() ||
             !document.getElementById('email').value.trim() ||
@@ -345,224 +332,124 @@ function nextStep(){
             !document.getElementById('jk').value.trim() ||
             !document.getElementById('alamat').value.trim()
         ){
-
             error = "Lengkapi semua data diri!";
-
         }
-
     }
 
-    // ================= STEP 2 =================
     if(step === 2){
+        let profesi = document.getElementById('profesi').value.trim();
+        let pendidikan = document.getElementById('pendidikan').value.trim();
+        let instansi = document.querySelector('input[name="instansi"]').value.trim();
 
-        let profesi = document.getElementById('profesi')
-            .value.trim();
-
-        let pendidikan = document.getElementById('pendidikan')
-            .value.trim();
-
-        let instansi = document.querySelector('input[name="instansi"]')
-            .value.trim();
-
-        // wajib isi semua
-        if(
-            profesi === "" ||
-            pendidikan === "" ||
-            instansi === ""
-        ){
-
+        if(profesi === "" || pendidikan === "" || instansi === ""){
             error = "Lengkapi informasi tambahan!";
-
         }
 
-        // jika pilih lainnya
-        if(
-            profesi === "Lainnya" &&
-            document.getElementById('profesi_lainnya')
-                .value.trim() === ""
-        ){
-
+        if(profesi === "Lainnya" && document.getElementById('profesi_lainnya').value.trim() === ""){
             error = "Isi profesi lainnya!";
-
         }
-
     }
 
-    // ================= STEP 3 =================
     if(step === 3){
-
         if(
             !document.getElementById('tujuan').value.trim() ||
             !document.getElementById('info').value.trim() ||
             !document.getElementById('keterangan').value.trim()
         ){
-
             error = "Lengkapi data kunjungan!";
-
         }
-        // jika pilih lainnya
         if(
             document.getElementById('tujuan').value === "Lainnya" &&
             document.getElementById('tujuan_lainnya').value.trim() === ""
         ){
-
             error = "Isi tujuan kunjungan lainnya!";
-
         }
     }
 
-    // ================= ADA ERROR =================
     if(error){
-
         Swal.fire({
             icon: 'warning',
             title: 'Form belum lengkap',
             text: error,
             confirmButtonColor: '#2563eb'
         });
-
         return;
-
     }
 
-    // ================= PINDAH STEP / SUBMIT =================
     if(step < 3){
-
         step++;
         showStep(step);
-
     } else {
-
         document.getElementById('formMultiStep').submit();
-
     }
-
 }
 
-/* PREV STEP */
 function prevStep(){
-
     step--;
     showStep(step);
-
 }
 
 showStep(step);
 
-/* ================= PROFESI LAINNYA ================= */
-document.getElementById('profesi')
-    .addEventListener('change', function(){
-
-    document.getElementById('profesi_lainnya')
-        .classList.toggle(
-            'hidden',
-            this.value !== 'Lainnya'
-        );
-
+/* PROFESI LAINNYA */
+document.getElementById('profesi').addEventListener('change', function(){
+    document.getElementById('profesi_lainnya').classList.toggle('hidden', this.value !== 'Lainnya');
 });
 
-/* ================= TUJUAN LAINNYA ================= */
-document.getElementById('tujuan')
-    .addEventListener('change', function(){
-
-    document.getElementById('tujuan_lainnya')
-        .classList.toggle(
-            'hidden',
-            this.value !== 'Lainnya'
-        );
-
+/* TUJUAN LAINNYA */
+document.getElementById('tujuan').addEventListener('change', function(){
+    document.getElementById('tujuan_lainnya').classList.toggle('hidden', this.value !== 'Lainnya');
 });
 
-/* ================= UPLOAD ================= */
-
+/* UPLOAD */
 const box = document.getElementById('uploadBox');
 const input = document.getElementById('fileInput');
 const preview = document.getElementById('previewImg');
 const fileName = document.getElementById('fileName');
 
 box.onclick = () => input.click();
-
 input.onchange = () => handle(input.files[0]);
 
 function handle(file){
-
     if(!file) return;
 
-    // VALIDASI UKURAN
     if(file.size > 5 * 1024 * 1024){
-
         Swal.fire({
             icon: 'error',
             title: 'File terlalu besar',
             text: 'Maksimal ukuran file 5MB',
             confirmButtonColor: '#2563eb'
         });
-
         return;
-
     }
 
-    // TAMPILKAN NAMA FILE
     fileName.innerText = file.name;
     fileName.classList.remove('hidden');
 
-    // PREVIEW GAMBAR
     if(file.type.startsWith('image/')){
-
         preview.src = URL.createObjectURL(file);
         preview.classList.remove('hidden');
-
     } else {
-
         preview.classList.add('hidden');
-
     }
-
 }
 </script>
 
 @if(session('success'))
-
 <script>
-
 Swal.fire({
-
     icon: 'success',
-
     title: 'Pendaftaran Berhasil',
-
     html: `
-        <p style="margin-bottom:10px">
-            Data tamu berhasil dikirim.
-        </p>
-
-        <div style="
-            background:#f3f4f6;
-            padding:14px;
-            border-radius:12px;
-            font-size:22px;
-            font-weight:bold;
-            letter-spacing:2px;
-        ">
+        <p style="margin-bottom:10px">Data tamu berhasil dikirim.</p>
+        <div style="background:#f3f4f6; padding:14px; border-radius:12px; font-size:22px; font-weight:bold; letter-spacing:2px;">
             {{ session('tracking_code') }}
         </div>
-
-        <p style="
-            margin-top:12px;
-            font-size:13px;
-            color:#6b7280;
-        ">
-            Simpan kode ini untuk cek status pengajuan.
-        </p>
+        <p style="margin-top:12px; font-size:13px; color:#6b7280;">Simpan kode ini untuk cek status pengajuan.</p>
     `,
-
     confirmButtonColor: '#2563eb'
-
 });
-
 </script>
-
 @endif
-
 
 @endsection

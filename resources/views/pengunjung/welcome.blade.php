@@ -2,124 +2,117 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buku Tamu Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tambahkan library SweetAlert untuk notifikasi sukses -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-gray-100">
+<body class="bg-gradient-to-br from-blue-50 to-gray-100 antialiased selection:bg-blue-500 selection:text-white">
 
     <!-- CONTAINER UTAMA -->
-    <div class="min-h-screen flex flex-col items-center px-4 pb-10">
+    <div class="min-h-screen flex flex-col items-center px-4 pb-10 overflow-x-hidden">
 
         <!-- HEADER DALISTA -->
-        <div class="relative w-full max-w-6xl rounded-[40px] overflow-visible mb-10">
+        <div class="relative w-full max-w-6xl rounded-[40px] overflow-visible mb-6 md:mb-10">
 
             <!-- CONTENT -->
-            <div class="relative z-10 flex flex-col items-center text-center px-6 py-16">
+            <div class="relative z-10 flex flex-col items-center text-center px-4 py-10 md:py-16">
 
                 <!-- LOGO -->
-                <div class="bg-white/20 backdrop-blur-md border border-white/30 rounded-[32px] p-6 shadow-2xl mb-6">
-
+                <div class="bg-white/20 backdrop-blur-md border border-white/30 rounded-[24px] md:rounded-[32px] p-4 md:p-6 shadow-2xl mb-6 transition-transform hover:scale-105 duration-300">
                     <img src="/images/logo.png"
-                        class="w-32 h-32 object-contain">
-
+                        class="w-24 h-24 md:w-32 md:h-32 object-contain">
                 </div>
 
                 <!-- STATUS -->
-                <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-8 py-3 mb-8 shadow-lg">
-
-                    <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-
-                    <span class="text-green-300 font-semibold text-xl">
+                <div class="flex items-center gap-2 sm:gap-3 bg-white/40 backdrop-blur-md border border-white/40 rounded-full px-5 py-2 sm:px-8 sm:py-3 mb-6 md:mb-8 shadow-md">
+                    <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <span class="text-green-800 font-semibold text-sm sm:text-base md:text-xl">
                         Sistem Online 24/7
                     </span>
-
                 </div>
 
                 <!-- TITLE -->
-            <h1 class="text-5xl md:text-7xl font-black text-[#16275f] leading-relaxed mb-8">                    Selamat Datang di
+                <h1 class="text-3xl sm:text-4xl md:text-6xl font-black text-[#16275f] tracking-tight mb-4 md:mb-6">
+                    Selamat Datang di
                 </h1>
 
-                <!-- LOGO TEXT -->
-                <img src="/images/logo-text.png"
-                    class="h-20 object-contain mb-10 drop-shadow-2xl">
+                <!-- LOGO TEXT (Responsive Width Fix) -->
+                <div class="w-full max-w-xs sm:max-w-md md:max-w-lg mb-6 md:mb-10 px-4">
+                    <img src="/images/logo-text.png"
+                        class="w-full h-auto object-contain mx-auto drop-shadow-2xl">
+                </div>
 
                 <!-- SUBTITLE -->
-                <p class="text-3xl md:text-4xl text-indigo-800 font-semibold mb-2">
+                <p class="text-lg sm:text-xl md:text-3xl text-indigo-900 font-bold max-w-2xl px-2">
                     Digitalisasi Layanan Registrasi Tamu
                 </p>
 
-                <!-- STATISTIK -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 w-full max-w-xl">
+                <!-- STATISTIK (Responsive Grid) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mt-8 md:mt-10 w-full max-w-xl px-2">
 
-                    <div class="bg-white/80 backdrop-blur-md rounded-3xl shadow-lg p-6">
-
-                        <p class="text-gray-500 text-sm">
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-md p-5 md:p-6 border border-white/50">
+                        <p class="text-gray-500 text-xs md:text-sm font-medium uppercase tracking-wider">
                             Kunjungan Hari Ini
                         </p>
-
-                        <h3 class="text-4xl font-bold text-blue-700 mt-2">
+                        <h3 class="text-3xl md:text-4xl font-extrabold text-blue-700 mt-1 md:mt-2">
                             {{ $visitorHariIni }}
                         </h3>
-
                     </div>
 
-                    <div class="bg-white/80 backdrop-blur-md rounded-3xl shadow-lg p-6">
-
-                        <p class="text-gray-500 text-sm">
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-md p-5 md:p-6 border border-white/50">
+                        <p class="text-gray-500 text-xs md:text-sm font-medium uppercase tracking-wider">
                             Total Kunjungan
                         </p>
-
-                        <h3 class="text-4xl font-bold text-orange-500 mt-2">
+                        <h3 class="text-3xl md:text-4xl font-extrabold text-orange-500 mt-1 md:mt-2">
                             {{ number_format($totalVisitor) }}
                         </h3>
-
                     </div>
 
                 </div>
             </div>
 
         </div>
-        <!-- HERO CARD -->
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden max-w-6xl w-full mb-12">
 
-            <!-- HERO IMAGE -->
-            <div class="relative h-[420px] w-full">
+        <!-- HERO CARD (Responsive Padding and Flex) -->
+        <div class="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden max-w-6xl w-full mb-10 md:mb-14 border border-gray-100">
 
-                <img src="/images/kantor.jpg" class="w-full h-full object-cover">
+            <!-- HERO IMAGE CONTAINER -->
+            <div class="relative min-h-[380px] md:h-[450px] w-full flex flex-col justify-center">
+
+                <img src="/images/kantor.jpg" class="absolute inset-0 w-full h-full object-cover">
 
                 <!-- overlay -->
-                <div class="absolute inset-0 bg-black/50"></div>
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-[1px]"></div>
 
-                <!-- TEXT -->
-                <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6">
+                <!-- TEXT & ACTION CONTROL -->
+                <div class="relative z-10 flex flex-col items-center justify-center text-center text-white px-4 sm:px-8 py-10">
 
-                    <h1 class="text-4xl md:text-5xl font-bold mb-3">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
                         Buku Tamu Digital
-                    </h1>
+                    </h2>
 
-                    <p class="text-lg mb-2">
+                    <p class="text-sm sm:text-base md:text-lg text-blue-200 font-medium mb-4">
                         Dinas Tenaga Kerja dan Transmigrasi
                     </p>
 
-                    <p class="max-w-xl mb-6">
+                    <p class="max-w-xl text-xs sm:text-sm md:text-base text-gray-200 leading-relaxed mb-8">
                         Selamat datang di sistem buku tamu digital.
-                        Silakan isi data kunjungan Anda untuk keperluan administrasi dan pelayanan.
+                        Silakan isi data kunjungan Anda untuk keperluan administrasi dan kelancaran standar mutu pelayanan.
                     </p>
 
-                    <!-- BUTTON -->
-                    <div class="flex flex-col md:flex-row gap-4">
+                    <!-- BUTTONS -->
+                    <div class="flex flex-col sm:flex-row gap-3.5 w-full sm:w-auto px-4 sm:px-0">
 
                         <a href="/form"
-                           class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-xl font-semibold transition duration-300 shadow-lg hover:scale-105 text-center">
+                           class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-bold transition duration-300 shadow-md hover:scale-[1.03] text-center text-sm md:text-base">
                            Isi Buku Tamu
                         </a>
 
-                        <!-- UPDATE LINK SURVEY DI SINI -->
                         <a href="/survey"
-                           class="border border-white text-white px-8 py-3 rounded-xl font-semibold transition duration-300 hover:bg-white hover:text-black hover:scale-105 text-center">
-                           Survey Kepuasan
+                           class="w-full sm:w-auto border border-white/70 text-white px-8 py-3.5 rounded-xl font-bold transition duration-300 hover:bg-white hover:text-black hover:scale-[1.03] text-center text-sm md:text-base">
+                           Survei Kepuasan
                         </a>
 
                     </div>
@@ -131,153 +124,104 @@
         </div>
 
         <!-- MENU LAYANAN -->
-        <div class="max-w-6xl w-full">
+        <div class="max-w-6xl w-full px-2">
             <!-- LOGO DINAS -->
-            <div class="flex justify-center mb-6">
-
+            <div class="flex justify-center mb-4 md:mb-6">
                 <img src="/images/logo-jateng.png"
-                    class="w-28 h-28 object-contain drop-shadow-lg">
-
+                    class="w-20 h-20 md:w-24 md:h-24 object-contain drop-shadow-md">
             </div>
-            <!-- JUDUL TENGAH -->
-            <div class="text-center mb-10">
 
-                <h2 class="text-5xl md:text-7xl font-bold mb-3 text-gray-800">
+            <!-- JUDUL TENGAH -->
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 text-gray-800 tracking-tight">
                     Layanan Kami
                 </h2>
-                
-                <p class="max-w-2xl mx-auto text-gray-600 text-xl leading-relaxed">
-                    Dinas Tenaga Kerja dan Transmigrasi Provinsi Jawa Tengah melayani masyarakat dengan sistem digital yang modern dan terintegrasi
+                <p class="max-w-xl mx-auto text-gray-500 text-sm sm:text-base md:text-lg leading-relaxed px-4">
+                    Dinas Tenaga Kerja dan Transmigrasi Provinsi Jawa Tengah melayani masyarakat dengan sistem digital yang modern, transparan, dan terintegrasi.
                 </p>
-
             </div>
 
-            <!-- CARD GRID -->
-            <div class="grid md:grid-cols-3 gap-8 mt-12">
+            <!-- CARD GRID (Responsive Grid Columns) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mt-6">
 
                 <!-- CARD 1 -->
                 <div onclick="window.location.href='/form'"
-                    class="group bg-white/80 backdrop-blur-xl border border-white/50 rounded-[32px] shadow-xl p-10 text-center transition duration-500 hover:-translate-y-3 hover:shadow-2xl cursor-pointer">
-
-                    <!-- ICON -->
-                    <div class="bg-gradient-to-br from-blue-100 to-blue-200 text-blue-600 w-20 h-20 flex items-center justify-center rounded-3xl mx-auto mb-6 text-4xl shadow-lg group-hover:scale-110 transition duration-500">
-
+                    class="group bg-white border border-gray-100 rounded-2xl md:rounded-[32px] shadow-md hover:shadow-xl p-6 md:p-8 text-center transition duration-300 sm:hover:-translate-y-2 cursor-pointer flex flex-col items-center">
+                    
+                    <div class="bg-blue-50 text-blue-600 w-16 h-16 flex items-center justify-center rounded-2xl mb-5 text-3xl shadow-inner group-hover:scale-110 transition duration-300">
                         📋
-
                     </div>
-
-                    <!-- TITLE -->
-                    <h3 class="text-2xl font-bold tracking-tight text-gray-800 mb-4">
-
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3">
                         Registrasi Tamu
-
                     </h3>
-
-                    <!-- DESC -->
-                    <p class="text-gray-500 leading-relaxed text-lg">
-
-                        Daftarkan kunjungan Anda dengan mudah dan cepat melalui sistem digital.
-
+                    <p class="text-gray-500 text-xs md:text-sm leading-relaxed">
+                        Daftarkan kunjungan Anda dengan mudah, aman, dan cepat langsung via gawai pintar Anda.
                     </p>
-
                 </div>
 
                 <!-- CARD 2 -->
-                <div
-                    class="group bg-white/80 backdrop-blur-xl border border-white/50 rounded-[32px] shadow-xl p-10 text-center transition duration-500 hover:-translate-y-3 hover:shadow-2xl cursor-pointer">
-
-                    <!-- ICON -->
-                    <div class="bg-gradient-to-br from-green-100 to-green-200 text-green-600 w-20 h-20 flex items-center justify-center rounded-3xl mx-auto mb-6 text-4xl shadow-lg group-hover:scale-110 transition duration-500">
-
+                <div class="group bg-white border border-gray-100 rounded-2xl md:rounded-[32px] shadow-md hover:shadow-xl p-6 md:p-8 text-center transition duration-300 sm:hover:-translate-y-2 cursor-pointer flex flex-col items-center">
+                    
+                    <div class="bg-green-50 text-green-600 w-16 h-16 flex items-center justify-center rounded-2xl mb-5 text-3xl shadow-inner group-hover:scale-110 transition duration-300">
                         🏢
-
                     </div>
-
-                    <!-- TITLE -->
-                    <h3 class="text-2xl font-bold tracking-tight text-gray-800 mb-4">
-
-                        Layanan
-
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3">
+                        Layanan Dinas
                     </h3>
-
-                    <!-- DESC -->
-                    <p class="text-gray-500 leading-relaxed text-lg">
-
-                        Akses berbagai layanan yang tersedia di dinas secara terintegrasi.
-
+                    <p class="text-gray-500 text-xs md:text-sm leading-relaxed">
+                        Akses alur informasi kerja dan berbagai program layanan publik utama terpadu di dinas kami.
                     </p>
-
                 </div>
 
                 <!-- CARD 3 -->
                 <div onclick="window.location.href='/survey'"
-                    class="group bg-white/80 backdrop-blur-xl border border-white/50 rounded-[32px] shadow-xl p-10 text-center transition duration-500 hover:-translate-y-3 hover:shadow-2xl cursor-pointer">
-
-                    <!-- ICON -->
-                    <div class="bg-gradient-to-br from-orange-100 to-orange-200 text-orange-600 w-20 h-20 flex items-center justify-center rounded-3xl mx-auto mb-6 text-4xl shadow-lg group-hover:scale-110 transition duration-500">
-
+                    class="group bg-white border border-gray-100 rounded-2xl md:rounded-[32px] shadow-md hover:shadow-xl p-6 md:p-8 text-center transition duration-300 sm:hover:-translate-y-2 cursor-pointer flex flex-col items-center sm:col-span-2 md:col-span-1">
+                    
+                    <div class="bg-orange-50 text-orange-600 w-16 h-16 flex items-center justify-center rounded-2xl mb-5 text-3xl shadow-inner group-hover:scale-110 transition duration-300">
                         ⭐
-
                     </div>
-
-                    <!-- TITLE -->
-                    <h3 class="text-2xl font-bold tracking-tight text-gray-800 mb-4">
-
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3">
                         Feedback & Evaluasi
-
                     </h3>
-
-                    <!-- DESC -->
-                    <p class="text-gray-500 leading-relaxed text-lg">
-
-                        Berikan masukan untuk meningkatkan kualitas pelayanan kami melalui Survey SKM.
-
+                    <p class="text-gray-500 text-xs md:text-sm leading-relaxed">
+                        Bantu kami berkembang dengan mengisi kuesioner Indeks Kepuasan Masyarakat (IKM) secara berkala.
                     </p>
-
                 </div>
 
             </div>
-
         </div>
 
         <!-- CTA SECTION -->
-        <div class="w-full max-w-6xl mt-20">
+        <div class="w-full max-w-6xl mt-16 md:mt-24 px-2">
 
-            <div class="relative overflow-hidden rounded-[40px] bg-gradient-to-r from-blue-700 to-blue-600 px-8 py-16 text-center shadow-2xl">
+            <div class="relative overflow-hidden rounded-3xl md:rounded-[40px] bg-gradient-to-r from-blue-700 to-indigo-700 px-6 py-12 md:py-16 text-center shadow-2xl">
 
                 <!-- BULATAN DEKOR -->
-                <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full"></div>
-
-                <div class="absolute -bottom-14 -left-14 w-52 h-52 bg-white/10 rounded-full"></div>
+                <div class="absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 bg-white/10 rounded-full pointer-events-none"></div>
+                <div class="absolute -bottom-14 -left-14 w-40 h-40 md:w-52 md:h-52 bg-white/10 rounded-full pointer-events-none"></div>
 
                 <!-- CONTENT -->
-                <div class="relative z-10">
+                <div class="relative z-10 max-w-xl mx-auto">
 
-                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                    <h2 class="text-3xl md:text-5xl font-black text-white mb-3">
                         Mulai Sekarang!
                     </h2>
 
-                    <p class="text-white/90 text-lg md:text-2xl mb-10">
-                        Silakan pilih layanan berikut untuk melanjutkan
+                    <p class="text-white/80 text-sm md:text-xl mb-8 md:mb-10">
+                        Silakan tentukan keperluan utama kedatangan Anda hari ini untuk melanjutkan
                     </p>
 
-                    <!-- BUTTON -->
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
+                    <!-- BUTTON ACTION -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 px-4 sm:px-0">
 
-                        <!-- BTN FORM -->
                         <a href="/form"
-                            class="bg-white text-blue-700 font-bold px-10 py-5 rounded-2xl shadow-lg hover:scale-105 transition duration-300">
-
+                            class="w-full sm:w-auto bg-white text-blue-700 font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-[1.03] transition duration-200 text-sm md:text-base">
                             Daftar Tamu
-
                         </a>
 
-                        <!-- BTN SURVEY -->
                         <a href="/survey"
-                            class="border-2 border-white text-white font-bold px-10 py-5 rounded-2xl hover:bg-white hover:text-blue-700 transition duration-300">
-
+                            class="w-full sm:w-auto border-2 border-white/80 text-white font-bold px-8 py-3.5 rounded-xl hover:bg-white/10 transition duration-200 text-sm md:text-base">
                             Isi Survei
-
                         </a>
 
                     </div>
@@ -288,14 +232,10 @@
 
         </div>
 
-            <!-- FOOTER -->
-            <div class="border-t border-gray-300 mt-16 pt-6 pb-4 text-center text-gray-500 text-sm">
-
-                <p class="mt-2">
-                    © {{date('Y')}} Dinas Tenaga Kerja dan Transmigrasi Provinsi Jawa Tengah. All rights reserved.
-                </p>
-
-            </div>
+        <!-- FOOTER -->
+        <footer class="border-t border-gray-200 mt-16 pt-6 w-full max-w-6xl text-center text-gray-400 text-xs md:text-sm">
+            <p>© {{ date('Y') }} Dinas Tenaga Kerja dan Transmigrasi Provinsi Jawa Tengah. All rights reserved.</p>
+        </footer>
     </div>
 
     <!-- NOTIFIKASI SUKSES SETELAH ISI SURVEY -->
@@ -306,7 +246,9 @@
             title: 'Terima Kasih!',
             text: "{{ session('success_survey') }}",
             confirmButtonColor: '#2563eb',
-            borderRadius: '20px'
+            customClass: {
+                popup: 'rounded-3xl'
+            }
         });
     </script>
     @endif
