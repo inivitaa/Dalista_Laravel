@@ -1,7 +1,10 @@
 <div class="lg:hidden bg-slate-800 text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-md">
     <div class="flex items-center gap-3">
-        <span class="text-2xl">🏢</span>
-        <span class="font-bold text-lg">Admin Dalista</span>
+        <img src="{{ asset('images/logo-dalista.jpg') }}"
+            class="w-14 h-14 rounded-xl shadow"
+            alt="Logo">            
+            <img src="{{ asset('images/logo-dalista-text.jpg') }}"
+                class="h-6 object-contain max-w-full">               
     </div>
     <button onclick="toggleSidebar()" class="p-2 rounded-xl bg-slate-700 hover:bg-slate-600 focus:outline-none transition">
         <svg id="menuIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -14,26 +17,27 @@
 <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden transition-opacity duration-300"></div>
 
 <!-- CONTAINER SIDEBAR -->
-<aside id="sidebarContainer" class="fixed inset-y-0 left-0 w-72 bg-slate-800 text-slate-300 flex flex-col justify-between p-6 z-50 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none min-h-screen">
+<aside id="sidebarContainer" class="fixed inset-y-0 left-0 w-72 bg-slate-800 text-gray-700 flex flex-col justify-between p-6 z-50 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none min-h-screen">
     
     <div>
         <!-- Logo & Brand (Desktop Only) -->
         <div class="hidden lg:flex items-center gap-4 mb-10 px-2">
-            <span class="text-3xl bg-slate-700 p-2 rounded-2xl">🏢</span>
-            <div>
-                <h1 class="font-black text-white text-xl tracking-wider">DALISTA</h1>
-                <p class="text-xs text-slate-400">Disnakertrans Jateng</p>
+        <img src="{{ asset('images/logo-dalista.jpg') }}"
+            class="w-14 h-14 rounded-xl shadow"
+            alt="Logo">            
+        <div>
+            <img src="{{ asset('images/logo-dalista-text.jpg') }}"
+                class="h-6 object-contain max-w-full">
+                <p class="text-xs text-slate-400">Admin Panel</p>
             </div>
         </div>
-
-        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest px-3 mb-4">Menu Utama</p>
 
         <!-- Menu Links -->
         <nav class="space-y-2">
             <a href="/admin/dashboard"
                 class="flex items-center gap-3 px-4 py-3 rounded-xl transition
                 {{ request()->is('admin/dashboard')
-                    ? 'bg-slate-50 text-slate-600 font-semibold'
+                    ? 'bg-blue-50 text-blue-600 font-semibold'
                     : 'hover:bg-gray-100 text-gray-600' }}">
 
                 📊 Dashboard
@@ -42,7 +46,7 @@
             <a href="/admin/manajemen-tamu"
                 class="flex items-center gap-3 px-4 py-3 rounded-xl transition
                 {{ request()->is('admin/manajemen-tamu')
-                    ? 'bg-slate-50 text-slate-600 font-semibold'
+                    ? 'bg-blue-50 text-blue-600 font-semibold'
                     : 'hover:bg-gray-100 text-gray-600' }}">
 
                 👥 Manajemen Tamu
@@ -51,7 +55,7 @@
             <a href="/admin/laporan"
                 class="flex items-center gap-3 px-4 py-3 rounded-xl transition
                 {{ request()->is('admin/laporan')
-                    ? 'bg-slate-50 text-slate-600 font-semibold'
+                    ? 'bg-blue-50 text-blue-600 font-semibold'
                     : 'hover:bg-gray-100 text-gray-600' }}">
                 📑 Laporan
             </a>
@@ -59,7 +63,7 @@
             <a href="/admin/survey"
                 class="flex items-center gap-3 px-4 py-3 rounded-xl transition
                 {{ request()->is('admin/survey')
-                    ? 'bg-slate-50 text-slate-600 font-semibold'
+                    ? 'bg-blue-50 text-blue-600 font-semibold'
                     : 'hover:bg-gray-100 text-gray-600' }}">
                 ⭐ Survey
             </a>
