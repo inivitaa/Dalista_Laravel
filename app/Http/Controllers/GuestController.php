@@ -916,6 +916,20 @@ $layananDisnakerStatistik = Guest::select(
     ->orderByDesc('total')
     ->get();
 
+// ===============================
+// Statistik Layanan Disnaker
+// ===============================
+
+$layananDisnakerStatistik = Guest::select(
+        'layanan_disnaker_id',
+        DB::raw('COUNT(*) as total')
+    )
+    ->whereNotNull('layanan_disnaker_id')
+    ->with('layanan')
+    ->groupBy('layanan_disnaker_id')
+    ->orderByDesc('total')
+    ->get();
+
         $pdf = Pdf::loadView(
             'admin.pdf.laporan',
             compact(
@@ -941,7 +955,8 @@ $layananDisnakerStatistik = Guest::select(
                 'pieData',
                 'layananStatistik',
                 'persentaseSurvey',
-                'bidangStatistik'
+                'bidangStatistik',
+                'layananDisnakerStatistik'
             )
         );
 
